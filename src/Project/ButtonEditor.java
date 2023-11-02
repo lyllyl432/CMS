@@ -45,6 +45,7 @@ public class ButtonEditor extends DefaultCellEditor {
                   TableModel model = table.getModel();
                   int patient_id = (int)model.getValueAt(i, 6);
                   UpdatePatient updatePatient = new UpdatePatient();
+                  updatePatient.getEntry(patient_id);
                   updatePatient.setVisible(true);
                   addPatient.dispose();
                  

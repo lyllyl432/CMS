@@ -2,8 +2,13 @@ package Application;
 
 
 import Project.ConnectionProvider;
+import Project.PatientList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +29,10 @@ public class UpdatePatient extends javax.swing.JFrame {
     ImageIcon edit_icon;
     ImageIcon delete_icon;
     ImageIcon view_icon;
+    PatientList patient;
     public UpdatePatient() {
         initComponents();
+     
     }
 
     /**
@@ -36,8 +43,47 @@ public class UpdatePatient extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     
     public void getEntry(int patient_id){
-        
+        this.con = ConnectionProvider.connect();
+
+        try {
+            ps = con.prepareStatement("SELECT * FROM patient WHERE patient_id = ?;");
+            ps.setInt(1,patient_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String first_name = rs.getString("firstname");
+                String middle_name = rs.getString("middlename");
+                String last_name = rs.getString("lastname");
+                String suffix = rs.getString("suffix");
+                String email = rs.getString("email");
+                String course = rs.getString("course");
+                String year = rs.getString("college_year");
+                String section = rs.getString("section");
+                String civil_status = rs.getString("civil_status");
+                String address = rs.getString("address");
+                String phone_number = rs.getString("phone_number");
+                String gender = rs.getString("gender");
+                patient = new PatientList(patient_id, first_name, middle_name, last_name, suffix, email, course, year, section, civil_status, address, phone_number, gender);
+                fillUpdateForm(patient);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdatePatient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    public void fillUpdateForm(PatientList patient){
+        this.first_name_field.setText(patient.getFirstName());
+        this.middle_name_field.setText(patient.getMiddleName());
+        this.last_name_field.setText(patient.getLastName());
+        this.suffix_field.setText(patient.getSuffix());
+        this.email_field.setText(patient.getEmail());
+        this.course_field.setSelectedItem(patient.getCourse());
+        this.section_field.setText(patient.getSection());
+        this.civil_status_field.setSelectedItem(patient.getCivilStatus());
+        this.address_field.setText(patient.getAddress());
+        this.phone_number_field.setText(patient.getPhoneNumber());
+        this.gender_field.setSelectedItem(patient.getGender());  
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -81,8 +127,6 @@ public class UpdatePatient extends javax.swing.JFrame {
         gender_field = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        patient_list_table = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -181,7 +225,7 @@ public class UpdatePatient extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addGap(0, 359, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(180, 173, 234));
@@ -265,7 +309,7 @@ public class UpdatePatient extends javax.swing.JFrame {
         phone_number_field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         phone_number_field.setPreferredSize(new java.awt.Dimension(0, 30));
 
-        jButton1.setText("Save");
+        jButton1.setText("Update");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -383,7 +427,7 @@ public class UpdatePatient extends javax.swing.JFrame {
                         .addComponent(address_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(phone_number_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(gender_field))
-                .addContainerGap())
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -409,40 +453,15 @@ public class UpdatePatient extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        patient_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        patient_list_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Patient's Name", "Contact Number", "Address", "", "", "", "Patient's ID"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        patient_list_table.setGridColor(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(patient_list_table);
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -452,9 +471,7 @@ public class UpdatePatient extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(64, 89, 173));
@@ -502,11 +519,14 @@ public class UpdatePatient extends javax.swing.JFrame {
         );
         jPanel32Layout.setVerticalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel32Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel33, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel32Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -517,9 +537,7 @@ public class UpdatePatient extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -527,7 +545,7 @@ public class UpdatePatient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        this.con = ConnectionProvider.connect();
+        this.con = ConnectionProvider.connect();
         String first_name = this.first_name_field.getText();
         String middle_name = this.middle_name_field.getText();
         String last_name = this.last_name_field.getText();
@@ -541,38 +559,33 @@ public class UpdatePatient extends javax.swing.JFrame {
         String phone_number = this.phone_number_field.getText();
         String gender = this.gender_field.getSelectedItem().toString();
 
-//        try{
-//            this.ps = this.con.prepareStatement("INSERT INTO patient(firstname, middlename, lastname, suffix, email, course, college_year, section, civil_status, address, phone_number,gender) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
-//            this.ps.setString(1, first_name);
-//            this.ps.setString(2, middle_name);
-//            this.ps.setString(3, last_name);
-//            this.ps.setString(4, suffix);
-//            this.ps.setString(5, email);
-//            this.ps.setString(6, course);
-//            this.ps.setString(7, college_year);
-//            this.ps.setString(8, section);
-//            this.ps.setString(9, civil_status);
-//            this.ps.setString(10, address);
-//            this.ps.setString(11, phone_number);
-//            this.ps.setString(12, gender);
-//
-//            this.ps.executeUpdate();
-//            this.first_name_field.setText("");
-//            this.first_name_field.setText("");
-//            this.middle_name_field.setText("");
-//            this.last_name_field.setText("");
-//            this.suffix_field.setText("");
-//            this.email_field.setText("");
-//            this.section_field.setText("");
-//            this.address_field.setText("");
-//            this.phone_number_field.setText("");
-//            model = (DefaultTableModel)this.patient_list_table.getModel();
-//            model.setRowCount(0);
-//            showPatient();
-//
-//        }catch (SQLException ex) {
-//            Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try{
+             this.ps = this.con.prepareStatement("UPDATE patient SET firstname = ?, middlename = ?, lastname = ?, suffix = ?, email = ?, course = ?, college_year = ?, section = ?, civil_status = ?, address = ?, phone_number = ?, gender = ? WHERE patient_id = ?;");
+            this.ps.setString(1, first_name);
+            this.ps.setString(2, middle_name);
+            this.ps.setString(3, last_name);
+            this.ps.setString(4, suffix);
+            this.ps.setString(5, email);
+            this.ps.setString(6, course);
+            this.ps.setString(7, college_year);
+            this.ps.setString(8, section);
+            this.ps.setString(9, civil_status);
+            this.ps.setString(10, address);
+            this.ps.setString(11, phone_number);
+            this.ps.setString(12, gender);
+            this.ps.setInt(13, patient.getPatientId());
+
+            int rowsUpdated = this.ps.executeUpdate();
+            if(rowsUpdated > 0){
+                System.out.println("Rows Updated");
+                new AddPatient().setVisible(true);
+                this.dispose();
+            }else{
+                System.out.println("Error");
+            }
+        }catch (SQLException ex) {
+            Logger.getLogger(UpdatePatient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -647,11 +660,9 @@ public class UpdatePatient extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField last_name_field;
     private javax.swing.JTextField middle_name_field;
-    private javax.swing.JTable patient_list_table;
     private javax.swing.JTextField phone_number_field;
     private javax.swing.JTextField section_field;
     private javax.swing.JTextField suffix_field;
