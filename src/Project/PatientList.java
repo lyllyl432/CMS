@@ -12,17 +12,17 @@ public class PatientList {
     private int patient_id;
     private String first_name,middle_name,last_name,suffix,course,college_year,section,civil_status,email,address,phone_number,gender;
     
-    public PatientList(int patient_id, String first_name, String middle_name, String last_name,String suffix,String course, String college_year, String section, String civil_status, String email, String address, String phone_number, String gender){
+    public PatientList(int patient_id, String first_name, String middle_name, String last_name,String suffix, String email, String course, String college_year, String section, String civil_status, String address, String phone_number, String gender){
         this.patient_id = patient_id;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
         this.suffix = suffix;
+        this.email = email;
         this.course = course;   
         this.college_year = college_year;
         this.section = section;
         this.civil_status = civil_status;
-        this.email = email;
         this.address = address;
         this.phone_number = phone_number;
         this.gender = gender;
