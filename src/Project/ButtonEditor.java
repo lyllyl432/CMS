@@ -6,6 +6,7 @@ package Project;
 
 import Application.AddPatient;
 import Application.UpdatePatient;
+import Application.ViewPatient;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,8 +62,8 @@ public class ButtonEditor extends DefaultCellEditor {
                       TableModel model = table.getModel();
                       patient_id = (int)model.getValueAt(selected_row, 6);
                       UpdatePatient updatePatient = new UpdatePatient();
-                      updatePatient.getEntry(patient_id);
                       updatePatient.setVisible(true);
+                      updatePatient.fillUpdateForm(General.getEntry(patient_id));
                       addPatient.dispose();
                     }
                     //delete click
@@ -90,7 +91,12 @@ public class ButtonEditor extends DefaultCellEditor {
                     //view click
                     else if(button_role == 2){
                         int selected_row = table.getSelectedRow();
-                        System.out.println(selected_row);
+                        TableModel model = table.getModel();
+                        patient_id = (int)model.getValueAt(selected_row, 6);
+                        ViewPatient viewPatient = new ViewPatient();
+                        viewPatient.setVisible(true);
+                        viewPatient.fillInformationLabel(General.getEntry(patient_id));
+                        addPatient.dispose();
                     }
                  
                  
