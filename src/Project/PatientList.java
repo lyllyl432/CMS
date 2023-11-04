@@ -9,15 +9,17 @@ package Project;
  * @author AUDITOR FAMILY
  */
 public class PatientList {
-    private int patient_id;
-    private String first_name,middle_name,last_name,suffix,course,college_year,section,civil_status,email,address,phone_number,gender;
+    private int patient_id, age;
+    private String first_name,middle_name,last_name,suffix,course,college_year,section,civil_status,email,address,phone_number,gender,height,weight,blood_type,vaccination_status,date_birth;
     
-    public PatientList(int patient_id, String first_name, String middle_name, String last_name,String suffix, String email, String course, String college_year, String section, String civil_status, String address, String phone_number, String gender){
+    public PatientList(int patient_id, String first_name, String middle_name, String last_name,String suffix, int age, String date_birth, String email, String course, String college_year, String section, String civil_status, String address, String phone_number, String gender, String height, String weight, String blood_type, String vaccination_status){
         this.patient_id = patient_id;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
         this.suffix = suffix;
+        this.age = age;
+        this.date_birth = date_birth;
         this.email = email;
         this.course = course;   
         this.college_year = college_year;
@@ -26,6 +28,10 @@ public class PatientList {
         this.address = address;
         this.phone_number = phone_number;
         this.gender = gender;
+        this.height = height;
+        this.weight = weight;
+        this.blood_type = blood_type;
+        this.vaccination_status = vaccination_status;
           
     }
     public int getPatientId(){
@@ -42,6 +48,12 @@ public class PatientList {
     }
     public String getSuffix(){
         return suffix;
+    }
+    public int getAge(){
+        return age;
+    }
+    public String getBirth(){
+        return date_birth;
     }
     public String getCourse(){
         return course;
@@ -64,6 +76,19 @@ public class PatientList {
     }public String getGender(){
         return gender;
     }
+    public String getHeight(){
+        return height;
+    }
+    public String getWeight(){
+        return weight;
+    }
+    public String getBloodType(){
+        return blood_type;
+    }
+    public String getVaccinationStatus(){
+        return vaccination_status;
+    }
+    
     
     
     
