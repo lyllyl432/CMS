@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Project;
+package Utilities;
 
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.border.Border;
@@ -18,10 +17,10 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author AUDITOR FAMILY
  */
-public class ButtonRenderer extends JButton implements TableCellRenderer{
-    private JButton button;
+public class MedicineButtonRenderer extends JButton implements TableCellRenderer {
+     private JButton button;
 
-    public ButtonRenderer(Icon icon) {
+    public MedicineButtonRenderer(Icon icon) {
          button = new JButton();
         button.setIcon(icon); // Set the icon on the button
         button.setFocusPainted(false);
@@ -38,5 +37,4 @@ public class ButtonRenderer extends JButton implements TableCellRenderer{
       
         return button;
     }
-    
 }

@@ -632,7 +632,7 @@
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="jSeparator13" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel20" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="phone_number_label" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>

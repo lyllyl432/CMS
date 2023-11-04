@@ -4,7 +4,7 @@
  */
 package Application;
 
-import Project.PatientList;
+import Utilities.PatientList;
 
 /**
  *
@@ -537,9 +537,9 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addGap(8, 8, 8)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(phone_number_label))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(phone_number_label, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(3, 3, 3)
                 .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)

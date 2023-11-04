@@ -1,12 +1,14 @@
 package Application;
 
 
-import Project.ButtonEditor;
-import Project.ButtonRenderer;
-import Project.ConnectionProvider;
-import Project.CustomHeaderRenderer;
-import Project.PatientList;
+import Utilities.ButtonEditor;
+import Utilities.ButtonRenderer;
+import Utilities.ConnectionProvider;
+import Utilities.CustomHeaderRenderer;
+import Utilities.PatientList;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,7 +48,6 @@ public class AddPatient extends javax.swing.JFrame {
     public AddPatient() {
         initComponents();
         showPatient();
-      
     }
     public ArrayList<PatientList> patientList(){
         ArrayList<PatientList> patientArrayList = new ArrayList<>();
