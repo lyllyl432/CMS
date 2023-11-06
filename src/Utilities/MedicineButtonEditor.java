@@ -5,7 +5,7 @@
 package Utilities;
 
 import Application.AddMedicine;
-import Application.AddPatient;
+import Application.Patient;
 import Application.UpdateMedicine;
 import Application.UpdatePatient;
 import Application.ViewPatient;
