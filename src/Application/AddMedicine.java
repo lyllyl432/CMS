@@ -546,6 +546,7 @@ public class AddMedicine extends javax.swing.JFrame {
             this.stocks_field.setText("");
             model = (DefaultTableModel)this.medicine_list_table.getModel();
             model.setRowCount(0);
+            showMedicine();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(AddMedicine.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
