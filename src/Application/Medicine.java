@@ -1,125 +1,51 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package Application;
-
 
 import Utilities.ButtonEditor;
 import Utilities.ButtonRenderer;
 import Utilities.ConnectionProvider;
 import Utilities.CustomHeaderRenderer;
+import Utilities.MedicineButtonEditor;
+import Utilities.MedicineList;
 import Utilities.PatientList;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Toolkit;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
 /**
  *
  * @author AUDITOR FAMILY
  */
-public class Patient extends javax.swing.JFrame {
+public class Medicine extends javax.swing.JFrame {
 
+    /**
+     * Creates new form Medicine
+     */
     Connection con;
     PreparedStatement ps;
     DefaultTableModel model;
     ImageIcon edit_icon;
     ImageIcon delete_icon;
     ImageIcon view_icon;
-    AddPatient addPatient;
-    public Patient() {
+    AddMedicine addMedicine;
+    public Medicine() {
         initComponents();
-        showPatient();
-    }
-    public ArrayList<PatientList> patientList(){
-        ArrayList<PatientList> patientArrayList = new ArrayList<>();
-        this.con = ConnectionProvider.connect();
-        
-     
-        try {
-            Statement statement = this.con.createStatement(); 
-            ResultSet rs = statement.executeQuery("SELECT * FROM patient;");
-            PatientList patient;
-            while(rs.next()){
-                patient = new PatientList(rs.getInt("patient_id"),rs.getString("firstname"),rs.getString("middlename"),rs.getString("lastname"),rs.getString("suffix"),rs.getInt("age"), rs.getString("date_of_birth") ,rs.getString("course"),rs.getString("college_year"),rs.getString("section"),rs.getString("civil_status"),rs.getString("email"),rs.getString("address"),rs.getString("phone_number"),rs.getString("gender"), rs.getString("height"), rs.getString("weight"), rs.getString("blood_type"),rs.getString("vaccination_status"));
-                patientArrayList.add(patient);
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return patientArrayList;
-    }
-    public JTable getPatientListTable(){
-        return patient_list_table;
-    }
-    public void showPatient(){
-        ArrayList<PatientList> patientArrayList = patientList();
-         model = (DefaultTableModel)this.patient_list_table.getModel();
-         Object[] row = new Object[7];
-        
-         model.setRowCount(0);
-
-
-         
-         edit_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/edit.png");
-         delete_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/delete.png");
-         view_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/eye.png");
-        // Create a custom cell renderer for the delete button column
-         // Create a custom cell renderer for the button column
-         this.patient_list_table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer(edit_icon));
-         this.patient_list_table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer(delete_icon));
-         this.patient_list_table.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer(view_icon));
-         // Create a custom cell editor for the button column
-         this.patient_list_table.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(this,this.patient_list_table,edit_icon,new JCheckBox(),0));
-         this.patient_list_table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(this,this.patient_list_table,delete_icon,new JCheckBox(),1));
-         this.patient_list_table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(this,this.patient_list_table,view_icon,new JCheckBox(),2));
-         
-         // Define the "Times New Roman" font for the column
-        Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.patient_list_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
-        //add entry
-         for(int i = 0; i < patientArrayList.size(); i++){
-            row[0] = patientArrayList.get(i).getFirstName() + " " + patientArrayList.get(i).getMiddleName()+ " " + patientArrayList.get(i).getLastName();
-            row[1] = patientArrayList.get(i).getPhoneNumber();
-            row[2] = patientArrayList.get(i).getAddress();
-            row[6] = patientArrayList.get(i).getPatientId();
-            model.addRow(row);
-        }
-      this.patient_list_table.setRowHeight(50);
-      this.patient_list_table.getColumnModel().getColumn(0).setPreferredWidth(200);
-      this.patient_list_table.getColumnModel().getColumn(1).setPreferredWidth(200);
-      this.patient_list_table.getColumnModel().getColumn(2).setPreferredWidth(200);
-     TableColumnModel columnModel = this.patient_list_table.getColumnModel();
-     TableColumn column = columnModel.getColumn(6);
-     column.setMinWidth(0);
-     column.setMaxWidth(0);
-     column.setPreferredWidth(0);
-     column.setWidth(0);
-      
+        showMedicine();
     }
 
     /**
@@ -146,7 +72,7 @@ public class Patient extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        patient_list_table = new javax.swing.JTable();
+        medicine_list_table = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -154,8 +80,6 @@ public class Patient extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-        setSize(new java.awt.Dimension(1165, 575));
 
         jPanel33.setBackground(new java.awt.Color(64, 89, 173));
 
@@ -186,11 +110,6 @@ public class Patient extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
         jLabel1.setText("Medicines");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -206,6 +125,11 @@ public class Patient extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
         jLabel3.setText("Patients");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -268,7 +192,7 @@ public class Patient extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(180, 173, 234));
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton2.setText("ADD PATIENT");
+        jButton2.setText("ADD MEDICINE");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -292,55 +216,51 @@ public class Patient extends javax.swing.JFrame {
                 .addGap(23, 23, 23))
         );
 
-        patient_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        patient_list_table.setModel(new javax.swing.table.DefaultTableModel(
+        medicine_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        medicine_list_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Patient's Name", "Contact Number", "Address", "", "", "", "Patient's ID"
+                "Medicine Name", "Description", "Medicine Type", "Stock(s)", "Dosage", "Status", "", "", "Title 9"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true, true, true
+                false, false, false, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        patient_list_table.setGridColor(new java.awt.Color(255, 255, 255));
-        patient_list_table.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(patient_list_table);
-        if (patient_list_table.getColumnModel().getColumnCount() > 0) {
-            patient_list_table.getColumnModel().getColumn(0).setResizable(false);
-            patient_list_table.getColumnModel().getColumn(1).setResizable(false);
-            patient_list_table.getColumnModel().getColumn(2).setResizable(false);
-            patient_list_table.getColumnModel().getColumn(3).setResizable(false);
-            patient_list_table.getColumnModel().getColumn(4).setResizable(false);
-            patient_list_table.getColumnModel().getColumn(5).setResizable(false);
-        }
+        medicine_list_table.setGridColor(new java.awt.Color(255, 255, 255));
+        medicine_list_table.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(medicine_list_table);
 
         jLabel14.setBackground(new java.awt.Color(0, 0, 0));
         jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("SEARCH PATIENT");
+        jLabel14.setText("SEARCH MEDICINE");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,11 +269,11 @@ public class Patient extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(64, 89, 173));
@@ -428,21 +348,90 @@ public class Patient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        addPatient = new AddPatient(this);
-        addPatient.setVisible(true);
-        
+        addMedicine = new AddMedicine(this);
+        addMedicine.setVisible(true);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       Medicine medicine = new Medicine();
-       medicine.setVisible(true);
-       this.dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        new Patient().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-      new Dashboard().setVisible(true);
-      this.dispose();
+        new Dashboard().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
+    public ArrayList<MedicineList> medicineList(){
+        ArrayList<MedicineList> medicineArrayList = new ArrayList<>();
+        this.con = ConnectionProvider.connect();
+        
+     
+        try {
+            Statement statement = this.con.createStatement(); 
+            ResultSet rs = statement.executeQuery("SELECT * FROM medicines;");
+            MedicineList medicine;
+            while(rs.next()){
+                medicine = new MedicineList(rs.getInt("id"),rs.getString("medicine"),rs.getString("description"),rs.getString("medicine_type"),rs.getString("dosage"),rs.getInt("stock"), rs.getBoolean("status"));
+                medicineArrayList.add(medicine);
+                
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Medicine.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return medicineArrayList;
+    }
+    public void showMedicine(){
+        ArrayList<MedicineList> medicineArrayList = medicineList();
+         model = (DefaultTableModel)this.medicine_list_table.getModel();
+         Object[] row = new Object[9];
+         
+         model.setRowCount(0);
+
+
+         
+         edit_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/edit.png");
+         delete_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/delete.png");
+         view_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/eye.png");
+        // Create a custom cell renderer for the delete button column
+         // Create a custom cell renderer for the button column
+         this.medicine_list_table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(edit_icon));
+         this.medicine_list_table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(delete_icon));
+         // Create a custom cell editor for the button column
+         this.medicine_list_table.getColumnModel().getColumn(6).setCellEditor(new MedicineButtonEditor(this,this.medicine_list_table,edit_icon,new JCheckBox(),0));
+         this.medicine_list_table.getColumnModel().getColumn(7).setCellEditor(new MedicineButtonEditor(this,this.medicine_list_table,delete_icon,new JCheckBox(),1));
+         
+         // Define the "Times New Roman" font for the column
+        Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
+
+        // Set the custom renderer for the column headers
+        JTableHeader header = this.medicine_list_table.getTableHeader();
+        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+        //add entry
+         for(int i = 0; i < medicineArrayList.size(); i++){
+            row[0] = medicineArrayList.get(i).getMedicineName();
+            row[1] = medicineArrayList.get(i).getDescription();
+            row[2] = medicineArrayList.get(i).getMedicineType();
+            row[3] = medicineArrayList.get(i).getStock();
+            row[4] = medicineArrayList.get(i).getDosage();
+            if(medicineArrayList.get(i).getStatus()){
+                row[5] = "Active";
+            }else{
+                row[5] = "Not Active";
+            }
+            row[8] = medicineArrayList.get(i).getMedicineId();
+            model.addRow(row);
+        }
+      this.medicine_list_table.setRowHeight(50);
+      this.medicine_list_table.getColumnModel().getColumn(0).setPreferredWidth(200);
+      this.medicine_list_table.getColumnModel().getColumn(1).setPreferredWidth(200);
+     TableColumnModel columnModel = this.medicine_list_table.getColumnModel();
+     TableColumn column = columnModel.getColumn(8);
+     column.setMinWidth(0);
+     column.setMaxWidth(0);
+     column.setPreferredWidth(0);
+     column.setWidth(0);
+    }
 
     /**
      * @param args the command line arguments
@@ -461,13 +450,13 @@ public class Patient extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Patient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Medicine.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Patient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Medicine.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Patient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Medicine.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Patient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Medicine.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -475,7 +464,7 @@ public class Patient extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Patient().setVisible(true);
+                new Medicine().setVisible(true);
             }
         });
     }
@@ -501,7 +490,6 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTable patient_list_table;
+    private javax.swing.JTable medicine_list_table;
     // End of variables declaration//GEN-END:variables
 }
-

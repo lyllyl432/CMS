@@ -4,7 +4,7 @@
  */
 package Utilities;
 
-import Application.AddMedicine;
+import Application.Medicine;
 import Application.Patient;
 import Application.UpdateMedicine;
 import Application.UpdatePatient;
@@ -38,7 +38,7 @@ public class MedicineButtonEditor extends DefaultCellEditor {
     Connection con;
     PreparedStatement ps;
 
-    public MedicineButtonEditor(AddMedicine addMedicine,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
+    public MedicineButtonEditor(Medicine addMedicine,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
         super(checkBox);
         button = new JButton();
         button.setIcon(icon);
