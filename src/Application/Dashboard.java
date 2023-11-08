@@ -84,6 +84,11 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
         jLabel1.setText("Medicines");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -94,11 +99,16 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
         jLabel3.setText("Patients");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
-        jLabel5.setText("Reports");
+        jLabel5.setText("Appoinments");
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -327,6 +337,16 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        new Patient().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        new Medicine().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
