@@ -68,7 +68,6 @@ public class MedicineButtonEditor extends DefaultCellEditor {
                       UpdateMedicine updateMedicine = new UpdateMedicine();
                       updateMedicine.setVisible(true);
                       updateMedicine.getEntry(medicine_id);
-                      addMedicine.dispose();
                     }
                     //delete click
                     else if(button_role == 1){

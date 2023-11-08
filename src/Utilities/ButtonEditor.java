@@ -64,7 +64,6 @@ public class ButtonEditor extends DefaultCellEditor {
                       UpdatePatient updatePatient = new UpdatePatient();
                       updatePatient.setVisible(true);
                       updatePatient.fillUpdateForm(General.getEntry(patient_id));
-                      addPatient.dispose();
                     }
                     //delete click
                     else if(button_role == 1){
