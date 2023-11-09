@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -34,11 +35,17 @@ public class UpdatePatient extends javax.swing.JFrame {
     ImageIcon edit_icon;
     ImageIcon delete_icon;
     ImageIcon view_icon;
-    PatientList patient;
+    PatientList patient_list;
+    Patient patient;
     public UpdatePatient() {
         initComponents();
        
     }
+    public UpdatePatient(Patient patient) {
+        initComponents();
+        this.patient = patient;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,9 +55,9 @@ public class UpdatePatient extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-    public void fillUpdateForm(PatientList patient){
-        this.patient = patient;
-        String selectedDate = patient.getBirth();
+    public void fillUpdateForm(PatientList patient_list){
+        this.patient_list = patient_list;
+        String selectedDate = patient_list.getBirth();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
       
@@ -60,23 +67,23 @@ public class UpdatePatient extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(UpdatePatient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.first_name_field.setText(patient.getFirstName());
-        this.middle_name_field.setText(patient.getMiddleName());
-        this.last_name_field.setText(patient.getLastName());
-        this.suffix_field.setText(patient.getSuffix());
-        this.age_field.setText(Integer.toString(patient.getAge()));
-        this.email_field.setText(patient.getEmail());
-        this.course_field.setSelectedItem(patient.getCourse());
-        this.weight_field.setText(patient.getSection());
-        this.civil_status_field.setSelectedItem(patient.getCivilStatus());
-        this.address_field.setText(patient.getAddress());
-        this.phone_number_field.setText(patient.getPhoneNumber());
-        this.gender_field.setSelectedItem(patient.getGender());
-        this.height_field.setText(patient.getHeight());
-        this.weight_field.setText(patient.getWeight());
-        this.blood_type_field.setSelectedItem(patient.getBloodType());
-        this.vaccination_status_field.setSelectedItem(patient.getVaccinationStatus());
-        this.section_field.setText(patient.getSection());
+        this.first_name_field.setText(patient_list.getFirstName());
+        this.middle_name_field.setText(patient_list.getMiddleName());
+        this.last_name_field.setText(patient_list.getLastName());
+        this.suffix_field.setText(patient_list.getSuffix());
+        this.age_field.setText(Integer.toString(patient_list.getAge()));
+        this.email_field.setText(patient_list.getEmail());
+        this.course_field.setSelectedItem(patient_list.getCourse());
+        this.weight_field.setText(patient_list.getSection());
+        this.civil_status_field.setSelectedItem(patient_list.getCivilStatus());
+        this.address_field.setText(patient_list.getAddress());
+        this.phone_number_field.setText(patient_list.getPhoneNumber());
+        this.gender_field.setSelectedItem(patient_list.getGender());
+        this.height_field.setText(patient_list.getHeight());
+        this.weight_field.setText(patient_list.getWeight());
+        this.blood_type_field.setSelectedItem(patient_list.getBloodType());
+        this.vaccination_status_field.setSelectedItem(patient_list.getVaccinationStatus());
+        this.section_field.setText(patient_list.getSection());
         
         
     }
@@ -125,7 +132,7 @@ public class UpdatePatient extends javax.swing.JFrame {
         jLabel34 = new javax.swing.JLabel();
         vaccination_status_field = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setBackground(new java.awt.Color(180, 173, 234));
         jButton1.setText("Update");
@@ -488,12 +495,12 @@ public class UpdatePatient extends javax.swing.JFrame {
             this.ps.setString(16, weight);
             this.ps.setString(17, blood_type);
             this.ps.setString(18, vaccination_status);
-            this.ps.setInt(19, patient.getPatientId());
+            this.ps.setInt(19, patient_list.getPatientId());
 
             int rowsUpdated = this.ps.executeUpdate();
             if(rowsUpdated > 0){
                 System.out.println("Rows Updated");
-                new Patient().setVisible(true);
+                patient.showPatient();
                 this.dispose();
             }else{
                 System.out.println("Error");

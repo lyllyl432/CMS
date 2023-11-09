@@ -34,7 +34,7 @@ public class ButtonEditor extends DefaultCellEditor {
     Connection con;
     PreparedStatement ps;
 
-    public ButtonEditor(Patient addPatient,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
+    public ButtonEditor(Patient patient,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
         super(checkBox);
         button = new JButton();
         button.setIcon(icon);
@@ -61,7 +61,7 @@ public class ButtonEditor extends DefaultCellEditor {
                         int selected_row = table.getSelectedRow();
                       TableModel model = table.getModel();
                       patient_id = (int)model.getValueAt(selected_row, 6);
-                      UpdatePatient updatePatient = new UpdatePatient();
+                      UpdatePatient updatePatient = new UpdatePatient(patient);
                       updatePatient.setVisible(true);
                       updatePatient.fillUpdateForm(General.getEntry(patient_id));
                     }
@@ -81,7 +81,7 @@ public class ButtonEditor extends DefaultCellEditor {
                             ButtonEditor.this.ps.executeUpdate();
                             DefaultTableModel patientListDefaultTableModel = (DefaultTableModel)table.getModel();
                             patientListDefaultTableModel.setRowCount(0);
-                            addPatient.showPatient();
+                            patient.showPatient();
                         } catch (SQLException ex) {
                             Logger.getLogger(ButtonEditor.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -95,7 +95,7 @@ public class ButtonEditor extends DefaultCellEditor {
                         ViewPatient viewPatient = new ViewPatient();
                         viewPatient.setVisible(true);
                         viewPatient.fillInformationLabel(General.getEntry(patient_id));
-                        addPatient.dispose();
+                        patient.dispose();
                     }
                  
                  
