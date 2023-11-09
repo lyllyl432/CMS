@@ -86,8 +86,7 @@ public class UpdateMedicine extends javax.swing.JFrame {
         dosage_field = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(679, 706));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -235,7 +234,6 @@ public class UpdateMedicine extends javax.swing.JFrame {
             int rowsUpdated = this.ps.executeUpdate();
             if(rowsUpdated > 0){
                 System.out.println("Rows Updated");
-                new Medicine().setVisible(true);
                 this.dispose();
             }else{
                 System.out.println("Error");

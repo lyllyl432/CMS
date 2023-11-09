@@ -55,7 +55,7 @@ public class AddMedicine extends javax.swing.JFrame {
         dosage_field = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(679, 706));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

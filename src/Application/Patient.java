@@ -70,15 +70,13 @@ public class Patient extends javax.swing.JFrame {
         }
         return patientArrayList;
     }
-    public JTable getPatientListTable(){
-        return patient_list_table;
-    }
     public void showPatient(){
         ArrayList<PatientList> patientArrayList = patientList();
          model = (DefaultTableModel)this.patient_list_table.getModel();
          Object[] row = new Object[7];
         
          model.setRowCount(0);
+         
 
 
          
