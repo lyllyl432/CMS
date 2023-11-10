@@ -471,7 +471,7 @@ public class SignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_check_box_logActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int user_id;
+        int user_id = -1;
         //log in credentials
         String username = this.username_field.getText();
         char[] password_chars = this.password_field.getPassword();
@@ -506,7 +506,8 @@ public class SignIn extends javax.swing.JFrame {
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 user_id = rs.getInt("user_id");
-                this.ps = this.con.prepareStatement("INSERT INTO user_infomation(user_id,profile_picture,first_name,middle_name,last_name,suffix,age,civil_status,address,contact_number,work_position) VALUES(?,?,?,?,?,?,?,?,?,?,?);");
+            }
+            this.ps = this.con.prepareStatement("INSERT INTO user_info (user_id,profile_picture,first_name,middle_name,last_name,suffix,age,civil_status,address,contact_number,work_position) VALUES(?,?,?,?,?,?,?,?,?,?,?);");
                 this.ps.setInt(1, user_id);
                 this.ps.setString(2, file_path);
                 this.ps.setString(3, first_name);
@@ -519,15 +520,11 @@ public class SignIn extends javax.swing.JFrame {
                 this.ps.setString(10, contact_number);
                 this.ps.setString(11, work_position);
                 this.ps.executeUpdate();
-            }
+                new LogIn().setVisible(true);
+                this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        
-        
-      
-   
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
