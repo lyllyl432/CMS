@@ -390,9 +390,9 @@ public class Medicine extends javax.swing.JFrame {
 
 
          
-         edit_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/edit.png");
-         delete_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/delete.png");
-         view_icon = new ImageIcon("C:/Users/AUDITOR FAMILY/Documents/NetBeansProjects/Clinic Management/src/eye.png");
+         edit_icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/edit.png");
+         delete_icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/delete.png");
+         view_icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/eye.png");
         // Create a custom cell renderer for the delete button column
          // Create a custom cell renderer for the button column
          this.medicine_list_table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(edit_icon));
