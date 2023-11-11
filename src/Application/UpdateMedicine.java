@@ -28,11 +28,15 @@ public class UpdateMedicine extends javax.swing.JFrame {
     Connection con;
     PreparedStatement ps;
     DefaultTableModel model;
-    MedicineList medicine;
+    MedicineList medicine_list;
+    Medicine medicine;
     public UpdateMedicine() {
         initComponents();
     }
-
+    public UpdateMedicine(Medicine medicine) {
+        initComponents();
+        this.medicine = medicine;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,35 +44,14 @@ public class UpdateMedicine extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-        public void getEntry(int medicine_id){
-            con = ConnectionProvider.connect();
-        try {
-            ps = con.prepareStatement("SELECT * FROM medicines WHERE id = ?;");
-            ps.setInt(1,medicine_id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String medicine_name = rs.getString("medicine");
-                String description = rs.getString("description");
-                String medicine_type = rs.getString("medicine_type");
-                String dosage = rs.getString("dosage");
-                int stocks = rs.getInt("stock");
-                medicine = new MedicineList(id, medicine_name, description, medicine_type, dosage,stocks,true);
-                fillUpdateForm(medicine);
-            }
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateMedicine.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        }
-    
-        public void fillUpdateForm(MedicineList medicine){
-        this.medicine_name_field.setText(medicine.getMedicineName());
-        this.description_field.setText(medicine.getDescription());
-        this.medicine_type_field.setSelectedItem(medicine.getMedicineType());
-        this.dosage_field.setText(medicine.getDosage());
-        this.stocks_field.setText(String.valueOf(medicine.getStock())); 
+   
+        public void fillUpdateForm(MedicineList medicine_list){
+        this.medicine_list = medicine_list;
+        this.medicine_name_field.setText(medicine_list.getMedicineName());
+        this.description_field.setText(medicine_list.getDescription());
+        this.medicine_type_field.setSelectedItem(medicine_list.getMedicineType());
+        this.dosage_field.setText(medicine_list.getDosage());
+        this.stocks_field.setText(String.valueOf(medicine_list.getStock())); 
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -230,10 +213,11 @@ public class UpdateMedicine extends javax.swing.JFrame {
             this.ps.setString(3, medicine_type);
             this.ps.setString(4, dosage);
             this.ps.setInt(5, stock);
-            this.ps.setInt(6, medicine.getMedicineId());
+            this.ps.setInt(6, medicine_list.getMedicineId());
             int rowsUpdated = this.ps.executeUpdate();
             if(rowsUpdated > 0){
                 System.out.println("Rows Updated");
+                medicine.showMedicine();
                 this.dispose();
             }else{
                 System.out.println("Error");

@@ -38,7 +38,7 @@ public class MedicineButtonEditor extends DefaultCellEditor {
     Connection con;
     PreparedStatement ps;
 
-    public MedicineButtonEditor(Medicine addMedicine,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
+    public MedicineButtonEditor(Medicine medicine,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
         super(checkBox);
         button = new JButton();
         button.setIcon(icon);
@@ -65,9 +65,9 @@ public class MedicineButtonEditor extends DefaultCellEditor {
                         int selected_row = table.getSelectedRow();
                       TableModel model = table.getModel();
                       medicine_id = (int)model.getValueAt(selected_row, 8);
-                      UpdateMedicine updateMedicine = new UpdateMedicine();
+                      UpdateMedicine updateMedicine = new UpdateMedicine(medicine);
                       updateMedicine.setVisible(true);
-                      updateMedicine.getEntry(medicine_id);
+                      updateMedicine.fillUpdateForm(General.getMedicineEntry(medicine_id));
                     }
                     //delete click
                     else if(button_role == 1){
@@ -85,7 +85,7 @@ public class MedicineButtonEditor extends DefaultCellEditor {
                             ps.executeUpdate();
                             DefaultTableModel patientListDefaultTableModel = (DefaultTableModel)table.getModel();
                             patientListDefaultTableModel.setRowCount(0);
-                            addMedicine.showMedicine();
+                            medicine.showMedicine();
                         } catch (SQLException ex) {
                             Logger.getLogger(ButtonEditor.class.getName()).log(Level.SEVERE, null, ex);
                         }
