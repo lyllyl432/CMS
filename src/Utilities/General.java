@@ -34,7 +34,8 @@ import javax.swing.table.TableRowSorter;
 public class General {
     public static Connection con;
     public static PreparedStatement ps;
-    public static PatientList patient;
+    public static PatientList patient_list;
+    public static MedicineList medicine_list;
     public static DefaultTableModel model;
     private static  TableRowSorter sorter;
     public static void filterSearch(String query, JTable table){
@@ -48,7 +49,7 @@ public class General {
               sorter.setRowFilter(filter);
           }
     }
-    public static PatientList getEntry(int patient_id){
+    public static PatientList getPatientEntry(int patient_id){
         con = ConnectionProvider.connect();
 
         try {
@@ -74,17 +75,39 @@ public class General {
                 String weight = rs.getString("weight");
                 String blood_type = rs.getString("blood_type");
                 String vaccination_status = rs.getString("vaccination_status");      
-                patient = new PatientList(patient_id, first_name, middle_name, last_name, suffix,age,date_birth, email, course, year, section, civil_status, address, phone_number, gender,height,weight,blood_type,vaccination_status); 
+                patient_list = new PatientList(patient_id, first_name, middle_name, last_name, suffix,age,date_birth, email, course, year, section, civil_status, address, phone_number, gender,height,weight,blood_type,vaccination_status); 
             }
-            return patient;
+            return patient_list;
             
      
         } catch (SQLException ex) {
             Logger.getLogger(UpdatePatient.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        }
-        
+        }       
     }
+    
+    public static MedicineList getMedicineEntry(int medicine_id){
+        con = ConnectionProvider.connect();
+        try {
+            ps = con.prepareStatement("SELECT * FROM medicines WHERE id = ?;");
+            ps.setInt(1,medicine_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String medicine_name = rs.getString("medicine");
+                String description = rs.getString("description");
+                String medicine_type = rs.getString("medicine_type");
+                String dosage = rs.getString("dosage");
+                int stocks = rs.getInt("stock");
+                medicine_list = new MedicineList(id, medicine_name, description, medicine_type, dosage,stocks,true);
+            }
+            return medicine_list;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     
     public static void setProfileInfo(UserInfo user_info, JLabel greeting_name_label, JLabel admin_name_label){
        greeting_name_label.setText("Hello " + user_info.getWorkPosition() + " " + user_info.getFirstName() + "!");
