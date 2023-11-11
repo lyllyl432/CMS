@@ -184,16 +184,16 @@ public class LogIn extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+//if sign in is clicked it will go to the register form
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
        new SignIn().setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jLabel6MouseClicked
-
+//password checker
     private void check_box_logMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_check_box_logMouseClicked
         this.password_field.setEchoChar(check_box_log.isSelected() ? '\0' : '*');
     }//GEN-LAST:event_check_box_logMouseClicked
-
+//log in button with validation if user exist in database
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int user_id = -1;
         String work_position = null;
@@ -224,19 +224,17 @@ public class LogIn extends javax.swing.JFrame {
             switch(work_position){
                 case "Doctor":
                     new MainDashboard(user_info).setVisible(true);
-                    this.dispose();
                     break;
                 case "Nurse":
                     new MainDashboard(user_info).setVisible(true);
-                    this.dispose();
                     break;
                 case "Staff":
                     new Dashboard(user_info).setVisible(true);
-                    this.dispose();
                     break;
                 default:
                     System.out.println("Something error");
             }
+            this.dispose();
       
         } catch (SQLException ex) {
             Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,5 +1,6 @@
 package Application;
 
+import Utilities.General;
 import Utilities.UserInfo;
 
 /*
@@ -24,7 +25,8 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard(UserInfo user_info) {
         initComponents();
         this.user_info = user_info;
-        populateUserInfo();
+        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+
     }
 
     /**
@@ -45,12 +47,12 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel8 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        greetings_user_label = new javax.swing.JLabel();
+        greeting_name_label = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
@@ -119,10 +121,10 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
         jLabel5.setText("Appoinments");
 
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
-        jLabel13.setText("Administrator");
+        admin_name_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
+        admin_name_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
+        admin_name_label.setText("Administrator");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -144,7 +146,7 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel1)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel13))
+                            .addComponent(admin_name_label))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -155,7 +157,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel13)
+                .addComponent(admin_name_label)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -173,9 +175,9 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(64, 89, 173));
 
-        greetings_user_label.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        greetings_user_label.setForeground(new java.awt.Color(255, 255, 255));
-        greetings_user_label.setText("Hello, Admin!");
+        greeting_name_label.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
+        greeting_name_label.setText("Hello, Admin!");
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -189,7 +191,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(greetings_user_label)
+                .addComponent(greeting_name_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addContainerGap())
@@ -199,7 +201,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(greetings_user_label)
+                    .addComponent(greeting_name_label)
                     .addComponent(jLabel11)
                     .addComponent(jLabel7))
                 .addGap(26, 26, 26))
@@ -349,17 +351,17 @@ public class Dashboard extends javax.swing.JFrame {
     
     //populate user information
     public void populateUserInfo(){
-        this.greetings_user_label.setText("Hello " + user_info.getFirstName());
+        this.greeting_name_label.setText("Hello " + user_info.getFirstName());
     }
     
     
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        new Patient().setVisible(true);
+        new Patient(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        new Medicine().setVisible(true);
+        new Medicine(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
@@ -399,10 +401,10 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel greetings_user_label;
+    private javax.swing.JLabel admin_name_label;
+    private javax.swing.JLabel greeting_name_label;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;

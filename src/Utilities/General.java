@@ -4,13 +4,23 @@
  */
 package Utilities;
 
+import Application.MainDashboard;
 import Application.UpdatePatient;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -75,5 +85,42 @@ public class General {
         }
         
     }
+    
+    public static void setProfileInfo(UserInfo user_info, JLabel greeting_name_label, JLabel admin_name_label){
+       greeting_name_label.setText("Hello " + user_info.getWorkPosition() + " " + user_info.getFirstName() + "!");
+       admin_name_label.setText(user_info.getWorkPosition() + " " + user_info.getFirstName());
+       
+        try {
+            BufferedImage original_image = ImageIO.read(new File(user_info.getProfilePicture()));
+            // Resize the image
+            Image resizedImage = original_image.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+            BufferedImage bufferedResizedImage = new BufferedImage(35, 35, BufferedImage.TYPE_INT_ARGB);
+            bufferedResizedImage.getGraphics().drawImage(resizedImage, 0, 0, null);
+            // Create a circular mask
+            BufferedImage circularImage = createCircularImage(bufferedResizedImage);
+
+            // Create an ImageIcon from the circular image
+            ImageIcon icon = new ImageIcon(circularImage);
+            admin_name_label.setIcon(icon);
+        } catch (IOException ex) {
+            Logger.getLogger(MainDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private static BufferedImage createCircularImage(BufferedImage originalImage) {
+        BufferedImage circularImage = new BufferedImage(
+                originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = circularImage.createGraphics();
+        Ellipse2D.Double ellipse = new Ellipse2D.Double(0, 0, originalImage.getWidth(), originalImage.getHeight());
+
+        // Create a clipping mask using the ellipse
+        g2d.setClip(ellipse);
+        g2d.drawImage(originalImage, 0, 0, null);
+
+        g2d.dispose();
+
+        return circularImage;
+    }
+    
 }
     
