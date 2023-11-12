@@ -309,15 +309,7 @@ public class Patient extends javax.swing.JFrame {
             new String [] {
                 "Patient's Name", "Contact Number", "Address", "", "", "", "Patient's ID"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         patient_list_table.setGridColor(new java.awt.Color(255, 255, 255));
         patient_list_table.setSelectionBackground(new java.awt.Color(64, 89, 173));
         jScrollPane1.setViewportView(patient_list_table);
@@ -328,6 +320,7 @@ public class Patient extends javax.swing.JFrame {
             patient_list_table.getColumnModel().getColumn(3).setResizable(false);
             patient_list_table.getColumnModel().getColumn(4).setResizable(false);
             patient_list_table.getColumnModel().getColumn(5).setResizable(false);
+            patient_list_table.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jLabel14.setBackground(new java.awt.Color(0, 0, 0));

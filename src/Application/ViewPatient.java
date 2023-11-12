@@ -29,6 +29,7 @@ public class ViewPatient extends javax.swing.JFrame {
         General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
     }
    public void fillInformationLabel(PatientList patient){
+       this.patient = patient;
        this.first_name_label.setText(patient.getFirstName());
        this.middle_name_label.setText(patient.getMiddleName());
        this.last_name_label.setText(patient.getLastName());
@@ -419,6 +420,11 @@ public class ViewPatient extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(180, 173, 234));
         jButton2.setText("Add Appointment");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -830,6 +836,11 @@ public class ViewPatient extends javax.swing.JFrame {
         new Patient(user_info).setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        new AddAppointment(patient, user_info,this).setVisible(true);
+        
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
