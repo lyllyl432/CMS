@@ -4,7 +4,9 @@
  */
 package Application;
 
+import Utilities.General;
 import Utilities.PatientList;
+import Utilities.UserInfo;
 
 /**
  *
@@ -16,8 +18,15 @@ public class ViewPatient extends javax.swing.JFrame {
      * Creates new form ViewPatient
      */
     PatientList patient;
+    UserInfo user_info;
     public ViewPatient() {
         initComponents();
+    }
+    //overload constructor for user information
+    public ViewPatient(UserInfo user_info) {
+        initComponents();
+        this.user_info = user_info;
+        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
     }
    public void fillInformationLabel(PatientList patient){
        this.first_name_label.setText(patient.getFirstName());
@@ -119,10 +128,10 @@ public class ViewPatient extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        greeting_name_label = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -652,26 +661,41 @@ public class ViewPatient extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
         jLabel1.setText("Medicines");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/business-report (1).png"))); // NOI18N
         jLabel2.setText("Dashboard");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
         jLabel3.setText("Patients");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
         jLabel5.setText("Reports");
 
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
-        jLabel13.setText("Administrator");
+        admin_name_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
+        admin_name_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
+        admin_name_label.setText("Administrator");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -693,7 +717,7 @@ public class ViewPatient extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel1)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel13))
+                            .addComponent(admin_name_label))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -704,7 +728,7 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel13)
+                .addComponent(admin_name_label)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -720,9 +744,9 @@ public class ViewPatient extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(64, 89, 173));
 
-        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Hello, Admin!");
+        greeting_name_label.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
+        greeting_name_label.setText("Hello, Admin!");
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -734,7 +758,7 @@ public class ViewPatient extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12)
+                .addComponent(greeting_name_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(16, 16, 16))
@@ -744,7 +768,7 @@ public class ViewPatient extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
+                    .addComponent(greeting_name_label)
                     .addComponent(jLabel7))
                 .addGap(8, 8, 8))
         );
@@ -778,6 +802,34 @@ public class ViewPatient extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        switch(user_info.getWorkPosition()){
+                case "Doctor":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Nurse":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Staff":
+                    new Dashboard(user_info).setVisible(true);
+                    break;
+                default:
+                    System.out.println("Something error");
+            }
+      this.dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        new Medicine(user_info).setVisible(true);
+       this.dispose();
+
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        new Patient(user_info).setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -816,6 +868,7 @@ public class ViewPatient extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel address_label;
+    private javax.swing.JLabel admin_name_label;
     private javax.swing.JLabel age_label;
     private javax.swing.JLabel blood_type_label;
     private javax.swing.JLabel civil_status_label;
@@ -825,13 +878,12 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JLabel email_label;
     private javax.swing.JLabel first_name_label;
     private javax.swing.JLabel gender_label;
+    private javax.swing.JLabel greeting_name_label;
     private javax.swing.JLabel height_label;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;

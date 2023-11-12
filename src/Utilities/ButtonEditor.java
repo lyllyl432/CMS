@@ -33,8 +33,8 @@ public class ButtonEditor extends DefaultCellEditor {
     private int patient_id;
     Connection con;
     PreparedStatement ps;
-
-    public ButtonEditor(Patient patient,JTable table,Icon icon,JCheckBox checkBox, int button_role) {
+    UserInfo user_info;
+    public ButtonEditor(Patient patient,JTable table,Icon icon,JCheckBox checkBox, int button_role, UserInfo user_info) {
         super(checkBox);
         button = new JButton();
         button.setIcon(icon);
@@ -47,6 +47,7 @@ public class ButtonEditor extends DefaultCellEditor {
         button.setBorder(emptyBorder);
         
         this.button_role = button_role;
+        this.user_info = user_info;
         
         //database connection object
             this.con = ConnectionProvider.connect();
@@ -58,6 +59,7 @@ public class ButtonEditor extends DefaultCellEditor {
                 public void actionPerformed(ActionEvent e) {
                     //update click
                     if(button_role == 0){
+                        System.out.println(user_info.getAge());
                         int selected_row = table.getSelectedRow();
                       TableModel model = table.getModel();
                       patient_id = (int)model.getValueAt(selected_row, 6);
@@ -92,7 +94,7 @@ public class ButtonEditor extends DefaultCellEditor {
                         int selected_row = table.getSelectedRow();
                         TableModel model = table.getModel();
                         patient_id = (int)model.getValueAt(selected_row, 6);
-                        ViewPatient viewPatient = new ViewPatient();
+                        ViewPatient viewPatient = new ViewPatient(user_info);
                         viewPatient.setVisible(true);
                         viewPatient.fillInformationLabel(General.getPatientEntry(patient_id));
                         patient.dispose();
