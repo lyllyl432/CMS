@@ -4,6 +4,28 @@
  */
 package Application;
 
+import Utilities.ConnectionProvider;
+import Utilities.General;
+import Utilities.UserInfo;
+import Utilities.AppointmentList;
+import Utilities.CustomHeaderRenderer;
+import Utilities.PendingButtonEditor;
+import Utilities.PendingButtonRenderer;
+import java.awt.Font;
+import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
 /**
  *
  * @author HP
@@ -13,10 +35,21 @@ public class AppointmentPending extends javax.swing.JFrame {
     /**
      * Creates new form AppointmentAppending
      */
+    UserInfo user_info;
+    Connection con;
+    PreparedStatement ps;
+    DefaultTableModel model;
+
     public AppointmentPending() {
         initComponents();
     }
-
+//constructor overloading
+    public AppointmentPending(UserInfo user_info) {
+        initComponents();
+        this.user_info = user_info;
+        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+        showPendingList();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +74,7 @@ public class AppointmentPending extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        patient_list_table = new javax.swing.JTable();
+        pending_list_table = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -49,7 +82,6 @@ public class AppointmentPending extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1151, 702));
 
         jPanel36.setBackground(new java.awt.Color(64, 89, 173));
 
@@ -181,8 +213,8 @@ public class AppointmentPending extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        patient_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        patient_list_table.setModel(new javax.swing.table.DefaultTableModel(
+        pending_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        pending_list_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -191,16 +223,25 @@ public class AppointmentPending extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        patient_list_table.setGridColor(new java.awt.Color(255, 255, 255));
-        patient_list_table.setSelectionBackground(new java.awt.Color(64, 89, 173));
-        jScrollPane1.setViewportView(patient_list_table);
+        pending_list_table.setGridColor(new java.awt.Color(255, 255, 255));
+        pending_list_table.setSelectionBackground(new java.awt.Color(64, 89, 173));
+        jScrollPane1.setViewportView(pending_list_table);
+        if (pending_list_table.getColumnModel().getColumnCount() > 0) {
+            pending_list_table.getColumnModel().getColumn(0).setResizable(false);
+            pending_list_table.getColumnModel().getColumn(1).setResizable(false);
+            pending_list_table.getColumnModel().getColumn(2).setResizable(false);
+            pending_list_table.getColumnModel().getColumn(3).setResizable(false);
+            pending_list_table.getColumnModel().getColumn(4).setResizable(false);
+            pending_list_table.getColumnModel().getColumn(5).setResizable(false);
+            pending_list_table.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         jLabel14.setBackground(new java.awt.Color(0, 0, 0));
         jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
@@ -305,8 +346,88 @@ public class AppointmentPending extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+   //append the pending appointment in jtable
+    public ArrayList<AppointmentList> pendingList(){
+        String patient_name;
+        ArrayList<AppointmentList> pendingArrayList = new ArrayList<>();
+        this.con = ConnectionProvider.connect();
+        
+        Statement statement; 
+        try {
+            statement = this.con.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT pending.reference_id,pending.patient_id, pending.appointment_date, pending.time, pending.clinic_position, pending.reason, pending.status, patient.firstname, patient.middlename, patient.lastname FROM pending JOIN patient ON pending.patient_id = patient.patient_id");
+           AppointmentList pending;
+            while(rs.next()){
+                patient_name = rs.getString("firstname") + " " + rs.getString("middlename") + " " + rs.getString("lastname");
+                pending = new AppointmentList(rs.getInt("reference_id"), rs.getInt("patient_id"), patient_name, rs.getDate("appointment_date"), rs.getTime("time"), rs.getString("clinic_position"), rs.getString("reason"), rs.getBoolean("status"));
+                pendingArrayList.add(pending);
+            }
+            return pendingArrayList;
 
+        } catch (SQLException ex) {
+            Logger.getLogger(AppointmentPending.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return null;
+    }
+    //show the pending list return by pendingList method
+    public void showPendingList(){
+        String approve_button_text = "Approve";
+        String cancel_button_text = "Cancel";
+         ArrayList<AppointmentList> pendingArrayList = pendingList();
+         model = (DefaultTableModel)this.pending_list_table.getModel();
+         Object[] row = new Object[7];
+        
+         model.setRowCount(0);
+         
+         // Create a custom cell renderer for the delete button column
+         // Create a custom cell renderer for the button column
+         this.pending_list_table.getColumnModel().getColumn(5).setCellRenderer(new PendingButtonRenderer(approve_button_text));
+         this.pending_list_table.getColumnModel().getColumn(6).setCellRenderer(new PendingButtonRenderer(cancel_button_text));
+         // Create a custom cell editor for the button column
+         this.pending_list_table.getColumnModel().getColumn(5).setCellEditor(new PendingButtonEditor(this,this.pending_list_table,approve_button_text,new JCheckBox(),0, user_info));
+         this.pending_list_table.getColumnModel().getColumn(6).setCellEditor(new PendingButtonEditor(this,this.pending_list_table,cancel_button_text,new JCheckBox(),1, user_info));         
+        
+         
+         Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
+
+        // Set the custom renderer for the column headers
+        JTableHeader header = this.pending_list_table.getTableHeader();
+        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+        //add entry
+         for(int i = 0; i < pendingArrayList.size(); i++){
+             // Make the date as a readable string format
+             LocalDate date = LocalDate.parse(pendingArrayList.get(i).getAppointmentDate().toString());
+             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+             String formattedDate = date.format(formatter);
+             System.out.println(formattedDate);
+             // Convert the time in 12 hour format
+             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+             String formattedTime = sdf.format(pendingArrayList.get(i).getTime());
+//            System.out.println(pendingArrayList.get(i).getTime());
+             row[0] = "RID" +  pendingArrayList.get(i).getReferenceId() + " " + pendingArrayList.get(i).getPatientName();
+            row[1] = formattedDate + " " + formattedTime;
+            row[2] = pendingArrayList.get(i).getClinicPosition();
+            row[3] = pendingArrayList.get(i).getReason();
+            if(pendingArrayList.get(i).getStatus()){
+                row[4] = "Approve";
+            }else{
+                row[4] = "Pending";
+            }
+            model.addRow(row);
+        }
+      this.pending_list_table.setRowHeight(50);
+      this.pending_list_table.getColumnModel().getColumn(0).setPreferredWidth(200);
+      this.pending_list_table.getColumnModel().getColumn(1).setPreferredWidth(300);
+      this.pending_list_table.getColumnModel().getColumn(2).setPreferredWidth(150);
+      this.pending_list_table.getColumnModel().getColumn(3).setPreferredWidth(400);
+//     TableColumnModel columnModel = this.patient_list_table.getColumnModel();
+//     TableColumn column = columnModel.getColumn(6);
+//     column.setMinWidth(0);
+//     column.setMaxWidth(0);
+//     column.setPreferredWidth(0);
+    }
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         new Medicine(user_info).setVisible(true);
         this.dispose();
@@ -371,7 +492,6 @@ public class AppointmentPending extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -379,9 +499,6 @@ public class AppointmentPending extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel32;
-    private javax.swing.JPanel jPanel33;
-    private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
@@ -390,6 +507,6 @@ public class AppointmentPending extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTable patient_list_table;
+    private javax.swing.JTable pending_list_table;
     // End of variables declaration//GEN-END:variables
 }

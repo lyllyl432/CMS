@@ -59,6 +59,7 @@ public class MainDashboard extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -138,6 +139,11 @@ public class MainDashboard extends javax.swing.JFrame {
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/notification (1).png"))); // NOI18N
+        jLabel6.setText("Pending Appointments");
+
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
         jPanel33.setLayout(jPanel33Layout);
         jPanel33Layout.setHorizontalGroup(
@@ -150,7 +156,8 @@ public class MainDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel33Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4))
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
@@ -177,8 +184,10 @@ public class MainDashboard extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 138, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -415,6 +424,7 @@ public class MainDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel32;
