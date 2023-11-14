@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -54,7 +57,11 @@ public class PendingButtonEditor extends DefaultCellEditor {
                 public void actionPerformed(ActionEvent e) {
                     //update click
                     if(button_role == 0){
-                        System.out.println("hello world");
+                        try {
+                            MailUtil.sendMail("lyllyl432@gmail.com");
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(PendingButtonEditor.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     //delete click
                     else if(button_role == 1){
