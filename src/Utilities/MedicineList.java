@@ -9,9 +9,10 @@ package Utilities;
  * @author AUDITOR FAMILY
  */
 public class MedicineList {
-    private int medicine_id,stock;
-    private String medicine_name,description,medicine_type,dosage;
+    private int medicine_id,stock,unit;
+    private String medicine_name,description,medicine_type,dosage,instruction;
     private boolean status;
+    
     public MedicineList(int medicine_id, String medicine_name, String description, String medicine_type, String dosage, int stock, boolean status){
         this.medicine_id = medicine_id;
         this.medicine_name = medicine_name;
@@ -21,6 +22,20 @@ public class MedicineList {
         this.status = status;
         this.dosage = dosage;
     }
+    
+    public MedicineList(int medicine_id, String medicine_name){
+        this.medicine_id = medicine_id;
+        this.medicine_name = medicine_name;
+    }
+    
+    public MedicineList(String medicine_name, String dosage, String instruction, int unit){
+        this.medicine_name = medicine_name;
+        this.dosage = dosage;
+        this.instruction = instruction;
+        this.unit = unit;
+    }
+    
+    
     public int getMedicineId(){
         return medicine_id;
     }
@@ -41,5 +56,11 @@ public class MedicineList {
     }
     public boolean getStatus(){
         return status;
+    }
+    public int getUnit(){
+        return unit;
+    }
+    public String getInstruction(){
+        return instruction;
     }
 }

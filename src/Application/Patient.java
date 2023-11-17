@@ -123,11 +123,7 @@ public class Patient extends javax.swing.JFrame {
       this.patient_list_table.getColumnModel().getColumn(1).setPreferredWidth(200);
       this.patient_list_table.getColumnModel().getColumn(2).setPreferredWidth(200);
      TableColumnModel columnModel = this.patient_list_table.getColumnModel();
-     TableColumn column = columnModel.getColumn(6);
-     column.setMinWidth(0);
-     column.setMaxWidth(0);
-     column.setPreferredWidth(0);
-     column.setWidth(0);
+     General.setColumnWidthZero(columnModel, 6);
       
     }
 

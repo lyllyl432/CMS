@@ -34,6 +34,13 @@ public class PatientList {
         this.vaccination_status = vaccination_status;
           
     }
+     public PatientList(String first_name, String middle_name, String last_name, String email, int patient_id){
+        this.first_name = first_name;
+        this.middle_name = middle_name;
+        this.last_name = last_name;
+        this.email = email;       
+        this.patient_id = patient_id;
+    }
     public int getPatientId(){
         return patient_id;
     }

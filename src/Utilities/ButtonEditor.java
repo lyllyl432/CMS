@@ -63,9 +63,10 @@ public class ButtonEditor extends DefaultCellEditor {
                         int selected_row = table.getSelectedRow();
                       TableModel model = table.getModel();
                       patient_id = (int)model.getValueAt(selected_row, 6);
-                      UpdatePatient updatePatient = new UpdatePatient(patient);
+                      UpdatePatient updatePatient = new UpdatePatient(patient,table,selected_row);
                       updatePatient.setVisible(true);
                       updatePatient.fillUpdateForm(General.getPatientEntry(patient_id));
+                       
                     }
                     //delete click
                     else if(button_role == 1){

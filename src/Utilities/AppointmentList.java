@@ -26,7 +26,15 @@ public class AppointmentList {
         this.status = status;
         this.patient_name = patient_name;
     }
-    
+    public AppointmentList(int reference_id, int patient_id, Date appointment_date, Time time, String clinic_position, String reason, boolean status){
+        this.reference_id = reference_id;
+        this.patient_id = patient_id;
+        this.appointment_date = appointment_date;
+        this.time = time;
+        this.clinic_position = clinic_position;
+        this.reason = reason;
+        this.status = status;
+    }
     public int getReferenceId(){
         return reference_id;
     }

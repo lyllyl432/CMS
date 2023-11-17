@@ -16,14 +16,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -38,6 +46,10 @@ public class General {
     public static MedicineList medicine_list;
     public static DefaultTableModel model;
     private static  TableRowSorter sorter;
+    private static ResultSet rs;
+    private static java.util.Date selectedDate;
+    private static SimpleDateFormat dateFormat;
+    private static String email;
     public static void filterSearch(String query, JTable table){
           model = (DefaultTableModel)table.getModel();
           sorter = new TableRowSorter<>(model);
@@ -144,6 +156,86 @@ public class General {
 
         return circularImage;
     }
+    public static void  setColumnWidthZero(TableColumnModel column_model, int row){
+      TableColumn column = column_model.getColumn(row);
+     column.setMinWidth(0);
+     column.setMaxWidth(0);
+     column.setPreferredWidth(0);
+     column.setWidth(0);
+    }
     
+    public static AppointmentList getApproveEntry(int reference_id, AppointmentList appointment_list){
+        try {
+            ps = con.prepareStatement("SELECT * FROM pending WHERE reference_id = ?");
+            ps.setInt(1, reference_id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                appointment_list = new AppointmentList(rs.getInt("reference_id"),rs.getInt("patient_id"),rs.getDate("appointment_date"),rs.getTime("time"),rs.getString("clinic_position"),rs.getString("reason"),rs.getBoolean("status"));
+            }
+            return appointment_list;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return null;
+    }
+    public static void deletePendingEntry(int reference_id){
+        try {
+            ps = con.prepareStatement("DELETE FROM pending WHERE reference_id = ?");
+            ps.setInt(1, reference_id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void insertAppointment(AppointmentList appointment_list){
+        selectedDate = appointment_list.getAppointmentDate();
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            ps = con.prepareStatement("INSERT INTO appointment_list(reference_id,patient_id,appointment_date, time, clinic_position, reason,status) VALUES(?,?,?,?,?,?,?);");
+            ps.setInt(1, appointment_list.getReferenceId());
+            ps.setInt(2, appointment_list.getPatientId());
+            ps.setString(3, dateFormat.format(selectedDate));
+            ps.setTime(4, appointment_list.getTime());
+            ps.setString(5, appointment_list.getClinicPosition());
+            ps.setString(6, appointment_list.getReason());
+            ps.setBoolean(7, true);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void sendMailToRecipient(int patient_id, String mail_message){
+        try {
+            ps = con.prepareStatement("SELECT email from patient WHERE patient_id = ?");
+            ps.setInt(1, patient_id);
+            //Execute the query
+            rs = ps.executeQuery();
+
+            //Process the result set
+            while(rs.next()) {
+                email = rs.getString("email");
+//                System.out.println("Email: " + email);
+            }
+            try {
+                MailUtil.sendMail(email,mail_message);
+            } catch (MessagingException ex) {
+                Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    // Make the date as a readable string format
+    public static String convertDateToReadable(String date_string){
+        LocalDate date = LocalDate.parse(date_string);
+             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+             return date.format(formatter);
+    }
+    public static String convertTimeToReadable(Date time){
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+        return sdf.format(time);
+        
+    }
 }
     
