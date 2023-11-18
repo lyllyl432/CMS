@@ -14,6 +14,7 @@ import Utilities.ReportMedicineButtonRenderer;
 import Utilities.UserInfo;
 import java.awt.Font;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,9 +103,9 @@ public class AddReport extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        review_date_chooser = new com.toedter.calendar.JDateChooser();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        review_message = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -407,13 +408,18 @@ public class AddReport extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel16.setText("Message :");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane5.setViewportView(jTextArea2);
+        review_message.setColumns(20);
+        review_message.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        review_message.setRows(5);
+        jScrollPane5.setViewportView(review_message);
 
         jButton1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jButton1.setText("Submit");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jButton2.setText("Cancel");
@@ -430,7 +436,7 @@ public class AddReport extends javax.swing.JFrame {
                     .addComponent(jLabel16))
                 .addGap(203, 203, 203)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(review_date_chooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,7 +452,7 @@ public class AddReport extends javax.swing.JFrame {
                 .addComponent(jLabel14)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(review_date_chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(9, 9, 9)))
@@ -506,8 +512,8 @@ public class AddReport extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1001, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(263, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(64, 89, 173));
@@ -557,13 +563,13 @@ public class AddReport extends javax.swing.JFrame {
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel41Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel41Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(146, 146, 146))
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(616, 616, 616))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -575,8 +581,8 @@ public class AddReport extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel41, javax.swing.GroupLayout.PREFERRED_SIZE, 1113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 545, Short.MAX_VALUE))
+                .addComponent(jPanel41, javax.swing.GroupLayout.PREFERRED_SIZE, 1205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 537, Short.MAX_VALUE))
         );
 
         pack();
@@ -710,10 +716,10 @@ public class AddReport extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String dosage = this.dosage_field.getText();
-        String unit = this.unit_field.getText();
+        int unit = Integer.parseInt(this.unit_field.getText());
         String instruction = this.instruction_text_area.getText();
+        this.con = ConnectionProvider.connect();
         try {
-            this.con = ConnectionProvider.connect();
             String selected_medicine = this.medicine_combo_box.getSelectedItem().toString();
             //get the id to the medicine table for insertion as a foreign key
             ps = con.prepareStatement("SELECT id FROM medicines WHERE medicine = ?;");
@@ -722,18 +728,93 @@ public class AddReport extends javax.swing.JFrame {
             while(rs.next()){
                 this.medicine_id = rs.getInt("id");
             }
+            //insert the added medicine to the appointment_prescribed_medication table
             ps = con.prepareStatement("INSERT INTO appointment_prescribed_medication(reference_id, medicine_id,unit,instruction) VALUES(?,?,?,?);");
             ps.setInt(1, this.reference_id);
             ps.setInt(2, this.medicine_id);
-            ps.setString(3, unit);
+            ps.setInt(3, unit);
             ps.setString(4, instruction);
             ps.executeUpdate();
+            
+            //update stock value in entry
+            ps = con.prepareStatement("UPDATE medicines SET stock = stock - ? WHERE id = ?");
+            ps.setInt(1, unit);
+            ps.setInt(2, medicine_id);
+            ps.executeUpdate();
+            
             showAddedMedicine();
         } catch (SQLException ex) {
             Logger.getLogger(AddReport.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
+        
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {
+            this.con = ConnectionProvider.connect(); 
+            //insert entry from patient record based on the reference_id on appointment_list
+            System.out.println("hello world");
+            java.util.Date selectedDate = this.review_date_chooser.getDate();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String appointment_date = dateFormat.format(selectedDate);
+            String review_message = this.review_message.getText();
+            
+            ps = this.con.prepareStatement("SELECT * FROM appointment_list WHERE reference_id = ?");
+            ps.setInt(1, reference_id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                System.out.println(rs.getInt("reference_id"));
+                this.ps = this.con.prepareStatement("INSERT INTO patient_record(reference_id,patient_id,appointment_date,time,clinic_position,reason,review_date,review_message) VALUES(?,?,?,?,?,?,?,?)");
+                this.ps.setInt(1, rs.getInt("reference_id"));
+                this.ps.setInt(2, rs.getInt("patient_id"));
+                this.ps.setDate(3, rs.getDate("appointment_date"));
+                this.ps.setTime(4, rs.getTime("time"));
+                this.ps.setString(5, rs.getString("clinic_position"));
+                this.ps.setString(6, rs.getString("reason"));
+                this.ps.setString(7, appointment_date);
+                this.ps.setString(8,review_message);
+                 int recordsInserted = this.ps.executeUpdate();
+            if (recordsInserted > 0) {
+                //insert reference appointment prescribed medicine to the records of medication in patient record
+                this.ps = this.con.prepareStatement("SELECT * FROM appointment_prescribed_medication WHERE reference_id = ?");
+                this.ps.setInt(1, reference_id);
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    this.ps = this.con.prepareStatement("INSERT INTO prescribed_medication_record(reference_id, medicine_id, unit, instruction) VALUES(?,?,?,?)");
+                    this.ps.setInt(1, rs.getInt("reference_id"));
+                    this.ps.setInt(2, rs.getInt("medicine_id"));
+                    this.ps.setInt(3, rs.getInt("unit"));
+                    this.ps.setString(4, rs.getString("instruction"));
+                    recordsInserted = this.ps.executeUpdate();
+                    // if record inserted delete the existing records
+                    if(recordsInserted > 0){
+                        this.ps = this.con.prepareStatement("DELETE FROM appointment_prescribed_medication WHERE reference_id = ?");
+                        this.ps.setInt(1, reference_id);
+                        this.ps.executeUpdate();
+                    }
+                }
+                 //delete entry in appointment_list
+                this.ps = this.con.prepareStatement("DELETE FROM appointment_list WHERE reference_id = ?");
+                this.ps.setInt(1, reference_id);
+                this.ps.executeUpdate();
+                
+                System.out.println("Data moved to patient_record successfully.");
+                //link to the appointment frame
+                new Appointment(user_info).setVisible(true);
+                this.dispose();
+            } else {
+                System.out.println("Failed to move data to patient_record.");
+            }
+         }
+       
+        } catch (SQLException ex) {
+            Logger.getLogger(AddReport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -779,7 +860,6 @@ public class AddReport extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -813,9 +893,10 @@ public class AddReport extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JComboBox<String> medicine_combo_box;
     private javax.swing.JTable reference_information_table;
+    private com.toedter.calendar.JDateChooser review_date_chooser;
+    private javax.swing.JTextArea review_message;
     private javax.swing.JTextField unit_field;
     // End of variables declaration//GEN-END:variables
 }
