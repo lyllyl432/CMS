@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,12 +31,16 @@ public class UpdateMedicine extends javax.swing.JFrame {
     DefaultTableModel model;
     MedicineList medicine_list;
     Medicine medicine;
+    JTable table;
+    int selected_row;
     public UpdateMedicine() {
         initComponents();
     }
-    public UpdateMedicine(Medicine medicine) {
+    public UpdateMedicine(Medicine medicine,JTable table, int selected_row) {
         initComponents();
         this.medicine = medicine;
+        this.table = table;
+        this.selected_row = selected_row;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -218,6 +223,9 @@ public class UpdateMedicine extends javax.swing.JFrame {
             if(rowsUpdated > 0){
                 System.out.println("Rows Updated");
                 medicine.showMedicine();
+                // Set the selection back to the previous selected row
+                table.getSelectionModel().setSelectionInterval(selected_row, selected_row);
+
                 this.dispose();
             }else{
                 System.out.println("Error");

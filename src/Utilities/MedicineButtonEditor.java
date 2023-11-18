@@ -65,7 +65,7 @@ public class MedicineButtonEditor extends DefaultCellEditor {
                         int selected_row = table.getSelectedRow();
                       TableModel model = table.getModel();
                       medicine_id = (int)model.getValueAt(selected_row, 8);
-                      UpdateMedicine updateMedicine = new UpdateMedicine(medicine);
+                      UpdateMedicine updateMedicine = new UpdateMedicine(medicine,table,selected_row);
                       updateMedicine.setVisible(true);
                       updateMedicine.fillUpdateForm(General.getMedicineEntry(medicine_id));
                     }

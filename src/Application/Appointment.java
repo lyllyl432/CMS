@@ -4,17 +4,53 @@
  */
 package Application;
 
+import Utilities.AppointmentButtonEditor;
+import Utilities.AppointmentButtonRenderer;
+import Utilities.AppointmentList;
+import Utilities.ConnectionProvider;
+import Utilities.CustomHeaderRenderer;
+import Utilities.General;
+import Utilities.UserInfo;
+import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
+
 /**
  *
  * @author HP
  */
-public class AppointmentList extends javax.swing.JFrame {
+public class Appointment extends javax.swing.JFrame {
 
     /**
      * Creates new form Appointment
      */
-    public AppointmentList() {
+    Connection con; 
+    PreparedStatement ps;
+    ResultSet rs;
+    ArrayList<AppointmentList> appointmentArrayList;
+    DefaultTableModel model;
+    private String patient_name;
+    private AppointmentList appoinment_list;
+    private UserInfo user_info;
+    public Appointment() {
         initComponents();
+    }
+    public Appointment(UserInfo user_info) {
+        initComponents();
+        this.user_info = user_info;
+        showAppointmentList();
     }
 
     /**
@@ -41,7 +77,7 @@ public class AppointmentList extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        patient_list_table = new javax.swing.JTable();
+        appointment_list_table = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -49,7 +85,6 @@ public class AppointmentList extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1151, 702));
 
         jPanel36.setBackground(new java.awt.Color(64, 89, 173));
 
@@ -105,6 +140,11 @@ public class AppointmentList extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
         jLabel5.setText("Appointments");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         admin_name_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -181,26 +221,37 @@ public class AppointmentList extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        patient_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        patient_list_table.setModel(new javax.swing.table.DefaultTableModel(
+        appointment_list_table.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        appointment_list_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Patient's Name", "Appointment Schedule", "Reason", "Status", ""
+                "Reference ID", "Appointment Schedule", "Doctor / Nurse", "Reason", "Status", "", "", "Patient ID", "Reference ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        patient_list_table.setGridColor(new java.awt.Color(255, 255, 255));
-        patient_list_table.setSelectionBackground(new java.awt.Color(64, 89, 173));
-        jScrollPane1.setViewportView(patient_list_table);
+        appointment_list_table.setGridColor(new java.awt.Color(255, 255, 255));
+        appointment_list_table.setSelectionBackground(new java.awt.Color(64, 89, 173));
+        jScrollPane1.setViewportView(appointment_list_table);
+        if (appointment_list_table.getColumnModel().getColumnCount() > 0) {
+            appointment_list_table.getColumnModel().getColumn(0).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(1).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(2).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(3).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(4).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(5).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(6).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(7).setResizable(false);
+            appointment_list_table.getColumnModel().getColumn(8).setResizable(false);
+        }
 
         jLabel14.setBackground(new java.awt.Color(0, 0, 0));
         jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
@@ -307,28 +358,90 @@ public class AppointmentList extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    public ArrayList<AppointmentList> getAppointmentList(){
+        appointmentArrayList = new ArrayList<>();
+        try {
+            this.con = ConnectionProvider.connect();
+            
+            Statement statement;
+            statement = this.con.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT appointment_list.reference_id,appointment_list.patient_id, appointment_list.appointment_date, appointment_list.time, appointment_list.clinic_position, appointment_list.reason, appointment_list.status, patient.firstname, patient.middlename, patient.lastname FROM appointment_list JOIN patient ON appointment_list.patient_id = patient.patient_id");
+            
+            AppointmentList appointment_list;
+            while(rs.next()){
+                patient_name = rs.getString("firstname") + " " + rs.getString("middlename") + " " + rs.getString("lastname");
+                appointment_list = new AppointmentList(rs.getInt("reference_id"), rs.getInt("patient_id"), patient_name, rs.getDate("appointment_date"), rs.getTime("time"), rs.getString("clinic_position"), rs.getString("reason"), rs.getBoolean("status"));
+                appointmentArrayList.add(appointment_list);
+            }
+            return appointmentArrayList;
+        } catch (SQLException ex) {
+            Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return null;
+    }
+    
+    //show approve appointment list
+    public void showAppointmentList(){
+         String view_button_text = "View";
+        String report_button_text = "Report";
+         appointmentArrayList = getAppointmentList();
+         model = (DefaultTableModel)this.appointment_list_table.getModel();
+         Object[] row = new Object[9];
+        
+         model.setRowCount(0);
+         this.appointment_list_table.getColumnModel().getColumn(5).setCellRenderer(new AppointmentButtonRenderer(view_button_text));
+         this.appointment_list_table.getColumnModel().getColumn(6).setCellRenderer(new AppointmentButtonRenderer(report_button_text));
+         // Create a custom cell editor for the button column
+         this.appointment_list_table.getColumnModel().getColumn(5).setCellEditor(new AppointmentButtonEditor(this,this.appointment_list_table,view_button_text,new JCheckBox(),0, user_info, patient_name));
+         this.appointment_list_table.getColumnModel().getColumn(6).setCellEditor(new AppointmentButtonEditor(this,this.appointment_list_table,report_button_text,new JCheckBox(),1, user_info, patient_name));         
+        
+         Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
 
+        // Set the custom renderer for the column headers
+        JTableHeader header = this.appointment_list_table.getTableHeader();
+        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+        //add entry
+         for(int i = 0; i < appointmentArrayList.size(); i++){
+              // Make the date as a readable string format
+             String formattedDate = General.convertDateToReadable(appointmentArrayList.get(i).getAppointmentDate().toString());
+             // Convert the time in 12 hour format
+             String formattedTime = General.convertTimeToReadable(appointmentArrayList.get(i).getTime());
+//            System.out.println(pendingArrayList.get(i).getTime());
+             row[0] = "RID" +  appointmentArrayList.get(i).getReferenceId();
+            row[1] = formattedDate + " " + formattedTime;
+            row[2] = appointmentArrayList.get(i).getClinicPosition();
+            row[3] = appointmentArrayList.get(i).getReason();
+            if(appointmentArrayList.get(i).getStatus()){
+                row[4] = "Booked";
+            }else{
+                row[4] = "Pending";
+            }
+            row[7] = appointmentArrayList.get(i).getPatientId();
+            row[8] = appointmentArrayList.get(i).getReferenceId();
+            model.addRow(row);
+        }
+         
+         this.appointment_list_table.setRowHeight(50);
+      this.appointment_list_table.getColumnModel().getColumn(0).setPreferredWidth(200);
+      this.appointment_list_table.getColumnModel().getColumn(1).setPreferredWidth(300);
+      this.appointment_list_table.getColumnModel().getColumn(2).setPreferredWidth(150);
+      this.appointment_list_table.getColumnModel().getColumn(3).setPreferredWidth(400);
+     TableColumnModel columnModel = this.appointment_list_table.getColumnModel();
+     General.setColumnWidthZero(columnModel, 7);
+     General.setColumnWidthZero(columnModel, 8);
+    }
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        new Medicine(user_info).setVisible(true);
-        this.dispose();
+       
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        switch(user_info.getWorkPosition()){
-            case "Doctor":
-            new MainDashboard(user_info).setVisible(true);
-            break;
-            case "Nurse":
-            new MainDashboard(user_info).setVisible(true);
-            break;
-            case "Staff":
-            new Dashboard(user_info).setVisible(true);
-            break;
-            default:
-            System.out.println("Something error");
-        }
-        this.dispose();
+        
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new Appointment(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
@@ -347,27 +460,30 @@ public class AppointmentList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AppointmentList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Appointment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AppointmentList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Appointment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AppointmentList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Appointment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AppointmentList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Appointment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AppointmentList().setVisible(true);
+                new Appointment().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel admin_name_label;
+    private javax.swing.JTable appointment_list_table;
     private javax.swing.JLabel greeting_name_label;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
@@ -387,6 +503,5 @@ public class AppointmentList extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTable patient_list_table;
     // End of variables declaration//GEN-END:variables
 }

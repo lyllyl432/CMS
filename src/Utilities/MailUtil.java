@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
  * @author HP
  */
 public class MailUtil {
-    public static void sendMail(String recepient) throws MessagingException{
+    public static void sendMail(String recepient,String inserted_message) throws MessagingException{
          final String username = "lyllyl432@gmail.com";
         final String password = "psucotsmvnaezjhv";
 
@@ -36,17 +36,17 @@ public class MailUtil {
                 return new PasswordAuthentication(username, password);
             }
         });
-            Message message = prepareMessage(session, username, recepient);
+            Message message = prepareMessage(session, username, recepient,inserted_message);
             Transport.send(message);
             System.out.println("Message send successfully");
    }
-     private static Message prepareMessage(Session session, String my_account_email,String recepient) throws MessagingException{
+     private static Message prepareMessage(Session session, String my_account_email,String recepient,String inserted_message) throws MessagingException{
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(my_account_email));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
-            message.setSubject("first email from java");
-            message.setText("hello world");
+            message.setSubject("TCC CARES CLINIC APPOINTMENT");
+            message.setText(inserted_message);
             return message;
         } catch (AddressException ex) {
             java.util.logging.Logger.getLogger(MailUtil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

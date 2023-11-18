@@ -37,13 +37,17 @@ public class UpdatePatient extends javax.swing.JFrame {
     ImageIcon view_icon;
     PatientList patient_list;
     Patient patient;
+    JTable table;
+    int selected_row;
     public UpdatePatient() {
         initComponents();
        
     }
-    public UpdatePatient(Patient patient) {
+    public UpdatePatient(Patient patient, JTable table, int selected_row) {
         initComponents();
         this.patient = patient;
+        this.table = table;
+        this.selected_row = selected_row;
     }
     
 
@@ -500,7 +504,11 @@ public class UpdatePatient extends javax.swing.JFrame {
             int rowsUpdated = this.ps.executeUpdate();
             if(rowsUpdated > 0){
                 System.out.println("Rows Updated");
+                
                 patient.showPatient();
+                // Set the selection back to the previous selected row
+                table.getSelectionModel().setSelectionInterval(selected_row, selected_row);
+
                 this.dispose();
             }else{
                 System.out.println("Error");

@@ -131,6 +131,11 @@ public class MainDashboard extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
         jLabel5.setText("Appoinments");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         admin_name_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -377,6 +382,11 @@ public class MainDashboard extends javax.swing.JFrame {
         new Patient(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new Appointment(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

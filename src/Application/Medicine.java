@@ -452,11 +452,7 @@ public class Medicine extends javax.swing.JFrame {
       this.medicine_list_table.getColumnModel().getColumn(0).setPreferredWidth(200);
       this.medicine_list_table.getColumnModel().getColumn(1).setPreferredWidth(200);
      TableColumnModel columnModel = this.medicine_list_table.getColumnModel();
-     TableColumn column = columnModel.getColumn(8);
-     column.setMinWidth(0);
-     column.setMaxWidth(0);
-     column.setPreferredWidth(0);
-     column.setWidth(0);
+     General.setColumnWidthZero(columnModel, 8);
     }
 
     /**
