@@ -7,6 +7,7 @@ package Utilities;
 import Application.AddAppointment;
 import Application.MainDashboard;
 import Application.UpdatePatient;
+import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -33,6 +34,7 @@ import javax.mail.MessagingException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -135,6 +137,7 @@ public class General {
     
     
     public static void setProfileInfo(UserInfo user_info, JLabel greeting_name_label, JLabel admin_name_label){
+        
        greeting_name_label.setText("Hello " + user_info.getWorkPosition() + " " + user_info.getFirstName() + "!");
        admin_name_label.setText(user_info.getWorkPosition() + " " + user_info.getFirstName());
        
@@ -340,5 +343,21 @@ public class General {
         }
         return null;
     }
-}
-    
+     // Method to remove the label from its parent container
+    public static void removeLabel(JLabel label, JFrame frame, UserInfo user_info) {
+        Container parent = label.getParent();
+        if(user_info.getWorkPosition().equals("Staff")){
+        if (parent instanceof JPanel) {
+            JPanel panel = (JPanel) parent;
+            panel.remove(label);
+            panel.revalidate(); // Notify the layout manager
+            panel.repaint();    // Repaint the panel
+        } else if (parent instanceof JFrame) {
+            // If the label is directly added to the JFrame
+            frame.remove(label);
+            frame.revalidate();
+            frame.repaint();
+        }
+       }
+    }
+}    

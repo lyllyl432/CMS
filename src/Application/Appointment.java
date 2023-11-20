@@ -51,6 +51,8 @@ public class Appointment extends javax.swing.JFrame {
         initComponents();
         this.user_info = user_info;
         showAppointmentList();
+        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+        General.removeLabel(this.jLabel5, this,user_info);
     }
 
     /**
@@ -73,6 +75,9 @@ public class Appointment extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
         jPanel8 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -135,16 +140,16 @@ public class Appointment extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
         jLabel3.setText("Patients");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
         jLabel5.setText("Appointments");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
 
         admin_name_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -152,6 +157,21 @@ public class Appointment extends javax.swing.JFrame {
         admin_name_label.setText("Administrator");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/notification (1).png"))); // NOI18N
+        jLabel8.setText("Pending Appointments");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
+        jLabel9.setText("Add Account");
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
         jPanel36.setLayout(jPanel36Layout);
@@ -163,15 +183,20 @@ public class Appointment extends javax.swing.JFrame {
                 .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addGroup(jPanel36Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator2))
+                    .addGroup(jPanel36Layout.createSequentialGroup()
                         .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel36Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel4))
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel5)
-                            .addComponent(admin_name_label))
+                            .addComponent(admin_name_label)
+                            .addGroup(jPanel36Layout.createSequentialGroup()
+                                .addGap(172, 172, 172)
+                                .addComponent(jLabel4))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -190,8 +215,16 @@ public class Appointment extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addGap(9, 9, 9)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel4)
                 .addGap(0, 325, Short.MAX_VALUE))
         );
@@ -429,17 +462,36 @@ public class Appointment extends javax.swing.JFrame {
      General.setColumnWidthZero(columnModel, 8);
     }
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       
+        new Medicine(user_info).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        
+    switch(user_info.getWorkPosition()){
+                case "Doctor":
+                new MainDashboard(user_info).setVisible(true);
+                break;
+                case "Nurse":
+                new MainDashboard(user_info).setVisible(true);
+                break;
+                case "Staff":
+                new Dashboard(user_info).setVisible(true);
+                break;
+                default:
+                System.out.println("Something error");
+            }
+            this.dispose();        
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        new Appointment(user_info).setVisible(true);
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        new Patient(user_info).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+       new AppointmentPending(user_info).setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -492,6 +544,8 @@ public class Appointment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
@@ -500,6 +554,7 @@ public class Appointment extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

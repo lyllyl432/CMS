@@ -59,6 +59,8 @@ public class AddReport extends javax.swing.JFrame {
         //get Selected Item to the combo box medicine list
         medicine_name = this.medicine_combo_box.getSelectedItem().toString();
         this.updateDosageLabel(medicine_name);
+        
+        General.removeLabel(this.appointment_label, this,user_info);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,9 +79,12 @@ public class AddReport extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        appointment_label = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
@@ -167,11 +172,21 @@ public class AddReport extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
         jLabel3.setText("Patients");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
-        jLabel5.setText("Appointments");
+        appointment_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        appointment_label.setForeground(new java.awt.Color(255, 255, 255));
+        appointment_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/reports.png"))); // NOI18N
+        appointment_label.setText("Appointments");
+        appointment_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                appointment_labelMouseClicked(evt);
+            }
+        });
 
         admin_name_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,6 +194,21 @@ public class AddReport extends javax.swing.JFrame {
         admin_name_label.setText("Administrator");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel17.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/notification (1).png"))); // NOI18N
+        jLabel17.setText("Pending Appointments");
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
+        jLabel18.setText("Add Account");
 
         javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
         jPanel42.setLayout(jPanel42Layout);
@@ -191,15 +221,21 @@ public class AddReport extends javax.swing.JFrame {
                     .addComponent(jSeparator1)
                     .addGroup(jPanel42Layout.createSequentialGroup()
                         .addGroup(jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel42Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel4))
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel5)
-                            .addComponent(admin_name_label))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(appointment_label)
+                            .addComponent(admin_name_label)
+                            .addGroup(jPanel42Layout.createSequentialGroup()
+                                .addGroup(jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel18))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel42Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator2)))
                 .addContainerGap())
         );
         jPanel42Layout.setVerticalGroup(
@@ -213,11 +249,20 @@ public class AddReport extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel42Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel42Layout.createSequentialGroup()
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)))
                 .addComponent(jLabel1)
                 .addGap(9, 9, 9)
-                .addComponent(jLabel5)
+                .addComponent(appointment_label)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(0, 325, Short.MAX_VALUE))
@@ -299,7 +344,7 @@ public class AddReport extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel9)
@@ -708,25 +753,25 @@ public class AddReport extends javax.swing.JFrame {
              model.addRow(row);
      }
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-//        new Medicine(user_info).setVisible(true);
-//        this.dispose();
+        new Medicine(user_info).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-//        switch(user_info.getWorkPosition()){
-//            case "Doctor":
-//            new MainDashboard(user_info).setVisible(true);
-//            break;
-//            case "Nurse":
-//            new MainDashboard(user_info).setVisible(true);
-//            break;
-//            case "Staff":
-//            new Dashboard(user_info).setVisible(true);
-//            break;
-//            default:
-//            System.out.println("Something error");
-//        }
-//        this.dispose();
+        switch(user_info.getWorkPosition()){
+            case "Doctor":
+            new MainDashboard(user_info).setVisible(true);
+            break;
+            case "Nurse":
+            new MainDashboard(user_info).setVisible(true);
+            break;
+            case "Staff":
+            new Dashboard(user_info).setVisible(true);
+            break;
+            default:
+            System.out.println("Something error");
+        }
+        this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -841,6 +886,21 @@ public class AddReport extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        new Patient(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void appointment_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointment_labelMouseClicked
+        new Appointment(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_appointment_labelMouseClicked
+
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        new AppointmentPending(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel17MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -879,6 +939,7 @@ public class AddReport extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable added_medicine_table;
     private javax.swing.JLabel admin_name_label;
+    private javax.swing.JLabel appointment_label;
     private javax.swing.JTextField dosage_field;
     private javax.swing.JLabel greeting_name_label;
     private javax.swing.JTextArea instruction_text_area;
@@ -893,11 +954,12 @@ public class AddReport extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -918,6 +980,7 @@ public class AddReport extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JComboBox<String> medicine_combo_box;
     private javax.swing.JTable reference_information_table;
     private com.toedter.calendar.JDateChooser review_date_chooser;
