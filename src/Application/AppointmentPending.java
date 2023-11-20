@@ -395,12 +395,9 @@ public class AppointmentPending extends javax.swing.JFrame {
          this.pending_list_table.getColumnModel().getColumn(6).setCellEditor(new PendingButtonEditor(this,this.pending_list_table,cancel_button_text,new JCheckBox(),1, user_info));         
         
          
-         Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.pending_list_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
-        //add entry
+         //set table font to times new roman
+         General.setTableFont(this.pending_list_table);
+         
          for(int i = 0; i < pendingArrayList.size(); i++){
              // Make the date as a readable string format
              String formattedDate = General.convertDateToReadable(pendingArrayList.get(i).getAppointmentDate().toString());

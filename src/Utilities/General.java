@@ -4,8 +4,11 @@
  */
 package Utilities;
 
+import Application.AddAppointment;
 import Application.MainDashboard;
 import Application.UpdatePatient;
+import java.awt.Desktop;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Ellipse2D;
@@ -16,9 +19,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -26,14 +31,22 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
  *
@@ -226,16 +239,106 @@ public class General {
         }
         
     }
-    // Make the date as a readable string format
+    // Make the date as a readable string date format
     public static String convertDateToReadable(String date_string){
         LocalDate date = LocalDate.parse(date_string);
              DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
              return date.format(formatter);
     }
+    //make the time as a readable string time format
     public static String convertTimeToReadable(Date time){
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
         return sdf.format(time);
-        
+    }
+    //change the date format to insert in database
+    public static String changeDateFormat(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+    //change string time value to time data type format
+    public static java.sql.Time changeTimeFormat(String time_value){
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        Date date;
+        java.sql.Time time;
+        try {
+            date = sdf.parse(time_value);
+             time = new java.sql.Time(date.getTime());
+             return time;
+        } catch (ParseException ex) {
+            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    //set table column font
+    public static void setTableFont(JTable table){
+        Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
+
+        // Set the custom renderer for the column headers
+        JTableHeader header = table.getTableHeader();
+        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+    }
+    //convert JFrame to pdf
+    public static void createAndOpenPDF(JFrame frameToPrint) {
+        try {
+            int frameWidth = frameToPrint.getWidth();
+        int frameHeight = frameToPrint.getHeight();
+            // Create a PDF document
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage(new PDRectangle(frameWidth, frameHeight));
+        document.addPage(page);
+
+        // Create a content stream for adding content to the PDF
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+        // Capture the graphics of the AnotherFrame
+        BufferedImage image = new BufferedImage(frameToPrint.getWidth(), frameToPrint.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        frameToPrint.paint(g2d);
+        g2d.dispose();
+
+        // Convert the image to a PDImageXObject and add it to the PDF
+        PDImageXObject pdImage = LosslessFactory.createFromImage(document, image);
+        contentStream.drawImage(pdImage, 0, 0, frameToPrint.getWidth(), frameToPrint.getHeight());
+
+//        contentStream.endText();
+
+        // Close the content stream
+        contentStream.close();
+
+        // Save the document to a file
+        document.save("output.pdf");
+
+        // Close the document
+        document.close();
+
+        // Open the PDF file with the default PDF viewer
+        Desktop.getDesktop().open(new File("output.pdf"));
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+    
+    //make an array list of JOIN query of appointment_prescribed_medication and medicines table
+    public static ArrayList<MedicineList> medicineList(String query, int reference_id){
+        try {
+            ArrayList<MedicineList> medicineArrayList = new ArrayList<>();
+            con = ConnectionProvider.connect();
+             
+            ps = con.prepareStatement(query);
+            ps.setInt(1, reference_id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+            
+                medicine_list = new MedicineList(rs.getString("medicine"),rs.getString("dosage"),rs.getString("instruction"), rs.getInt("unit"),rs.getInt("prescribed_id"),rs.getInt("medicine_id"));
+                medicineArrayList.add(medicine_list);               
+            }
+            return medicineArrayList;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
     

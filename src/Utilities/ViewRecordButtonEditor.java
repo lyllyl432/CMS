@@ -4,14 +4,10 @@
  */
 package Utilities;
 
-import Application.AddReport;
-import Application.Appointment;
+import Application.PatientRecordPdf;
+import Application.ViewPatientRecord;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -19,12 +15,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
+import java.sql.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
  * @author HP
  */
-public class AppointmentButtonEditor extends DefaultCellEditor {
+public class ViewRecordButtonEditor extends DefaultCellEditor {
     private JButton button;
     private int button_role;
     private int patient_id;
@@ -35,8 +35,9 @@ public class AppointmentButtonEditor extends DefaultCellEditor {
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
+    private PatientList patient;
     private UserInfo user_info;
-    public AppointmentButtonEditor(Appointment appointment,JTable table, String button_text,JCheckBox checkBox,int button_role,UserInfo user_info, String patient_name){
+    public ViewRecordButtonEditor(ViewPatientRecord view_patient_record,JTable table, String button_text,JCheckBox checkBox,UserInfo user_info, PatientList patient){
         super(checkBox);
         button = new JButton();
         button.setText(button_text);
@@ -49,25 +50,21 @@ public class AppointmentButtonEditor extends DefaultCellEditor {
         Border emptyBorder = BorderFactory.createEmptyBorder(focusBorderSize, focusBorderSize, focusBorderSize, focusBorderSize);
         button.setBorder(emptyBorder);
         
-        this.button_role = button_role;
         this.user_info = user_info;
-        this.patient_name = patient_name;
+        this.patient = patient;
         //database connection object
         this.con = ConnectionProvider.connect();
         
         button.addActionListener((ActionEvent e) -> {
              int selected_row = table.getSelectedRow();
              TableModel model = table.getModel();
-             reference_id = (int)model.getValueAt(selected_row, 8);
-            //view click
-            if(button_role == 0){
-                
-            }
-            //report click
-            else if(button_role == 1){
-                new AddReport(user_info,patient_name,reference_id).setVisible(true);
-                appointment.dispose();
-            }
+             reference_id = (int)model.getValueAt(selected_row, 7);
+             PatientRecordPdf patient_record_frame = new PatientRecordPdf(patient.getFullName(),patient,reference_id);
+             patient_record_frame.setVisible(true);
+             //convert JFrame into a pdf file
+                General.createAndOpenPDF(patient_record_frame);
+             patient_record_frame.dispose();
+            
         });
     }
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
@@ -80,3 +77,4 @@ public class AppointmentButtonEditor extends DefaultCellEditor {
         return button;
     }
 }
+

@@ -104,12 +104,9 @@ public class Patient extends javax.swing.JFrame {
          this.patient_list_table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(this,this.patient_list_table,delete_icon,new JCheckBox(),1, user_info));
          this.patient_list_table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(this,this.patient_list_table,view_icon,new JCheckBox(),2, user_info));
          
-         // Define the "Times New Roman" font for the column
-        Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.patient_list_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+         //set table font to times new roman
+         General.setTableFont(this.patient_list_table);
+         
         //add entry
          for(int i = 0; i < patientArrayList.size(); i++){
             row[0] = patientArrayList.get(i).getFirstName() + " " + patientArrayList.get(i).getMiddleName()+ " " + patientArrayList.get(i).getLastName();

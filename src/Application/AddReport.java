@@ -44,6 +44,7 @@ public class AddReport extends javax.swing.JFrame {
     private DefaultTableModel model;
     private MedicineList medicine_list;
     private ImageIcon delete_icon;
+    private String medicine_name;
     public AddReport() {
         initComponents();
     }
@@ -55,6 +56,9 @@ public class AddReport extends javax.swing.JFrame {
         this.populateMedicineComboBox();
         this.showAddedMedicine();
         this.showReferenceInformation();
+        //get Selected Item to the combo box medicine list
+        medicine_name = this.medicine_combo_box.getSelectedItem().toString();
+        this.updateDosageLabel(medicine_name);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -266,17 +270,17 @@ public class AddReport extends javax.swing.JFrame {
 
         added_medicine_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Medicine Name", "Unit", "Dosage", "Instruction", ""
+                "Medicine Name", "Unit", "Dosage", "Instruction", "", "Prescribed ID", "Medicine ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -327,6 +331,7 @@ public class AddReport extends javax.swing.JFrame {
 
         unit_field.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
+        dosage_field.setEditable(false);
         dosage_field.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         instruction_text_area.setColumns(20);
@@ -335,7 +340,13 @@ public class AddReport extends javax.swing.JFrame {
         jScrollPane3.setViewportView(instruction_text_area);
 
         medicine_combo_box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        medicine_combo_box.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                medicine_combo_boxItemStateChanged(evt);
+            }
+        });
 
+        jButton3.setBackground(new java.awt.Color(180, 173, 234));
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jButton3.setText("Add Medicine");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -413,6 +424,7 @@ public class AddReport extends javax.swing.JFrame {
         review_message.setRows(5);
         jScrollPane5.setViewportView(review_message);
 
+        jButton1.setBackground(new java.awt.Color(180, 173, 234));
         jButton1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jButton1.setText("Submit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -421,8 +433,14 @@ public class AddReport extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(220, 20, 60));
         jButton2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -512,8 +530,8 @@ public class AddReport extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(64, 89, 173));
@@ -569,7 +587,7 @@ public class AddReport extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(616, 616, 616))
+                .addGap(1023, 1023, 1023))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -581,38 +599,20 @@ public class AddReport extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel41, javax.swing.GroupLayout.PREFERRED_SIZE, 1205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 537, Short.MAX_VALUE))
+                .addComponent(jPanel41, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 984, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-   public ArrayList<MedicineList> medicineList(){
-        ArrayList<MedicineList> medicineArrayList = new ArrayList<>();
-        this.con = ConnectionProvider.connect();
-        
-     
-        try { 
-            ps = con.prepareStatement("SELECT  apm.instruction, apm.unit, m.medicine, m.dosage FROM appointment_prescribed_medication apm JOIN medicines m ON apm.medicine_id = m.id WHERE apm.reference_id = ?"); 
-            ps.setInt(1, reference_id);
-            rs = ps.executeQuery();
-            while(rs.next()){
-                System.out.println(rs.getString("medicine"));
-                medicine_list = new MedicineList(rs.getString("medicine"),rs.getString("dosage"),rs.getString("instruction"), rs.getInt("unit"));
-                medicineArrayList.add(medicine_list);
-                
-            }
-            return medicineArrayList;
-        } catch (SQLException ex) {
-            Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+    
+    //show the added medicine and display to JTable
     public void showAddedMedicine(){
-        ArrayList<MedicineList> medicineArrayList = medicineList();
+       String query = "SELECT apm.prescribed_id, apm.medicine_id,  apm.instruction, apm.unit, m.medicine, m.dosage FROM appointment_prescribed_medication apm JOIN medicines m ON apm.medicine_id = m.id WHERE apm.reference_id = ?";
+        ArrayList<MedicineList> medicineArrayList = General.medicineList(query, reference_id);
          model = (DefaultTableModel)this.added_medicine_table.getModel();
-         Object[] row = new Object[5];
+         Object[] row = new Object[7];
         
          model.setRowCount(0);
          delete_icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/delete.png");
@@ -621,21 +621,37 @@ public class AddReport extends javax.swing.JFrame {
          
           // Create a custom cell editor for the button column
          this.added_medicine_table.getColumnModel().getColumn(4).setCellEditor(new ReportMedicineButtonEditor(this,this.added_medicine_table,delete_icon,new JCheckBox()));
-         // Define the "Times New Roman" font for the column
-        Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.added_medicine_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+         
+         //set table font to times new roman
+         General.setTableFont(this.added_medicine_table);
         
         for(int i = 0; i < medicineArrayList.size(); i++){
             row[0] = medicineArrayList.get(i).getMedicineName();
             row[1] = medicineArrayList.get(i).getUnit();
             row[2] = medicineArrayList.get(i).getDosage();
             row[3] = medicineArrayList.get(i).getInstruction();
+            row[5] = medicineArrayList.get(i).getPrescribedId();
+            row[6] = medicineArrayList.get(i).getMedicineId();
             model.addRow(row);
         }
     }
+    //update the Jlabel with dosage using medicine_id
+    public void updateDosageLabel(String medicine_name){
+        try {
+            this.con = ConnectionProvider.connect();
+            
+            ps = this.con.prepareStatement("SELECT dosage FROM medicines WHERE medicine = ?");
+            ps.setString(1, medicine_name);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                String dosage = rs.getString("dosage");
+                this.dosage_field.setText(dosage);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddReport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    //populate GUI combo box based on the medicine entry of table medicines
     public void populateMedicineComboBox(){
          DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
 
@@ -653,6 +669,7 @@ public class AddReport extends javax.swing.JFrame {
         }
             
     }
+    //get the appointment patient information based on reference_id
     public AppointmentList getAppointmentInfo(){
         System.out.println(reference_id);
         try {
@@ -671,17 +688,15 @@ public class AddReport extends javax.swing.JFrame {
         }
         return null;
     }
+    //show the reference_information that is return by getAppointInfo method
      public void showReferenceInformation(){
          appointment_list = this.getAppointmentInfo();
          System.out.println(appointment_list.getReason());
          model = (DefaultTableModel)this.reference_information_table.getModel();
          Object[] row = new Object[4];
                  
-         Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.reference_information_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+         //set table font to times new roman
+         General.setTableFont(this.reference_information_table);
         
          // Make the date as a readable string format
              String formattedDate = General.convertDateToReadable(appointment_list.getAppointmentDate().toString());
@@ -741,7 +756,7 @@ public class AddReport extends javax.swing.JFrame {
             ps.setInt(1, unit);
             ps.setInt(2, medicine_id);
             ps.executeUpdate();
-            
+            //show added medicine in every click event
             showAddedMedicine();
         } catch (SQLException ex) {
             Logger.getLogger(AddReport.class.getName()).log(Level.SEVERE, null, ex);
@@ -756,10 +771,9 @@ public class AddReport extends javax.swing.JFrame {
         try {
             this.con = ConnectionProvider.connect(); 
             //insert entry from patient record based on the reference_id on appointment_list
-            System.out.println("hello world");
+//            System.out.println("hello world");
             java.util.Date selectedDate = this.review_date_chooser.getDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String appointment_date = dateFormat.format(selectedDate);
+            String review_date = General.changeDateFormat(selectedDate);
             String review_message = this.review_message.getText();
             
             ps = this.con.prepareStatement("SELECT * FROM appointment_list WHERE reference_id = ?");
@@ -767,15 +781,16 @@ public class AddReport extends javax.swing.JFrame {
             rs = ps.executeQuery();
             while(rs.next()){
                 System.out.println(rs.getInt("reference_id"));
-                this.ps = this.con.prepareStatement("INSERT INTO patient_record(reference_id,patient_id,appointment_date,time,clinic_position,reason,review_date,review_message) VALUES(?,?,?,?,?,?,?,?)");
+                this.ps = this.con.prepareStatement("INSERT INTO patient_record(reference_id,patient_id,appointment_date,time,clinic_position,reason,review_date,review_message,status) VALUES(?,?,?,?,?,?,?,?,?)");
                 this.ps.setInt(1, rs.getInt("reference_id"));
                 this.ps.setInt(2, rs.getInt("patient_id"));
                 this.ps.setDate(3, rs.getDate("appointment_date"));
                 this.ps.setTime(4, rs.getTime("time"));
                 this.ps.setString(5, rs.getString("clinic_position"));
                 this.ps.setString(6, rs.getString("reason"));
-                this.ps.setString(7, appointment_date);
+                this.ps.setString(7, review_date);
                 this.ps.setString(8,review_message);
+                this.ps.setBoolean(9,rs.getBoolean("status"));
                  int recordsInserted = this.ps.executeUpdate();
             if (recordsInserted > 0) {
                 //insert reference appointment prescribed medicine to the records of medication in patient record
@@ -815,6 +830,16 @@ public class AddReport extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void medicine_combo_boxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_medicine_combo_boxItemStateChanged
+         medicine_name = this.medicine_combo_box.getSelectedItem().toString();
+        this.updateDosageLabel(medicine_name);
+    }//GEN-LAST:event_medicine_combo_boxItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new Appointment(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

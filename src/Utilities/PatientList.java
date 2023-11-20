@@ -95,6 +95,9 @@ public class PatientList {
     public String getVaccinationStatus(){
         return vaccination_status;
     }
+    public String getFullName(){
+        return first_name + " " + middle_name + " " + last_name;
+    }
     
     
     
