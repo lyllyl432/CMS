@@ -18,17 +18,19 @@ import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.border.Border;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author HP
  */
 public class ReportMedicineButtonEditor extends DefaultCellEditor {
-     private JButton button;
-    private int button_role;
+    private JButton button;
+    private int prescribed_id;
     private int medicine_id;
-    Connection con;
-    PreparedStatement ps;
+    private int unit;
+    private Connection con;
+    private PreparedStatement ps;
 
     public ReportMedicineButtonEditor(AddReport add_report,JTable table,Icon icon,JCheckBox checkBox) {
         super(checkBox);
@@ -40,36 +42,39 @@ public class ReportMedicineButtonEditor extends DefaultCellEditor {
         
         int focusBorderSize = 5; // Set your desired size
         Border emptyBorder = BorderFactory.createEmptyBorder(focusBorderSize, focusBorderSize, focusBorderSize, focusBorderSize);
-        button.setBorder(emptyBorder);
-        
-        this.button_role = button_role;
-        
-        //database connection object
+        button.setBorder(emptyBorder);        
+
+        //initialize a database connection
             this.con = ConnectionProvider.connect();
-
-
-
-
+            //button event listener
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-//                        if(table.isEditing()){
-//                            table.getCellEditor().stopCellEditing();
-//                        }
-//                        System.out.println("deleted");
-//                        int selected_row = table.getSelectedRow();
-//                        System.out.println(selected_row);
-//                        TableModel model = table.getModel();
-//                        medicine_id = (int)model.getValueAt(selected_row, 8);
-//                        try {
-//                            ps = con.prepareStatement("DELETE FROM medicines WHERE id = ?");
-//                            ps.setInt(1, medicine_id);
-//                            ps.executeUpdate();
-//                            DefaultTableModel patientListDefaultTableModel = (DefaultTableModel)table.getModel();
-//                            patientListDefaultTableModel.setRowCount(0);
-////                            medicine.showMedicine();
-//                        } catch (SQLException ex) {
-//                            Logger.getLogger(ReportMedicineButtonEditor.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
+                    try {
+                        if(table.isEditing()){
+                            table.getCellEditor().stopCellEditing();
+                        }
+
+                        int selected_row = table.getSelectedRow();
+                        System.out.println(selected_row);
+                        TableModel model = table.getModel();
+                        prescribed_id = (int)model.getValueAt(selected_row, 5);
+                        unit = (int)model.getValueAt(selected_row, 1);
+                        medicine_id = (int)model.getValueAt(selected_row, 6);
+                        //delete the entry in appointment_prescribed_medication table based on reference_id
+                        ps = con.prepareStatement("DELETE FROM appointment_prescribed_medication WHERE prescribed_id = ?");
+                        ps.setInt(1, prescribed_id);
+                        int rows_affected = ps.executeUpdate();
+                        if(rows_affected > 0){
+                            //update stock value in entry
+                        ps = con.prepareStatement("UPDATE medicines SET stock = stock + ? WHERE id = ?");
+                        ps.setInt(1, unit);
+                        ps.setInt(2, medicine_id);
+                        ps.executeUpdate();
+                        add_report.showAddedMedicine();
+                        }
+                    } catch (SQLException ex) {
+                        java.util.logging.Logger.getLogger(ReportMedicineButtonEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
                          
                     }
         });

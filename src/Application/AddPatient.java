@@ -5,6 +5,7 @@
 package Application;
 
 import Utilities.ConnectionProvider;
+import Utilities.General;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -409,18 +410,14 @@ public class AddPatient extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.con = ConnectionProvider.connect();
+        //get the field values and insert to database
         Date selectedDate = this.date_birth_field.getDate();
-        Date empty_date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
-      
-
         String first_name = this.first_name_field.getText();
         String middle_name = this.middle_name_field.getText();
         String last_name = this.last_name_field.getText();
         String suffix = this.suffix_field.getText();
         int age = Integer.parseInt(this.age_field.getText());
-        String date_birth = dateFormat.format(selectedDate);
+        String date_birth = General.changeDateFormat(selectedDate);
         String email = this.email_field.getText();
         String course = this.course_field.getSelectedItem().toString();
         String college_year = this.year_field.getSelectedItem().toString();
@@ -455,6 +452,8 @@ public class AddPatient extends javax.swing.JFrame {
             this.ps.setString(18, vaccination_status);
 
             this.ps.executeUpdate();
+            
+            //empty the form after the click event
             this.first_name_field.setText("");
             this.middle_name_field.setText("");
             this.last_name_field.setText("");

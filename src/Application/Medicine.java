@@ -427,12 +427,9 @@ public class Medicine extends javax.swing.JFrame {
          this.medicine_list_table.getColumnModel().getColumn(6).setCellEditor(new MedicineButtonEditor(this,this.medicine_list_table,edit_icon,new JCheckBox(),0));
          this.medicine_list_table.getColumnModel().getColumn(7).setCellEditor(new MedicineButtonEditor(this,this.medicine_list_table,delete_icon,new JCheckBox(),1));
          
-         // Define the "Times New Roman" font for the column
-        Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.medicine_list_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+         //set table font to times new roman
+         General.setTableFont(this.medicine_list_table);
+         
         //add entry
          for(int i = 0; i < medicineArrayList.size(); i++){
             row[0] = medicineArrayList.get(i).getMedicineName();

@@ -5,6 +5,7 @@
 package Application;
 
 import Utilities.ConnectionProvider;
+import Utilities.General;
 import Utilities.PatientList;
 import Utilities.UserInfo;
 import com.raven.event.EventTimePicker;
@@ -202,24 +203,16 @@ public class AddAppointment extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        this.con = ConnectionProvider.connect();
         Date selectedDate = this.date_appointment_chooser.getDate();
-        Date empty_date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
         
         int patient_id = patient.getPatientId();
-        String appointment_date = dateFormat.format(selectedDate);
+        String appointment_date = General.changeDateFormat(selectedDate);
         String time_value = this.time_picker_label.getText();
         String choose_worker = this.choose_worker_box.getSelectedItem().toString();
         String reason = this.reason_text_box.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-        Date date;
-        java.sql.Time time = null; 
-        try {
-            date = sdf.parse(time_value);
-             time = new java.sql.Time(date.getTime());
-        } catch (ParseException ex) {
-            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
-        }
        
+        java.sql.Time time = General.changeTimeFormat(time_value);
+        
         
         try {
             this.ps = this.con.prepareStatement("INSERT INTO pending(patient_id,appointment_date, time, clinic_position, reason,status) VALUES(?,?,?,?,?,?);");
@@ -238,17 +231,6 @@ public class AddAppointment extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

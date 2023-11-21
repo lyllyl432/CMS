@@ -358,6 +358,7 @@ public class Appointment extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+   //make an arraylist of AppointmentList object
     public ArrayList<AppointmentList> getAppointmentList(){
         appointmentArrayList = new ArrayList<>();
         try {
@@ -365,7 +366,7 @@ public class Appointment extends javax.swing.JFrame {
             
             Statement statement;
             statement = this.con.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT appointment_list.reference_id,appointment_list.patient_id, appointment_list.appointment_date, appointment_list.time, appointment_list.clinic_position, appointment_list.reason, appointment_list.status, patient.firstname, patient.middlename, patient.lastname FROM appointment_list JOIN patient ON appointment_list.patient_id = patient.patient_id");
+            rs = statement.executeQuery("SELECT appointment_list.reference_id,appointment_list.patient_id, appointment_list.appointment_date, appointment_list.time, appointment_list.clinic_position, appointment_list.reason, appointment_list.status, patient.firstname, patient.middlename, patient.lastname FROM appointment_list JOIN patient ON appointment_list.patient_id = patient.patient_id");
             
             AppointmentList appointment_list;
             while(rs.next()){
@@ -380,7 +381,7 @@ public class Appointment extends javax.swing.JFrame {
             return null;
     }
     
-    //show approve appointment list
+    //show approve appointment list and dispaly to JTable
     public void showAppointmentList(){
          String view_button_text = "View";
         String report_button_text = "Report";
@@ -395,11 +396,8 @@ public class Appointment extends javax.swing.JFrame {
          this.appointment_list_table.getColumnModel().getColumn(5).setCellEditor(new AppointmentButtonEditor(this,this.appointment_list_table,view_button_text,new JCheckBox(),0, user_info, patient_name));
          this.appointment_list_table.getColumnModel().getColumn(6).setCellEditor(new AppointmentButtonEditor(this,this.appointment_list_table,report_button_text,new JCheckBox(),1, user_info, patient_name));         
         
-         Font header_font = new Font("Times New Roman", Font.BOLD, 14); // Replace with your desired font settings
-
-        // Set the custom renderer for the column headers
-        JTableHeader header = this.appointment_list_table.getTableHeader();
-        header.setDefaultRenderer(new CustomHeaderRenderer(header_font));
+         //set table font to times new roman
+         General.setTableFont(appointment_list_table);
         //add entry
          for(int i = 0; i < appointmentArrayList.size(); i++){
               // Make the date as a readable string format

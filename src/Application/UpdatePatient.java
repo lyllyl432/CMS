@@ -2,6 +2,7 @@ package Application;
 
 
 import Utilities.ConnectionProvider;
+import Utilities.General;
 import Utilities.PatientList;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -458,14 +459,14 @@ public class UpdatePatient extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.con = ConnectionProvider.connect();
         Date selectedDate = this.date_birth_field.getDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
 
         String first_name = this.first_name_field.getText();
         String middle_name = this.middle_name_field.getText();
         String last_name = this.last_name_field.getText();
         String suffix = this.suffix_field.getText();
         int age = Integer.parseInt(this.age_field.getText());
-        String date_birth = dateFormat.format(selectedDate);
+        String date_birth = General.changeDateFormat(selectedDate);
         String email = this.email_field.getText();
         String course = this.course_field.getSelectedItem().toString();
         String college_year = this.year_field.getSelectedItem().toString();

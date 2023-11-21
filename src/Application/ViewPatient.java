@@ -384,6 +384,11 @@ public class ViewPatient extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(180, 173, 234));
         jButton1.setText("View Patient Record");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         civil_status_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         civil_status_label.setText("civil status");
@@ -841,6 +846,12 @@ public class ViewPatient extends javax.swing.JFrame {
         new AddAppointment(patient, user_info,this).setVisible(true);
         
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       int patient_id = patient.getPatientId();
+        new ViewPatientRecord(user_info, patient).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
