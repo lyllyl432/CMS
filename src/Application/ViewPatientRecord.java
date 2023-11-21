@@ -156,6 +156,11 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
         admin_name_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
         admin_name_label.setText("Administrator");
+        admin_name_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                admin_name_labelMouseClicked(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -183,6 +188,11 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
         jLabel12.setText("Add Account");
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel48Layout = new javax.swing.GroupLayout(jPanel48);
         jPanel48.setLayout(jPanel48Layout);
@@ -519,6 +529,15 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         new Patient(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+      new SignIn().setVisible(true);
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
+        new AccountInfo(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_admin_name_labelMouseClicked
 
     /**
      * @param args the command line arguments

@@ -159,6 +159,11 @@ public class AppointmentPending extends javax.swing.JFrame {
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
         admin_name_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
         admin_name_label.setText("Administrator");
+        admin_name_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                admin_name_labelMouseClicked(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -171,6 +176,11 @@ public class AppointmentPending extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
         jLabel9.setText("Add Account");
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
         jPanel36.setLayout(jPanel36Layout);
@@ -493,6 +503,15 @@ public class AppointmentPending extends javax.swing.JFrame {
         new Appointment(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_appointment_labelMouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+       new SignIn().setVisible(true);
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
+        new AccountInfo(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_admin_name_labelMouseClicked
 
     /**
      * @param args the command line arguments

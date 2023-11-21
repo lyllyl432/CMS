@@ -31,7 +31,7 @@ public class PendingButtonRenderer extends JButton implements TableCellRenderer 
         if(button_text.equals("Approve")){
             button.setBackground(new Color(180, 173, 234));
         }else if(button_text.equals("Cancel")){
-            button.setBackground(new Color(255,0,0));
+            button.setBackground(new Color(220,20,60));
         }
         
         int focusBorderSize = 5; // Set your desired size
