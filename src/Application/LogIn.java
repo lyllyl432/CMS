@@ -4,6 +4,7 @@
  */
 package Application;
 import Utilities.ConnectionProvider;
+import Utilities.General;
 import Utilities.UserInfo;
 import java.sql.Connection;
 import java.sql.*;
@@ -63,8 +64,6 @@ public class LogIn extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         check_box_log = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         password_field = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -101,18 +100,6 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel5.setText("Do you have an account?");
-
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(64, 89, 173));
-        jLabel6.setText("Sign up");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
-
         password_field.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -137,12 +124,7 @@ public class LogIn extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                             .addComponent(username_field, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6))
-                            .addComponent(password_field, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(password_field, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -163,11 +145,7 @@ public class LogIn extends javax.swing.JFrame {
                 .addComponent(check_box_log)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(0, 39, Short.MAX_VALUE))
+                .addGap(0, 68, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,12 +162,7 @@ public class LogIn extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-//if sign in is clicked it will go to the register form
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-       new SignIn().setVisible(true);
-       this.dispose();
-    }//GEN-LAST:event_jLabel6MouseClicked
-//password checker
+
     private void check_box_logMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_check_box_logMouseClicked
         this.password_field.setEchoChar(check_box_log.isSelected() ? '\0' : '*');
     }//GEN-LAST:event_check_box_logMouseClicked
@@ -218,7 +191,7 @@ public class LogIn extends javax.swing.JFrame {
             ps.setInt(1,user_id);
             rs  = ps.executeQuery();
             while(rs.next()) {
-            user_info = new UserInfo(rs.getInt("account_id"),rs.getInt("user_id"),rs.getString("profile_picture"),rs.getString("first_name"),rs.getString("middle_name"),rs.getString("last_name"),rs.getString("suffix"), rs.getInt("age"),rs.getString("civil_status"),rs.getString("address"),rs.getString("contact_number"),rs.getString("work_position"));
+            user_info = General.getUserInfoEntry(user_id);
             work_position = user_info.getWorkPosition();
         }
             switch(work_position){
@@ -286,8 +259,6 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField password_field;
     private javax.swing.JTextField username_field;

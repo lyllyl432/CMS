@@ -8,12 +8,11 @@ import Utilities.ConnectionProvider;
 import Utilities.General;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +28,9 @@ public class AddPatient extends javax.swing.JFrame {
     PreparedStatement ps;
     DefaultTableModel model;
     Patient patient;
+    private String work_position;
+    private String file_path;
+    private int user_id;
      public AddPatient() {
         initComponents();
     }
@@ -46,6 +48,7 @@ public class AddPatient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         first_name_field = new javax.swing.JTextField();
@@ -86,6 +89,13 @@ public class AddPatient extends javax.swing.JFrame {
         vaccination_status_field = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         date_birth_field = new com.toedter.calendar.JDateChooser();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        username_field = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        password_field = new javax.swing.JPasswordField();
+        check_box_log = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 255));
@@ -232,78 +242,124 @@ public class AddPatient extends javax.swing.JFrame {
             }
         });
 
+        jLabel36.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel36.setText("Username :");
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(64, 89, 173));
+        jLabel1.setText("LOGIN CREDENTIALS");
+
+        username_field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        username_field.setPreferredSize(new java.awt.Dimension(0, 30));
+
+        jLabel37.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel37.setText("Password");
+
+        password_field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        password_field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                password_fieldActionPerformed(evt);
+            }
+        });
+
+        check_box_log.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        check_box_log.setForeground(new java.awt.Color(51, 51, 51));
+        check_box_log.setText("Show Password");
+        check_box_log.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                check_box_logActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addComponent(jSeparator1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(height_field, javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(phone_number_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(height_field, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(year_field, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(phone_number_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                        .addComponent(gender_field, javax.swing.GroupLayout.Alignment.LEADING, 0, 300, Short.MAX_VALUE)
+                                                        .addComponent(year_field, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                                .addComponent(age_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(gender_field, javax.swing.GroupLayout.Alignment.LEADING, 0, 300, Short.MAX_VALUE)
                                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                                        .addComponent(middle_name_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                                                        .addComponent(first_name_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
-                                                                    .addComponent(jLabel22)))
-                                                            .addComponent(jLabel9)))
-                                                    .addComponent(jLabel29)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jLabel11)
-                                                        .addComponent(email_field, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
-                                            .addComponent(jLabel24)))
-                                    .addComponent(jLabel28)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel32))
-                            .addComponent(jLabel33)
-                            .addComponent(blood_type_field, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(last_name_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(suffix_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(civil_status_field, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(course_field, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(section_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(address_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(weight_field)
-                            .addComponent(vaccination_status_field, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel20)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel26)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel25)
-                                    .addComponent(jLabel27)
+                                                                        .addComponent(age_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                                .addComponent(middle_name_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                                                                .addComponent(first_name_field, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                                                                            .addComponent(jLabel22)))
+                                                                    .addComponent(jLabel9)))
+                                                            .addComponent(jLabel29)
+                                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(jLabel11)
+                                                                .addComponent(email_field, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
+                                                    .addComponent(jLabel24)))
+                                            .addComponent(jLabel28)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel31)
+                                        .addComponent(jLabel30)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel35))
-                                    .addComponent(jLabel34))
-                                .addGap(142, 142, 142))
-                            .addComponent(date_birth_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(15, 15, 15))
+                                        .addComponent(jLabel32))
+                                    .addComponent(jLabel33)
+                                    .addComponent(blood_type_field, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(last_name_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(suffix_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(civil_status_field, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(course_field, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(section_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(address_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(weight_field)
+                                    .addComponent(vaccination_status_field, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel20)
+                                            .addComponent(jLabel23)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel26)
+                                            .addComponent(jLabel17)
+                                            .addComponent(jLabel25)
+                                            .addComponent(jLabel27)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel31)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel35))
+                                            .addComponent(jLabel34))
+                                        .addGap(142, 142, 142))
+                                    .addComponent(date_birth_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(15, 15, 15))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(password_field, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                            .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(username_field, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel37)
+                            .addComponent(check_box_log))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -383,25 +439,37 @@ public class AddPatient extends javax.swing.JFrame {
                     .addComponent(blood_type_field, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(vaccination_status_field, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(username_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(password_field, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(check_box_log)
+                .addGap(14, 14, 14)
                 .addComponent(jButton1)
-                .addGap(15, 15, 15))
+                .addGap(18, 18, 18))
         );
+
+        jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -411,6 +479,7 @@ public class AddPatient extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.con = ConnectionProvider.connect();
         //get the field values and insert to database
+        file_path = "C:/Users/HP/Documents/NetBeansProjects/CMS/src/patient-info.png";
         Date selectedDate = this.date_birth_field.getDate();
         String first_name = this.first_name_field.getText();
         String middle_name = this.middle_name_field.getText();
@@ -430,8 +499,13 @@ public class AddPatient extends javax.swing.JFrame {
         String weight = this.weight_field.getText();
         String blood_type = this.blood_type_field.getSelectedItem().toString();
         String vaccination_status = this.vaccination_status_field.getSelectedItem().toString();
+        //patient log in credential
+        String user_name = this.username_field.getText();
+        char[] password_chars = this.password_field.getPassword();
+        String password = new String(password_chars);
         try {
-            this.ps = this.con.prepareStatement("INSERT INTO patient(firstname, middlename, lastname, suffix, age, date_of_birth, email, course, college_year, section, civil_status, address, phone_number,gender,height,weight,blood_type,vaccination_status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+            //patient information
+            this.ps = this.con.prepareStatement("INSERT INTO patient(firstname, middlename, lastname, suffix, age, date_of_birth, email, course, college_year, section, civil_status, address, phone_number,gender,height,weight,blood_type,vaccination_status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
             this.ps.setString(1, first_name);
             this.ps.setString(2, middle_name);
             this.ps.setString(3, last_name);
@@ -450,8 +524,47 @@ public class AddPatient extends javax.swing.JFrame {
             this.ps.setString(16, weight);
             this.ps.setString(17, blood_type);
             this.ps.setString(18, vaccination_status);
-
             this.ps.executeUpdate();
+            
+            // Retrieve the generated keys
+            ResultSet generatedKeys = this.ps.getGeneratedKeys();
+
+            int generated_id = -1; // Initialize to a default value
+            System.out.println(generated_id);
+            while(generatedKeys.next()) {
+                // Get the generated ID
+                generated_id = generatedKeys.getInt(1);
+                System.out.println("Generated ID: " + generated_id);
+            }
+            
+            //log in credential
+            this.ps = this.con.prepareStatement("INSERT INTO user(username,password,email) VALUES(?,?,?);");
+            this.ps.setString(1, user_name);
+            this.ps.setString(2, password);
+            this.ps.setString(3, email);
+            this.ps.executeUpdate();
+            //select the user_info based on unique username and reference that user_info for user information insertion
+            ps = this.con.prepareStatement("SELECT user_id FROM user WHERE username = ?;");
+            ps.setString(1, user_name);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                user_id = rs.getInt("user_id");
+            }
+            //insert the patient information in user_info table
+            this.ps = this.con.prepareStatement("INSERT INTO user_info (user_id,profile_picture,first_name,middle_name,last_name,suffix,age,civil_status,address,contact_number,work_position,patient_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+                this.ps.setInt(1, user_id);
+                this.ps.setString(2, file_path);
+                this.ps.setString(3, first_name);
+                this.ps.setString(4, middle_name);
+                this.ps.setString(5, last_name);
+                this.ps.setString(6, suffix);
+                this.ps.setInt(7, age);
+                this.ps.setString(8, civil_status);
+                this.ps.setString(9, address);
+                this.ps.setString(10, phone_number);
+                this.ps.setString(11, "Patient");
+                this.ps.setInt(12, generated_id);
+                this.ps.executeUpdate();
             
             //empty the form after the click event
             this.first_name_field.setText("");
@@ -484,6 +597,14 @@ public class AddPatient extends javax.swing.JFrame {
     private void gender_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gender_fieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gender_fieldActionPerformed
+
+    private void password_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password_fieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_password_fieldActionPerformed
+
+    private void check_box_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_box_logActionPerformed
+        this.password_field.setEchoChar(check_box_log.isSelected() ? '\0' : '*');
+    }//GEN-LAST:event_check_box_logActionPerformed
 
     /**
      * @param args the command line arguments
@@ -524,6 +645,7 @@ public class AddPatient extends javax.swing.JFrame {
     private javax.swing.JTextField address_field;
     private javax.swing.JTextField age_field;
     private javax.swing.JComboBox<String> blood_type_field;
+    private javax.swing.JCheckBox check_box_log;
     private javax.swing.JComboBox<String> civil_status_field;
     private javax.swing.JComboBox<String> course_field;
     private com.toedter.calendar.JDateChooser date_birth_field;
@@ -532,6 +654,7 @@ public class AddPatient extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> gender_field;
     private javax.swing.JTextField height_field;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel17;
@@ -550,14 +673,20 @@ public class AddPatient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField last_name_field;
     private javax.swing.JTextField middle_name_field;
+    private javax.swing.JPasswordField password_field;
     private javax.swing.JTextField phone_number_field;
     private javax.swing.JTextField section_field;
     private javax.swing.JTextField suffix_field;
+    private javax.swing.JTextField username_field;
     private javax.swing.JComboBox<String> vaccination_status_field;
     private javax.swing.JTextField weight_field;
     private javax.swing.JComboBox<String> year_field;

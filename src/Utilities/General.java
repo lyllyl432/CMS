@@ -194,6 +194,23 @@ public class General {
         }
             return null;
     }
+    public static UserInfo getUserInfoEntry(int user_id){
+        UserInfo user_info = null;
+        con = ConnectionProvider.connect();
+        try {
+            String user_info_query = "SELECT * FROM user_info WHERE user_id = ?";
+            ps = con.prepareStatement(user_info_query);
+            ps.setInt(1,user_id);
+            rs  = ps.executeQuery();
+            while(rs.next()) {
+                user_info = new UserInfo(rs.getInt("account_id"),rs.getInt("user_id"),rs.getString("profile_picture"),rs.getString("first_name"),rs.getString("middle_name"),rs.getString("last_name"),rs.getString("suffix"), rs.getInt("age"),rs.getString("civil_status"),rs.getString("address"),rs.getString("contact_number"),rs.getString("work_position"));
+            }
+            return user_info;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public static void deletePendingEntry(int reference_id){
         try {
             ps = con.prepareStatement("DELETE FROM pending WHERE reference_id = ?");
@@ -359,5 +376,35 @@ public class General {
             frame.repaint();
         }
        }
+    }
+    public static String getOldPassword(int user_id){
+        String old_password = null;
+        con = ConnectionProvider.connect();
+        try {
+            ps = con.prepareStatement("SELECT password FROM user WHERE user_id = ?");
+            ps.setInt(1, user_id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                old_password = rs.getString("password");
+            }
+            return old_password;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public static boolean validateNewPassword(String new_password, String confirm_password){
+        return new_password.equals(confirm_password);
+    }
+    public static void updatePassword(int user_id, String new_password){
+        try {
+            con = ConnectionProvider.connect();
+            ps = con.prepareStatement("UPDATE user SET password = ? WHERE user_id = ?");
+            ps.setString(1, new_password);
+            ps.setInt(2, user_id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }    

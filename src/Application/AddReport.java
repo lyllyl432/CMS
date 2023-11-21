@@ -192,6 +192,11 @@ public class AddReport extends javax.swing.JFrame {
         admin_name_label.setForeground(new java.awt.Color(255, 255, 255));
         admin_name_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrator (1).png"))); // NOI18N
         admin_name_label.setText("Administrator");
+        admin_name_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                admin_name_labelMouseClicked(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -209,6 +214,11 @@ public class AddReport extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
         jLabel18.setText("Add Account");
+        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel18MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
         jPanel42.setLayout(jPanel42Layout);
@@ -900,6 +910,15 @@ public class AddReport extends javax.swing.JFrame {
         new AppointmentPending(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel17MouseClicked
+
+    private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
+        new SignIn().setVisible(true);
+    }//GEN-LAST:event_jLabel18MouseClicked
+
+    private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
+        new AccountInfo(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_admin_name_labelMouseClicked
 
     /**
      * @param args the command line arguments

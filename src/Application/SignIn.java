@@ -101,8 +101,7 @@ public class SignIn extends javax.swing.JFrame {
 
         jLabel16.setText("jLabel16");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(690, 706));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -388,9 +387,9 @@ public class SignIn extends javax.swing.JFrame {
         }
         
         try {
-            PreparedStatement preparedStatement = this.con.prepareStatement("SELECT user_id FROM user WHERE username = ?;");
-            preparedStatement.setString(1, username);
-            ResultSet rs = preparedStatement.executeQuery();
+            ps = this.con.prepareStatement("SELECT user_id FROM user WHERE username = ?;");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 user_id = rs.getInt("user_id");
             }
@@ -407,7 +406,6 @@ public class SignIn extends javax.swing.JFrame {
                 this.ps.setString(10, contact_number);
                 this.ps.setString(11, work_position);
                 this.ps.executeUpdate();
-                new LogIn().setVisible(true);
                 this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);

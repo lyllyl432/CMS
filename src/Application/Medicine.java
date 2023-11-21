@@ -180,6 +180,11 @@ public class Medicine extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
         jLabel8.setText("Add Account");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
         jPanel33.setLayout(jPanel33Layout);
@@ -424,7 +429,8 @@ public class Medicine extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
-                
+        new AccountInfo(user_info).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_admin_name_labelMouseClicked
 
     private void appointment_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointment_labelMouseClicked
@@ -436,6 +442,10 @@ public class Medicine extends javax.swing.JFrame {
         new AppointmentPending(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        new SignIn().setVisible(true);
+    }//GEN-LAST:event_jLabel8MouseClicked
     public ArrayList<MedicineList> medicineList(){
         ArrayList<MedicineList> medicineArrayList = new ArrayList<>();
         this.con = ConnectionProvider.connect();
