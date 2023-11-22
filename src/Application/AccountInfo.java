@@ -6,6 +6,7 @@ package Application;
 
 import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.UserInfo;
 import java.awt.Image;
@@ -34,6 +35,7 @@ public class AccountInfo extends javax.swing.JFrame {
     private ResultSet rs;
     private String file_path;
     private int user_id;
+    private ImageIcon icon;
     public AccountInfo() {
         initComponents();
     }
@@ -612,7 +614,9 @@ public class AccountInfo extends javax.swing.JFrame {
             if(rowsUpdated > 0){
                 //update user_info object to an updated entry in database
                 user_info = General.getUserInfoEntry(user_id);
-                JOptionPane.showMessageDialog(null, "Information updated successfully!");
+                 icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/checked.png");
+                  CustomOptionPane.showMessageDialog("Your account information has been updated.", "Update Successful", JOptionPane.INFORMATION_MESSAGE, icon);
+                  
                 //update the form fields
                 this.fillAccountInfo();
                 //update the admin profile interface
@@ -627,7 +631,9 @@ public class AccountInfo extends javax.swing.JFrame {
        String error_message = AccountManager.validRequiredFields(first_name, last_name,age_text,contact_number, address);
         // Display the message only if there are required fields missing
         if (!error_message.equals("Please fill up the required fields:\n")) {
-            JOptionPane.showMessageDialog(this, error_message);
+            icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+            CustomOptionPane.showMessageDialog(error_message, "Update Failed", JOptionPane.INFORMATION_MESSAGE, icon);
+                  
         }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -647,24 +653,29 @@ public class AccountInfo extends javax.swing.JFrame {
         
         if(old_password_entry.equals(old_password_confirmation)){
             if(!AccountManager.isValidPassword(new_password)){
-                JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long");
-
+                    icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/lock.png");
+                    CustomOptionPane.showMessageDialog("Password must have at least 8 characters.", "Invalid Password", JOptionPane.INFORMATION_MESSAGE, icon);
+                   
             }else{
                 if(AccountManager.validateNewPassword(new_password, confirm_password)){
                     new_hash_password = AccountManager.hashPassword(new_password);
                    AccountManager.updatePassword(user_id, new_hash_password);
-                   JOptionPane.showMessageDialog(null, "Password changed successfully!");
-
+                    icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/checked.png");
+                    CustomOptionPane.showMessageDialog("Your password has been successfully changed.", "Password Change Successful", JOptionPane.INFORMATION_MESSAGE, icon);
+                  
                    this.old_password_field.setText("");
                    this.new_password_field.setText("");
                    this.confirm_password_field.setText("");
                 }else{
-                   JOptionPane.showMessageDialog(null, "New password and confirm password do not match.");
+                    icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/lock.png");
+                    CustomOptionPane.showMessageDialog("Passwords do not match. Please enter matching passwords.", "Password Mismatch", JOptionPane.INFORMATION_MESSAGE, icon);
+                   
                    }   
             }
         }else{
-                JOptionPane.showMessageDialog(null, "Authentication failed. Invalid old password.");
-   
+                  icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/lock.png");
+                    CustomOptionPane.showMessageDialog("Authentication failed. Invalid old password.", "Authentication failed", JOptionPane.INFORMATION_MESSAGE, icon);
+                   
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 //patient nav click

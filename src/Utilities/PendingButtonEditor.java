@@ -24,6 +24,7 @@ import javax.swing.border.Border;
 import javax.swing.table.TableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -42,6 +43,7 @@ public class PendingButtonEditor extends DefaultCellEditor {
     private java.util.Date selectedDate;
     private SimpleDateFormat dateFormat;
     private PatientList patient_list;
+    private ImageIcon icon;
         
     AppointmentList appointment_list;
     Connection con;
@@ -95,7 +97,9 @@ public class PendingButtonEditor extends DefaultCellEditor {
                             //send mail to patient after the approval
                             General.sendMailToRecipient(patient_id,approve_mail_message);
                             //update the pending table after sending
-                            JOptionPane.showMessageDialog(null, "Appointment approved", "Success", JOptionPane.INFORMATION_MESSAGE);
+                             icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/checked.png");
+                            CustomOptionPane.showMessageDialog("Approve", "Appointment Approved", JOptionPane.INFORMATION_MESSAGE, icon);
+     
                             appointment_pending.showPendingList();
                         } 
                     //delete click

@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -42,7 +43,7 @@ public class AppointmentPending extends javax.swing.JFrame {
     PreparedStatement ps;
     DefaultTableModel model;
     ArrayList<AppointmentList> pendingArrayList;
-
+    private ImageIcon icon;
     public AppointmentPending() {
         initComponents();
     }
