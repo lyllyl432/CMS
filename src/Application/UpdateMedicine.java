@@ -5,8 +5,6 @@
 package Application;
 
 import Utilities.ConnectionProvider;
-import static Utilities.General.con;
-import static Utilities.General.ps;
 import Utilities.MedicineList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

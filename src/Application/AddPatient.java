@@ -4,6 +4,7 @@
  */
 package Application;
 
+import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
 import Utilities.General;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -477,16 +479,21 @@ public class AddPatient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.con = ConnectionProvider.connect();
+
+       this.con = ConnectionProvider.connect();
+        Date selectedDate = this.date_birth_field.getDate();
+        String date_birth = null;
+        //error handling for date_birth
+        if(selectedDate != null){
+            date_birth = General.changeDateFormat(selectedDate);
+        }
         //get the field values and insert to database
         file_path = "C:/Users/HP/Documents/NetBeansProjects/CMS/src/patient-info.png";
-        Date selectedDate = this.date_birth_field.getDate();
         String first_name = this.first_name_field.getText();
         String middle_name = this.middle_name_field.getText();
         String last_name = this.last_name_field.getText();
         String suffix = this.suffix_field.getText();
-        int age = Integer.parseInt(this.age_field.getText());
-        String date_birth = General.changeDateFormat(selectedDate);
+        String age_text = this.age_field.getText();
         String email = this.email_field.getText();
         String course = this.course_field.getSelectedItem().toString();
         String college_year = this.year_field.getSelectedItem().toString();
@@ -499,11 +506,27 @@ public class AddPatient extends javax.swing.JFrame {
         String weight = this.weight_field.getText();
         String blood_type = this.blood_type_field.getSelectedItem().toString();
         String vaccination_status = this.vaccination_status_field.getSelectedItem().toString();
-        //patient log in credential
+        int age = -1;
+
+        //get username and password input
         String user_name = this.username_field.getText();
         char[] password_chars = this.password_field.getPassword();
         String password = new String(password_chars);
-        try {
+        String hash_password = "";
+        
+        
+        if(AccountManager.isValidInput(first_name,last_name,age_text,date_birth,email,course,college_year,section,civil_status,address,user_name,password)){
+            //convert age text to integer after validation
+            age = AccountManager.isValidInt(age_text) ? Integer.parseInt(age_text) : 0;
+            if(!AccountManager.isUsernameAvailable(user_name)){
+             JOptionPane.showMessageDialog(this, "Username is already taken. Please choose another username.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!AccountManager.isValidEmail(email)) {
+           JOptionPane.showMessageDialog(this, "Invalid Email Address");
+           }else if (!AccountManager.isValidPassword(password)) {
+               JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long");
+           }else{ 
+            // All validations passed, proceed with database insertion
+            try {
             //patient information
             this.ps = this.con.prepareStatement("INSERT INTO patient(firstname, middlename, lastname, suffix, age, date_of_birth, email, course, college_year, section, civil_status, address, phone_number,gender,height,weight,blood_type,vaccination_status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
             this.ps.setString(1, first_name);
@@ -536,11 +559,12 @@ public class AddPatient extends javax.swing.JFrame {
                 generated_id = generatedKeys.getInt(1);
                 System.out.println("Generated ID: " + generated_id);
             }
-            
+            //hash password before database insertion
+             hash_password = AccountManager.hashPassword(password);
             //log in credential
             this.ps = this.con.prepareStatement("INSERT INTO user(username,password,email) VALUES(?,?,?);");
             this.ps.setString(1, user_name);
-            this.ps.setString(2, password);
+            this.ps.setString(2, hash_password);
             this.ps.setString(3, email);
             this.ps.executeUpdate();
             //select the user_info based on unique username and reference that user_info for user information insertion
@@ -589,9 +613,16 @@ public class AddPatient extends javax.swing.JFrame {
             this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(AddPatient.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        }
+        }else{
+       String error_message = AccountManager.validRequiredFields(first_name, last_name, age_text, date_birth, email, course, college_year, section, civil_status, address, user_name, password);
+        // Display the message only if there are required fields missing
+        if (!error_message.equals("Please fill up the required fields:\n")) {
+            JOptionPane.showMessageDialog(this, error_message);
+        }
         }
         
-           
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void gender_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gender_fieldActionPerformed

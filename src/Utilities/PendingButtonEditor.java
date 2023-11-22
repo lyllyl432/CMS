@@ -6,8 +6,6 @@ package Utilities;
 
 import Application.AppointmentPending;
 import Application.CancelAppointmentPending;
-import static Utilities.General.con;
-import static Utilities.General.ps;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

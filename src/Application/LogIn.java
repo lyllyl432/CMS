@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Application;
+import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
 import Utilities.General;
 import Utilities.UserInfo;
@@ -37,6 +38,8 @@ public class LogIn extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     //validate the username if found in mysql and if found validate the password
     public boolean validateLogIn(String username, String password){
+        //hash the user entered password for verification to the hashed password in database
+        password = AccountManager.hashPassword(password);
         this.con = ConnectionProvider.connect();
         String query = "SELECT password FROM user WHERE username = ?";
       

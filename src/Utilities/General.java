@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.swing.ImageIcon;
@@ -55,16 +57,17 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
  * @author AUDITOR FAMILY
  */
 public class General {
-    public static Connection con;
-    public static PreparedStatement ps;
-    public static PatientList patient_list;
-    public static MedicineList medicine_list;
-    public static DefaultTableModel model;
+    private static Connection con;
+    private static PreparedStatement ps;
+    private static PatientList patient_list;
+    private static MedicineList medicine_list;
+    private static DefaultTableModel model;
     private static  TableRowSorter sorter;
     private static ResultSet rs;
     private static java.util.Date selectedDate;
     private static SimpleDateFormat dateFormat;
     private static String email;
+    //filter search based on patient name
     public static void filterSearch(String query, JTable table){
           model = (DefaultTableModel)table.getModel();
           sorter = new TableRowSorter<>(model);
@@ -76,6 +79,7 @@ public class General {
               sorter.setRowFilter(filter);
           }
     }
+    //get patient entry based on patient id
     public static PatientList getPatientEntry(int patient_id){
         con = ConnectionProvider.connect();
 
@@ -112,7 +116,7 @@ public class General {
             return null;
         }       
     }
-    
+    //get medicine entry based on medicine id
     public static MedicineList getMedicineEntry(int medicine_id){
         con = ConnectionProvider.connect();
         try {
@@ -135,7 +139,7 @@ public class General {
         return null;
     }
     
-    
+    //set profile information on the application interface
     public static void setProfileInfo(UserInfo user_info, JLabel greeting_name_label, JLabel admin_name_label){
         
        greeting_name_label.setText("Hello " + user_info.getWorkPosition() + " " + user_info.getFirstName() + "!");
@@ -157,6 +161,7 @@ public class General {
             Logger.getLogger(MainDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    //create circular image for admin profile picture
     private static BufferedImage createCircularImage(BufferedImage originalImage) {
         BufferedImage circularImage = new BufferedImage(
                 originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -172,6 +177,8 @@ public class General {
 
         return circularImage;
     }
+    
+    //set specified table column to zero
     public static void  setColumnWidthZero(TableColumnModel column_model, int row){
       TableColumn column = column_model.getColumn(row);
      column.setMinWidth(0);
@@ -179,7 +186,7 @@ public class General {
      column.setPreferredWidth(0);
      column.setWidth(0);
     }
-    
+    //get approve entry from database
     public static AppointmentList getApproveEntry(int reference_id, AppointmentList appointment_list){
         try {
             ps = con.prepareStatement("SELECT * FROM pending WHERE reference_id = ?");
@@ -194,6 +201,7 @@ public class General {
         }
             return null;
     }
+    //get user entry based on the id
     public static UserInfo getUserInfoEntry(int user_id){
         UserInfo user_info = null;
         con = ConnectionProvider.connect();
@@ -211,6 +219,8 @@ public class General {
         }
         return null;
     }
+    
+    //delete pending entry based on reference_id
     public static void deletePendingEntry(int reference_id){
         try {
             ps = con.prepareStatement("DELETE FROM pending WHERE reference_id = ?");
@@ -220,6 +230,7 @@ public class General {
             Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    //insert appointment entry from the database
     public static void insertAppointment(AppointmentList appointment_list){
         selectedDate = appointment_list.getAppointmentDate();
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -237,6 +248,8 @@ public class General {
             Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    //send mail to the specific provided email
     public static void sendMailToRecipient(int patient_id, String mail_message){
         try {
             ps = con.prepareStatement("SELECT email from patient WHERE patient_id = ?");
@@ -376,35 +389,5 @@ public class General {
             frame.repaint();
         }
        }
-    }
-    public static String getOldPassword(int user_id){
-        String old_password = null;
-        con = ConnectionProvider.connect();
-        try {
-            ps = con.prepareStatement("SELECT password FROM user WHERE user_id = ?");
-            ps.setInt(1, user_id);
-            rs = ps.executeQuery();
-            while(rs.next()){
-                old_password = rs.getString("password");
-            }
-            return old_password;
-        } catch (SQLException ex) {
-            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    public static boolean validateNewPassword(String new_password, String confirm_password){
-        return new_password.equals(confirm_password);
-    }
-    public static void updatePassword(int user_id, String new_password){
-        try {
-            con = ConnectionProvider.connect();
-            ps = con.prepareStatement("UPDATE user SET password = ? WHERE user_id = ?");
-            ps.setString(1, new_password);
-            ps.setInt(2, user_id);
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }    
