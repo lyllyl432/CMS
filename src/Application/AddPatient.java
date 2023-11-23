@@ -6,6 +6,7 @@ package Application;
 
 import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +32,7 @@ public class AddPatient extends javax.swing.JFrame {
     PreparedStatement ps;
     DefaultTableModel model;
     Patient patient;
+    private ImageIcon icon;
     private String work_position;
     private String file_path;
     private int user_id;
@@ -518,12 +521,21 @@ public class AddPatient extends javax.swing.JFrame {
         if(AccountManager.isValidInput(first_name,last_name,age_text,date_birth,email,course,college_year,section,civil_status,address,user_name,password)){
             //convert age text to integer after validation
             age = AccountManager.isValidInt(age_text) ? Integer.parseInt(age_text) : 0;
-            if(!AccountManager.isUsernameAvailable(user_name)){
-             JOptionPane.showMessageDialog(this, "Username is already taken. Please choose another username.", "Error", JOptionPane.ERROR_MESSAGE);
+            if(!AccountManager.isValidUserName(user_name)){
+                       icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+              CustomOptionPane.showMessageDialog("Username must start with 'TCC'.", "Invalid Username", JOptionPane.INFORMATION_MESSAGE, icon);
+            }
+            else if(!AccountManager.isUsernameAvailable(user_name)){
+                 icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+              CustomOptionPane.showMessageDialog("Username is already taken. Please choose a different username.", "Username Taken", JOptionPane.INFORMATION_MESSAGE, icon);
             } else if (!AccountManager.isValidEmail(email)) {
-           JOptionPane.showMessageDialog(this, "Invalid Email Address");
+                icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+             CustomOptionPane.showMessageDialog("Please enter a valid email address.", "Invalid Email", JOptionPane.INFORMATION_MESSAGE, icon);
+               
            }else if (!AccountManager.isValidPassword(password)) {
-               JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long");
+               icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/lock.png");
+             CustomOptionPane.showMessageDialog("Password must have at least 8 characters.", "Invalid Password", JOptionPane.INFORMATION_MESSAGE, icon);
+                 
            }else{ 
             // All validations passed, proceed with database insertion
             try {
@@ -619,7 +631,9 @@ public class AddPatient extends javax.swing.JFrame {
        String error_message = AccountManager.validRequiredFields(first_name, last_name, age_text, date_birth, email, course, college_year, section, civil_status, address, user_name, password);
         // Display the message only if there are required fields missing
         if (!error_message.equals("Please fill up the required fields:\n")) {
-            JOptionPane.showMessageDialog(this, error_message);
+             icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+            CustomOptionPane.showMessageDialog(error_message, "Update Failed", JOptionPane.INFORMATION_MESSAGE, icon);
+                
         }
         }
         

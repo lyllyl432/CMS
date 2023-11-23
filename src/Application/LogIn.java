@@ -5,6 +5,7 @@
 package Application;
 import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.UserInfo;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
  *
@@ -26,6 +28,7 @@ public class LogIn extends javax.swing.JFrame {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+    private ImageIcon icon;
     public LogIn() {
         initComponents();
     }
@@ -171,6 +174,7 @@ public class LogIn extends javax.swing.JFrame {
     }//GEN-LAST:event_check_box_logMouseClicked
 //log in button with validation if user exist in database
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.con = ConnectionProvider.connect();
         int user_id = -1;
         String work_position = null;
         UserInfo user_info = null;
@@ -178,8 +182,8 @@ public class LogIn extends javax.swing.JFrame {
         char[] password_chars = this.password_field.getPassword();
         String password = new String(password_chars);
          if (validateLogIn(username, password)) {
-                    JOptionPane.showMessageDialog(this, "Login successful!");
-                    this.con = ConnectionProvider.connect();
+                    icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/checked.png");
+                    CustomOptionPane.showMessageDialog("Welcome to your account!", "Login Successful", JOptionPane.INFORMATION_MESSAGE, icon);
             String user_query = "SELECT user_id FROM user WHERE username = ?";
       
         try {
@@ -216,8 +220,10 @@ public class LogIn extends javax.swing.JFrame {
             Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
         }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Login failed. Please check your credentials.");
-                }
+                    icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+                    CustomOptionPane.showMessageDialog("Invalid username or password", "Login Failed", JOptionPane.INFORMATION_MESSAGE, icon);
+               
+         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

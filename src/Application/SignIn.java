@@ -6,6 +6,7 @@ package Application;
 
 import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.PatientList;
 import java.awt.Image;
@@ -38,7 +39,8 @@ public class SignIn extends javax.swing.JFrame {
      */
     String file_path;
     Connection con;
-    PreparedStatement ps; 
+    PreparedStatement ps;
+    private ImageIcon icon;
     public SignIn() {
         initComponents();
         adjustScrollBar();
@@ -387,11 +389,17 @@ public class SignIn extends javax.swing.JFrame {
             age = AccountManager.isValidInt(age_text) ? Integer.parseInt(age_text) : 0;
 
           if(!AccountManager.isUsernameAvailable(username)){
-             JOptionPane.showMessageDialog(this, "Username is already taken. Please choose another username.", "Error", JOptionPane.ERROR_MESSAGE);
+              icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+              CustomOptionPane.showMessageDialog("Username is already taken. Please choose a different username.", "Username Taken", JOptionPane.INFORMATION_MESSAGE, icon);
+               
          }else if(!AccountManager.isValidEmail(email)){
-              JOptionPane.showMessageDialog(this, "Invalid Email Address");
+             icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+             CustomOptionPane.showMessageDialog("Please enter a valid email address.", "Invalid Email", JOptionPane.INFORMATION_MESSAGE, icon);
+               
          }else if(!AccountManager.isValidPassword(password)){
-              JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long");
+             icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/lock.png");
+             CustomOptionPane.showMessageDialog("Password must have at least 8 characters.", "Invalid Password", JOptionPane.INFORMATION_MESSAGE, icon);
+                   
          }else{
         try {
             //hash password for database insertion
@@ -434,7 +442,9 @@ public class SignIn extends javax.swing.JFrame {
        String error_message = AccountManager.validRequiredFields(file_path,first_name, last_name,age_text, email,contact_number, work_position, address, username, password);
         // Display the message only if there are required fields missing
         if (!error_message.equals("Please fill up the required fields:\n")) {
-            JOptionPane.showMessageDialog(this, error_message);
+            icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+            CustomOptionPane.showMessageDialog(error_message, "Required Fields", JOptionPane.INFORMATION_MESSAGE, icon);
+                
         }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
