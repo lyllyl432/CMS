@@ -4,7 +4,9 @@
  */
 package Application;
 
+import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
+import Utilities.General;
 import Utilities.PatientList;
 import java.awt.Image;
 import java.awt.Point;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
@@ -357,6 +360,9 @@ public class SignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_check_box_logActionPerformed
 //register account button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //connection provider object
+        this.con = ConnectionProvider.connect();
+
         int user_id = -1;
         //log in credentials
         String username = this.username_field.getText();
@@ -368,18 +374,31 @@ public class SignIn extends javax.swing.JFrame {
         String middle_name = this.middle_name_field.getText();
         String last_name = this.last_name_field.getText();
         String suffix = this.suffix_field.getText();
-        int age = Integer.parseInt(this.age_field.getText());
+        String age_text = this.age_field.getText();
         String gender = this.gender_field.getSelectedItem().toString();
         String civil_status = this.civil_status_field.getSelectedItem().toString();
         String address = this.address_field.getText();
         String contact_number = this.contact_number_field.getText();
         String work_position = this.work_position_field.getSelectedItem().toString();
+        int age = -1;
         
-        this.con = ConnectionProvider.connect();
+        if(AccountManager.isValidInput(file_path,username, password, email, first_name,age_text, gender,civil_status,address,contact_number, work_position,gender)){
+            //convert the age text to integer after validation
+            age = AccountManager.isValidInt(age_text) ? Integer.parseInt(age_text) : 0;
+
+          if(!AccountManager.isUsernameAvailable(username)){
+             JOptionPane.showMessageDialog(this, "Username is already taken. Please choose another username.", "Error", JOptionPane.ERROR_MESSAGE);
+         }else if(!AccountManager.isValidEmail(email)){
+              JOptionPane.showMessageDialog(this, "Invalid Email Address");
+         }else if(!AccountManager.isValidPassword(password)){
+              JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long");
+         }else{
         try {
+            //hash password for database insertion
+           String hash_password = AccountManager.hashPassword(password);
             this.ps = this.con.prepareStatement("INSERT INTO user(username,password,email) VALUES(?,?,?);");
             this.ps.setString(1, username);
-            this.ps.setString(2, password);
+            this.ps.setString(2, hash_password);
             this.ps.setString(3, email);
             this.ps.executeUpdate();
         } catch (SQLException ex) {
@@ -392,7 +411,7 @@ public class SignIn extends javax.swing.JFrame {
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 user_id = rs.getInt("user_id");
-            }
+           }
             this.ps = this.con.prepareStatement("INSERT INTO user_info (user_id,profile_picture,first_name,middle_name,last_name,suffix,age,civil_status,address,contact_number,work_position) VALUES(?,?,?,?,?,?,?,?,?,?,?);");
                 this.ps.setInt(1, user_id);
                 this.ps.setString(2, file_path);
@@ -409,6 +428,14 @@ public class SignIn extends javax.swing.JFrame {
                 this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+          }
+        }
+      } else{
+       String error_message = AccountManager.validRequiredFields(file_path,first_name, last_name,age_text, email,contact_number, work_position, address, username, password);
+        // Display the message only if there are required fields missing
+        if (!error_message.equals("Please fill up the required fields:\n")) {
+            JOptionPane.showMessageDialog(this, error_message);
+        }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

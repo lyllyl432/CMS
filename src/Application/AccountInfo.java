@@ -4,6 +4,7 @@
  */
 package Application;
 
+import Utilities.AccountManager;
 import Utilities.ConnectionProvider;
 import Utilities.General;
 import Utilities.UserInfo;
@@ -571,22 +572,25 @@ public class AccountInfo extends javax.swing.JFrame {
 //update profile button click
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        //log in credentials
-//        char[] password_chars = this.password_field.getPassword();
-//        String password = new String(password_chars);
         //personal information
         String first_name = this.first_name_field.getText();
         String middle_name = this.middle_name_field.getText();
         String last_name = this.last_name_field.getText();
         String suffix = this.suffix_field.getText();
-        int age = Integer.parseInt(this.age_field.getText());
+        String age_text = this.age_field.getText();
         String civil_status = this.civil_status_field.getSelectedItem().toString();
         String address = this.address_field.getText();
         String contact_number = this.contact_number_field.getText();
+        int age = 0;
 
 
         this.con = ConnectionProvider.connect();
-        try {
+        if(AccountManager.isValidInput( first_name,last_name,age_text,address,contact_number)){
+        
+            //convert age text to integer after validation
+            age = AccountManager.isValidInt(age_text) ? Integer.parseInt(age_text) : 0;
+            
+            try {
             ps = this.con.prepareStatement("UPDATE user_info SET profile_picture = ?, first_name = ?,middle_name = ?,last_name = ?,suffix = ?,age = ?,civil_status = ?,address = ?,contact_number = ?,work_position = ? WHERE user_id = ?");
             if(file_path == null){
              ps.setString(1,user_info.getProfilePicture());   
@@ -616,69 +620,48 @@ public class AccountInfo extends javax.swing.JFrame {
             }else{
                 System.out.println("Error");
             }
-//        try {
-//            this.ps = this.con.prepareStatement("INSERT INTO user(username,password,email) VALUES(?,?,?);");
-//            this.ps.setString(1, username);
-//            this.ps.setString(2, password);
-//            this.ps.setString(3, email);
-//            this.ps.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        try {
-//            ps = this.con.prepareStatement("SELECT user_id FROM user WHERE username = ?;");
-//            ps.setString(1, username);
-//            ResultSet rs = ps.executeQuery();
-//            while(rs.next()){
-//                user_id = rs.getInt("user_id");
-//            }
-//            this.ps = this.con.prepareStatement("INSERT INTO user_info (user_id,profile_picture,first_name,middle_name,last_name,suffix,age,civil_status,address,contact_number,work_position) VALUES(?,?,?,?,?,?,?,?,?,?,?);");
-//            this.ps.setInt(1, user_id);
-//            this.ps.setString(2, file_path);
-//            this.ps.setString(3, first_name);
-//            this.ps.setString(4, middle_name);
-//            this.ps.setString(5, last_name);
-//            this.ps.setString(6, suffix);
-//            this.ps.setInt(7, age);
-//            this.ps.setString(8, civil_status);
-//            this.ps.setString(9, address);
-//            this.ps.setString(10, contact_number);
-//            this.ps.setString(11, work_position);
-//            this.ps.executeUpdate();
-//            this.dispose();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
-//        }
         } catch (SQLException ex) {
             Logger.getLogger(AccountInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }else{
+       String error_message = AccountManager.validRequiredFields(first_name, last_name,age_text,contact_number, address);
+        // Display the message only if there are required fields missing
+        if (!error_message.equals("Please fill up the required fields:\n")) {
+            JOptionPane.showMessageDialog(this, error_message);
+        }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 //change password button click
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String old_password_entry = General.getOldPassword(user_id);
+        String old_password_entry = AccountManager.getOldPassword(user_id);
         //old password user input
         char[] old_password_confirmation_chars = this.old_password_field.getPassword();
-        String old_password_confirmation = new String(old_password_confirmation_chars);
+        String old_password_confirmation = AccountManager.hashPassword(new String(old_password_confirmation_chars));
         //new password user input
         char[] new_password_chars = this.new_password_field.getPassword();
         String new_password = new String(new_password_chars);
         //confirmation password user input
         char[] confirmation_password_chars = this.confirm_password_field.getPassword();
         String confirm_password = new String(confirmation_password_chars);
+        String new_hash_password;
         
-        if(old_password_field != null){
-                if(General.validateNewPassword(new_password, confirm_password)){
-                General.updatePassword(user_id, new_password);
-                JOptionPane.showMessageDialog(null, "Password changed successfully!");
-                
-                this.old_password_field.setText("");
-                this.new_password_field.setText("");
-                this.confirm_password_field.setText("");
-        }else{
-                JOptionPane.showMessageDialog(null, "New password and confirm password do not match.");
+        if(old_password_entry.equals(old_password_confirmation)){
+            if(!AccountManager.isValidPassword(new_password)){
+                JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long");
 
-                }
+            }else{
+                if(AccountManager.validateNewPassword(new_password, confirm_password)){
+                    new_hash_password = AccountManager.hashPassword(new_password);
+                   AccountManager.updatePassword(user_id, new_hash_password);
+                   JOptionPane.showMessageDialog(null, "Password changed successfully!");
+
+                   this.old_password_field.setText("");
+                   this.new_password_field.setText("");
+                   this.confirm_password_field.setText("");
+                }else{
+                   JOptionPane.showMessageDialog(null, "New password and confirm password do not match.");
+                   }   
+            }
         }else{
                 JOptionPane.showMessageDialog(null, "Authentication failed. Invalid old password.");
    
