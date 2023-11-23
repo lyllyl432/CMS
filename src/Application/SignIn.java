@@ -98,8 +98,6 @@ public class SignIn extends javax.swing.JFrame {
         check_box_log = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
         file_label = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         email_field = new javax.swing.JTextField();
@@ -279,21 +277,6 @@ public class SignIn extends javax.swing.JFrame {
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 1313, 500, 40));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 1406, 525, 10));
 
-        jLabel19.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel19.setText("Already have an account?");
-        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(284, 1371, -1, -1));
-
-        jLabel20.setBackground(new java.awt.Color(64, 89, 173));
-        jLabel20.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(64, 89, 173));
-        jLabel20.setText("Log in!");
-        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel20MouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 1371, -1, -1));
-
         file_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/no-photos.png"))); // NOI18N
         jPanel1.add(file_label, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 91, 200, 137));
 
@@ -319,8 +302,8 @@ public class SignIn extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scroll_pane, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(scroll_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -350,12 +333,7 @@ public class SignIn extends javax.swing.JFrame {
 //            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-//if already have an account click log in to go to the log in frame
-    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
-        new LogIn().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel20MouseClicked
-//password checker 
+//password on see check
     private void check_box_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_box_logActionPerformed
         this.password_field.setEchoChar(check_box_log.isSelected() ? '\0' : '*');
 
@@ -506,8 +484,6 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

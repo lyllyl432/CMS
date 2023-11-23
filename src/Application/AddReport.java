@@ -7,6 +7,7 @@ package Application;
 import Utilities.AppointmentList;
 import Utilities.ConnectionProvider;
 import Utilities.CustomHeaderRenderer;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.MedicineList;
 import Utilities.ReportMedicineButtonEditor;
@@ -21,8 +22,10 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -45,6 +48,7 @@ public class AddReport extends javax.swing.JFrame {
     private MedicineList medicine_list;
     private ImageIcon delete_icon;
     private String medicine_name;
+    private ImageIcon icon;
     public AddReport() {
         initComponents();
     }
@@ -119,7 +123,7 @@ public class AddReport extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         greeting_name_label = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -319,8 +323,8 @@ public class AddReport extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
         );
 
         added_medicine_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -560,8 +564,8 @@ public class AddReport extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -595,9 +599,15 @@ public class AddReport extends javax.swing.JFrame {
         greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
         greeting_name_label.setText("Hello, Admin!");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Log out");
+        jButton4.setBackground(new java.awt.Color(220, 20, 60));
+        jButton4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Logout");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -606,9 +616,9 @@ public class AddReport extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(greeting_name_label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 751, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(17, 17, 17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 722, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(18, 18, 18))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,7 +626,7 @@ public class AddReport extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(greeting_name_label)
-                    .addComponent(jLabel7))
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -689,6 +699,17 @@ public class AddReport extends javax.swing.JFrame {
             row[6] = medicineArrayList.get(i).getMedicineId();
             model.addRow(row);
         }
+        
+       this.reference_information_table.setRowHeight(50);
+      this.added_medicine_table.setRowHeight(50);
+      this.added_medicine_table.getColumnModel().getColumn(0).setPreferredWidth(200);
+      this.added_medicine_table.getColumnModel().getColumn(1).setPreferredWidth(100);
+      this.added_medicine_table.getColumnModel().getColumn(2).setPreferredWidth(100);
+      this.added_medicine_table.getColumnModel().getColumn(3).setPreferredWidth(300);
+
+        TableColumnModel columnModel = this.added_medicine_table.getColumnModel();
+     General.setColumnWidthZero(columnModel, 5);
+     General.setColumnWidthZero(columnModel, 6);
     }
     //update the Jlabel with dosage using medicine_id
     public void updateDosageLabel(String medicine_name){
@@ -920,6 +941,17 @@ public class AddReport extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_admin_name_labelMouseClicked
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+
+        CustomOptionPane.showQuestionMessageDialog(
+            this,
+            "Are you sure you want to log out?",
+            "Custom Dialog",
+            JOptionPane.QUESTION_MESSAGE,
+            icon);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -965,6 +997,7 @@ public class AddReport extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -980,7 +1013,6 @@ public class AddReport extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

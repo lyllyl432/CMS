@@ -4,10 +4,8 @@
  */
 package Application;
 
-import Utilities.AppointmentButtonEditor;
-import Utilities.AppointmentButtonRenderer;
 import Utilities.ConnectionProvider;
-import Utilities.CustomHeaderRenderer;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.MedicineList;
 import Utilities.PatientList;
@@ -15,7 +13,6 @@ import Utilities.PatientRecordList;
 import Utilities.UserInfo;
 import Utilities.ViewRecordButtonEditor;
 import Utilities.ViewRecordButtonRenderer;
-import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,9 +20,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -45,6 +44,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
     private ResultSet rs;
     private DefaultTableModel model;
     private MedicineList medicine_list;
+    private ImageIcon icon;
     
     public ViewPatientRecord() {
         initComponents();
@@ -93,7 +93,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         greeting_name_label = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -290,8 +290,8 @@ public class ViewPatientRecord extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96))
         );
 
         patient_record_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -349,8 +349,8 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(279, Short.MAX_VALUE))
         );
@@ -361,9 +361,15 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
         greeting_name_label.setText("Hello, Admin!");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Log out");
+        jButton4.setBackground(new java.awt.Color(220, 20, 60));
+        jButton4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Logout");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -373,8 +379,8 @@ public class ViewPatientRecord extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(greeting_name_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(17, 17, 17))
+                .addComponent(jButton4)
+                .addGap(20, 20, 20))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,7 +388,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(greeting_name_label)
-                    .addComponent(jLabel7))
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -458,6 +464,18 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             row[7] = recordArrayList.get(i).getReferenceId();
              
             model.addRow(row);
+            
+             this.patient_record_table.setRowHeight(50);
+       this.patient_record_table.getColumnModel().getColumn(0).setPreferredWidth(100);
+       this.patient_record_table.getColumnModel().getColumn(1).setPreferredWidth(250);
+       this.patient_record_table.getColumnModel().getColumn(2).setPreferredWidth(100);
+       this.patient_record_table.getColumnModel().getColumn(3).setPreferredWidth(150);
+       this.patient_record_table.getColumnModel().getColumn(4).setPreferredWidth(150);
+       this.patient_record_table.getColumnModel().getColumn(5).setPreferredWidth(80);
+
+
+        TableColumnModel columnModel = this.patient_record_table.getColumnModel();
+        General.setColumnWidthZero(columnModel, 7);
         }
          
     }
@@ -492,6 +510,9 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         row[2] = patient.getEmail();
         row[3] = patient.getAddress();
         model.addRow(row);
+        this.patient_information_table.setRowHeight(50);
+        
+        
     }
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         new Medicine(user_info).setVisible(true);
@@ -539,6 +560,17 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_admin_name_labelMouseClicked
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+
+        CustomOptionPane.showQuestionMessageDialog(
+            this,
+            "Are you sure you want to log out?",
+            "Custom Dialog",
+            JOptionPane.QUESTION_MESSAGE,
+            icon);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -578,6 +610,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
     private javax.swing.JLabel admin_name_label;
     private javax.swing.JLabel appointment_label;
     private javax.swing.JLabel greeting_name_label;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -586,7 +619,6 @@ public class ViewPatientRecord extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
