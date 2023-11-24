@@ -100,7 +100,7 @@ public class PendingButtonEditor extends DefaultCellEditor {
                              icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/checked.png");
                             CustomOptionPane.showMessageDialog("Approve", "Appointment Approved", JOptionPane.INFORMATION_MESSAGE, icon);
      
-                            appointment_pending.showPendingList();
+                            appointment_pending.showAdminPendingList();
                         } 
                     //delete click
                     else if(button_role == 1){
@@ -128,7 +128,7 @@ public class PendingButtonEditor extends DefaultCellEditor {
             }
         });
     }
-
+    
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         if (isSelected) {
             button.setBackground(table.getSelectionBackground());

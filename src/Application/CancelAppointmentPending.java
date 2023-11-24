@@ -48,6 +48,7 @@ public class CancelAppointmentPending extends javax.swing.JFrame {
         patient_name_field = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -165,7 +166,7 @@ public class CancelAppointmentPending extends javax.swing.JFrame {
         //delete pending entry
         General.deletePendingEntry(reference_id);
         //run to update the j table
-        appointment_pending.showPendingList();
+        appointment_pending.showAdminPendingList();
         this.dispose();
     }//GEN-LAST:event_submitActionPerformed
     public void fillCancelForm(){

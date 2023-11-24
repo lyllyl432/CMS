@@ -54,8 +54,10 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         initComponents();
         this.user_info = user_info;
         this.patient = patient;
-        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
-        General.removeLabel(this.appointment_label, this,user_info);
+        //patient interface and admin interface sidebar logic
+       General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+       General.setUpSideBar(this.appointment_label, this.medicine_label, this.add_account_label, this.patient_label,this,user_info);
+       General.setSizeSidePanel(side_bar_panel,200,700);
         this.showPatientInformation();
         this.showPatientRecords();
     }
@@ -69,18 +71,18 @@ public class ViewPatientRecord extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel47 = new javax.swing.JPanel();
-        jPanel48 = new javax.swing.JPanel();
+        side_bar_panel = new javax.swing.JPanel();
         jPanel49 = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        medicine_label = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        patient_label = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         appointment_label = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        add_account_label = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel8 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -96,8 +98,9 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        jPanel48.setBackground(new java.awt.Color(64, 89, 173));
+        side_bar_panel.setBackground(new java.awt.Color(64, 89, 173));
 
         jPanel49.setBackground(new java.awt.Color(64, 89, 173));
 
@@ -122,13 +125,13 @@ public class ViewPatientRecord extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
-        jLabel1.setText("Medicines");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        medicine_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        medicine_label.setForeground(new java.awt.Color(255, 255, 255));
+        medicine_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
+        medicine_label.setText("Medicines");
+        medicine_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                medicine_labelMouseClicked(evt);
             }
         });
 
@@ -142,13 +145,13 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
-        jLabel3.setText("Patients");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        patient_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        patient_label.setForeground(new java.awt.Color(255, 255, 255));
+        patient_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
+        patient_label.setText("Patients");
+        patient_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                patient_labelMouseClicked(evt);
             }
         });
 
@@ -184,68 +187,65 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
-        jLabel12.setText("Add Account");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        add_account_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        add_account_label.setForeground(new java.awt.Color(255, 255, 255));
+        add_account_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
+        add_account_label.setText("Add Account");
+        add_account_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
+                add_account_labelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel48Layout = new javax.swing.GroupLayout(jPanel48);
-        jPanel48.setLayout(jPanel48Layout);
-        jPanel48Layout.setHorizontalGroup(
-            jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout side_bar_panelLayout = new javax.swing.GroupLayout(side_bar_panel);
+        side_bar_panel.setLayout(side_bar_panelLayout);
+        side_bar_panelLayout.setHorizontalGroup(
+            side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel48Layout.createSequentialGroup()
+            .addGroup(side_bar_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
-                    .addGroup(jPanel48Layout.createSequentialGroup()
-                        .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(side_bar_panelLayout.createSequentialGroup()
+                        .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1)
+                            .addComponent(medicine_label)
                             .addComponent(admin_name_label)
-                            .addGroup(jPanel48Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
+                            .addGroup(side_bar_panelLayout.createSequentialGroup()
+                                .addComponent(add_account_label)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4))
                             .addComponent(appointment_label)
-                            .addComponent(jLabel10))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel48Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSeparator2)))
+                            .addComponent(jLabel10)
+                            .addGroup(side_bar_panelLayout.createSequentialGroup()
+                                .addComponent(patient_label)
+                                .addGap(18, 18, 18)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel48Layout.setVerticalGroup(
-            jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel48Layout.createSequentialGroup()
+        side_bar_panelLayout.setVerticalGroup(
+            side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(side_bar_panelLayout.createSequentialGroup()
                 .addComponent(jPanel49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(admin_name_label)
-                .addGap(30, 30, 30)
+                .addGap(36, 36, 36)
                 .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(patient_label)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel48Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel48Layout.createSequentialGroup()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)))
-                .addComponent(jLabel1)
+                .addComponent(medicine_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(appointment_label)
                 .addGap(9, 9, 9)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
+                .addComponent(add_account_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(0, 325, Short.MAX_VALUE))
@@ -397,7 +397,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         jPanel47Layout.setHorizontalGroup(
             jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel47Layout.createSequentialGroup()
-                .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(side_bar_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -409,7 +409,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel47Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(side_bar_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel47Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -514,52 +514,6 @@ public class ViewPatientRecord extends javax.swing.JFrame {
         
         
     }
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        new Medicine(user_info).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-    switch(user_info.getWorkPosition()){
-                    case "Doctor":
-                        new MainDashboard(user_info).setVisible(true);
-                        break;
-                    case "Nurse":
-                        new MainDashboard(user_info).setVisible(true);
-                        break;
-                    case "Staff":
-                        new Dashboard(user_info).setVisible(true);
-                        break;
-                    default:
-                        System.out.println("Something error");
-                }
-          this.dispose();
-    }//GEN-LAST:event_jLabel2MouseClicked
-
-    private void appointment_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointment_labelMouseClicked
-        new Appointment(user_info).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_appointment_labelMouseClicked
-
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        new AppointmentPending(user_info).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel10MouseClicked
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        new Patient(user_info).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-      new SignIn().setVisible(true);
-    }//GEN-LAST:event_jLabel12MouseClicked
-
-    private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
-        new AccountInfo(user_info).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_admin_name_labelMouseClicked
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
 
@@ -570,6 +524,60 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             JOptionPane.QUESTION_MESSAGE,
             icon);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void add_account_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_account_labelMouseClicked
+        new SignIn().setVisible(true);
+    }//GEN-LAST:event_add_account_labelMouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        new AppointmentPending(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void appointment_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointment_labelMouseClicked
+        new Appointment(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_appointment_labelMouseClicked
+
+    private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
+        new AccountInfo(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_admin_name_labelMouseClicked
+
+    private void patient_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patient_labelMouseClicked
+        if(user_info.getWorkPosition().equals("Patient")){
+            ViewPatient view_patient = new ViewPatient(user_info);
+            view_patient.setVisible(true);
+            view_patient.fillInformationLabel(General.getPatientEntry(user_info.getPatientId()));
+        }else{
+            new Patient(user_info).setVisible(true);
+        }
+        this.dispose();
+    }//GEN-LAST:event_patient_labelMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        switch(user_info.getWorkPosition()){
+                case "Doctor":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Nurse":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Staff":
+                    new Dashboard(user_info).setVisible(true);
+                    break;
+                case "Patient":
+                    //get the patient_id 
+                    new PatientDashboard(user_info).setVisible(true);            
+                    break;
+            }
+        this.dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void medicine_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicine_labelMouseClicked
+        new Medicine(user_info).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_medicine_labelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -607,23 +615,20 @@ public class ViewPatientRecord extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel add_account_label;
     private javax.swing.JLabel admin_name_label;
     private javax.swing.JLabel appointment_label;
     private javax.swing.JLabel greeting_name_label;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel47;
-    private javax.swing.JPanel jPanel48;
     private javax.swing.JPanel jPanel49;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
@@ -631,7 +636,10 @@ public class ViewPatientRecord extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel medicine_label;
     private javax.swing.JTable patient_information_table;
+    private javax.swing.JLabel patient_label;
     private javax.swing.JTable patient_record_table;
+    private javax.swing.JPanel side_bar_panel;
     // End of variables declaration//GEN-END:variables
 }

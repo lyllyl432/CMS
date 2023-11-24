@@ -44,8 +44,11 @@ public class AccountInfo extends javax.swing.JFrame {
         this.user_info = user_info;
         this.user_id = user_info.getUserId();
         fillAccountInfo();
-        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
-
+        
+        //patient interface and admin interface sidebar logic
+       General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+       General.setUpSideBar(this.appointment_label, this.medicine_label, this.add_account_label, this.patient_label,this,user_info);
+        General.setSizeSidePanel(side_bar_panel,180,615);        
     }
 
     /**
@@ -58,23 +61,23 @@ public class AccountInfo extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel33 = new javax.swing.JPanel();
+        side_bar_panel = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        medicine_label = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        patient_label = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         appointment_label = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        add_account_label = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         greeting_name_label = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         scroll_pane = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -111,8 +114,10 @@ public class AccountInfo extends javax.swing.JFrame {
         new_password_field = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1118, 600));
+        setResizable(false);
 
-        jPanel33.setBackground(new java.awt.Color(64, 89, 173));
+        side_bar_panel.setBackground(new java.awt.Color(64, 89, 173));
 
         jPanel34.setBackground(new java.awt.Color(64, 89, 173));
 
@@ -137,13 +142,13 @@ public class AccountInfo extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
-        jLabel1.setText("Medicines");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        medicine_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        medicine_label.setForeground(new java.awt.Color(255, 255, 255));
+        medicine_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
+        medicine_label.setText("Medicines");
+        medicine_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                medicine_labelMouseClicked(evt);
             }
         });
 
@@ -157,14 +162,14 @@ public class AccountInfo extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
-        jLabel3.setText("Patients");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        patient_label.setBackground(new java.awt.Color(255, 255, 255));
+        patient_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        patient_label.setForeground(new java.awt.Color(255, 255, 255));
+        patient_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
+        patient_label.setText("Patients");
+        patient_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                patient_labelMouseClicked(evt);
             }
         });
 
@@ -195,45 +200,45 @@ public class AccountInfo extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
-        jLabel8.setText("Add Account");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        add_account_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        add_account_label.setForeground(new java.awt.Color(255, 255, 255));
+        add_account_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
+        add_account_label.setText("Add Account");
+        add_account_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                add_account_labelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
-        jPanel33.setLayout(jPanel33Layout);
-        jPanel33Layout.setHorizontalGroup(
-            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout side_bar_panelLayout = new javax.swing.GroupLayout(side_bar_panel);
+        side_bar_panel.setLayout(side_bar_panelLayout);
+        side_bar_panelLayout.setHorizontalGroup(
+            side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, side_bar_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator2)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel33Layout.createSequentialGroup()
-                        .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel33Layout.createSequentialGroup()
-                                .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, side_bar_panelLayout.createSequentialGroup()
+                        .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(side_bar_panelLayout.createSequentialGroup()
+                                .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
-                                    .addComponent(jLabel8))
+                                    .addComponent(add_account_label))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4))
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1)
+                            .addComponent(medicine_label)
                             .addComponent(appointment_label)
                             .addComponent(admin_name_label)
-                            .addComponent(jLabel3))
+                            .addComponent(patient_label))
                         .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel33Layout.setVerticalGroup(
-            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel33Layout.createSequentialGroup()
+        side_bar_panelLayout.setVerticalGroup(
+            side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(side_bar_panelLayout.createSequentialGroup()
                 .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,15 +249,15 @@ public class AccountInfo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(patient_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(medicine_label)
                 .addGap(9, 9, 9)
                 .addComponent(appointment_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addComponent(add_account_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(0, 151, Short.MAX_VALUE))
@@ -264,9 +269,15 @@ public class AccountInfo extends javax.swing.JFrame {
         greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
         greeting_name_label.setText("Hello, Admin!");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Log out");
+        jButton4.setBackground(new java.awt.Color(220, 20, 60));
+        jButton4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Logout");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -278,8 +289,8 @@ public class AccountInfo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(greeting_name_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addContainerGap())
+                .addComponent(jButton4)
+                .addGap(22, 22, 22))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,8 +299,8 @@ public class AccountInfo extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(greeting_name_label)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel7))
-                .addGap(26, 26, 26))
+                    .addComponent(jButton4))
+                .addGap(23, 23, 23))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -455,7 +466,7 @@ public class AccountInfo extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(side_bar_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(scroll_pane, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
@@ -464,11 +475,11 @@ public class AccountInfo extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(side_bar_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(scroll_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -511,25 +522,27 @@ public class AccountInfo extends javax.swing.JFrame {
         this.contact_number_field.setText(user_info.getContactNumber());
         
     }
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void medicine_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicine_labelMouseClicked
         new Medicine(user_info).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_medicine_labelMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        switch(user_info.getWorkPosition()){
-            case "Doctor":
-            new MainDashboard(user_info).setVisible(true);
-            break;
-            case "Nurse":
-            new MainDashboard(user_info).setVisible(true);
-            break;
-            case "Staff":
-            new Dashboard(user_info).setVisible(true);
-            break;
-            default:
-            System.out.println("Something error");
-        }
+         switch(user_info.getWorkPosition()){
+                case "Doctor":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Nurse":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Staff":
+                    new Dashboard(user_info).setVisible(true);
+                    break;
+                case "Patient":
+                    //get the patient_id 
+                    new PatientDashboard(user_info).setVisible(true);            
+                    break;
+            }
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
@@ -543,9 +556,9 @@ public class AccountInfo extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel6MouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+    private void add_account_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_account_labelMouseClicked
         new SignIn().setVisible(true);
-    }//GEN-LAST:event_jLabel8MouseClicked
+    }//GEN-LAST:event_add_account_labelMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser file_chooser  = new JFileChooser();
@@ -679,10 +692,21 @@ public class AccountInfo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 //patient nav click
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void patient_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patient_labelMouseClicked
         new Patient(user_info).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_patient_labelMouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+
+        CustomOptionPane.showQuestionMessageDialog(
+            this,
+            "Are you sure you want to log out?",
+            "Custom Dialog",
+            JOptionPane.QUESTION_MESSAGE,
+            icon);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -720,6 +744,7 @@ public class AccountInfo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel add_account_label;
     private javax.swing.JTextArea address_field;
     private javax.swing.JLabel admin_name_label;
     private javax.swing.JTextField age_field;
@@ -734,7 +759,7 @@ public class AccountInfo extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -750,27 +775,26 @@ public class AccountInfo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField last_name_field;
+    private javax.swing.JLabel medicine_label;
     private javax.swing.JTextField middle_name_field;
     private javax.swing.JPasswordField new_password_field;
     private javax.swing.JPasswordField old_password_field;
+    private javax.swing.JLabel patient_label;
     private javax.swing.JScrollPane scroll_pane;
+    private javax.swing.JPanel side_bar_panel;
     private javax.swing.JTextField suffix_field;
     // End of variables declaration//GEN-END:variables
 }

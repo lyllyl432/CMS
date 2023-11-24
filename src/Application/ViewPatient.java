@@ -30,11 +30,15 @@ public class ViewPatient extends javax.swing.JFrame {
     public ViewPatient(UserInfo user_info) {
         initComponents();
         this.user_info = user_info;
-        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
-       General.removeLabel(this.appointment_label, this,user_info);
+       //patient interface and admin interface sidebar logic
+       General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+       General.setUpSideBar(this.appointment_label, this.medicine_label, this.add_account_label, this.patient_label,this,user_info);
     }
+    
+    
    public void fillInformationLabel(PatientList patient){
        this.patient = patient;
+       System.out.println(patient.getPatientId());
        this.first_name_label.setText(patient.getFirstName());
        this.middle_name_label.setText(patient.getMiddleName());
        this.last_name_label.setText(patient.getLastName());
@@ -129,15 +133,15 @@ public class ViewPatient extends javax.swing.JFrame {
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        medicine_label = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        patient_label = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         appointment_label = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        add_account_label = new javax.swing.JLabel();
         jSeparator19 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         greeting_name_label = new javax.swing.JLabel();
@@ -676,13 +680,13 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
-        jLabel1.setText("Medicines");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        medicine_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        medicine_label.setForeground(new java.awt.Color(255, 255, 255));
+        medicine_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
+        medicine_label.setText("Medicines");
+        medicine_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                medicine_labelMouseClicked(evt);
             }
         });
 
@@ -696,13 +700,13 @@ public class ViewPatient extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
-        jLabel3.setText("Patients");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        patient_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        patient_label.setForeground(new java.awt.Color(255, 255, 255));
+        patient_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
+        patient_label.setText("Patients");
+        patient_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                patient_labelMouseClicked(evt);
             }
         });
 
@@ -738,13 +742,13 @@ public class ViewPatient extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
-        jLabel12.setText("Add Account");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        add_account_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        add_account_label.setForeground(new java.awt.Color(255, 255, 255));
+        add_account_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
+        add_account_label.setText("Add Account");
+        add_account_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
+                add_account_labelMouseClicked(evt);
             }
         });
 
@@ -758,19 +762,19 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel12)
+                        .addComponent(add_account_label)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
                             .addGroup(jPanel33Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(patient_label)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jSeparator19))
                             .addGroup(jPanel33Layout.createSequentialGroup()
                                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
+                                    .addComponent(medicine_label)
                                     .addComponent(admin_name_label)
                                     .addComponent(appointment_label)
                                     .addGroup(jPanel33Layout.createSequentialGroup()
@@ -793,12 +797,12 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel33Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(patient_label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
                         .addComponent(jSeparator19, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19)))
-                .addComponent(jLabel1)
+                .addComponent(medicine_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(appointment_label)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -809,7 +813,7 @@ public class ViewPatient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
+                .addComponent(add_account_label)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -891,22 +895,24 @@ public class ViewPatient extends javax.swing.JFrame {
                 case "Staff":
                     new Dashboard(user_info).setVisible(true);
                     break;
-                default:
-                    System.out.println("Something error");
+                case "Patient":
+                    //get the patient_id 
+                    new PatientDashboard(user_info).setVisible(true);            
+                    break;
             }
       this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void medicine_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicine_labelMouseClicked
         new Medicine(user_info).setVisible(true);
        this.dispose();
 
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_medicine_labelMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void patient_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patient_labelMouseClicked
         new Patient(user_info).setVisible(true);
        this.dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_patient_labelMouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         new AddAppointment(patient, user_info,this).setVisible(true);
@@ -914,7 +920,7 @@ public class ViewPatient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       int patient_id = patient.getPatientId();
+
         new ViewPatientRecord(user_info, patient).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -929,9 +935,9 @@ public class ViewPatient extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
 
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+    private void add_account_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_account_labelMouseClicked
         new SignIn().setVisible(true);
-    }//GEN-LAST:event_jLabel12MouseClicked
+    }//GEN-LAST:event_add_account_labelMouseClicked
 
     private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
         new AccountInfo(user_info).setVisible(true);
@@ -985,6 +991,7 @@ public class ViewPatient extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel add_account_label;
     private javax.swing.JLabel address_label;
     private javax.swing.JLabel admin_name_label;
     private javax.swing.JLabel age_label;
@@ -1002,10 +1009,8 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1019,7 +1024,6 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -1057,7 +1061,9 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel last_name_label;
+    private javax.swing.JLabel medicine_label;
     private javax.swing.JLabel middle_name_label;
+    private javax.swing.JLabel patient_label;
     private javax.swing.JLabel phone_number_label;
     private javax.swing.JLabel section_label;
     private javax.swing.JLabel suffix_label;

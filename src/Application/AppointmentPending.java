@@ -12,6 +12,7 @@ import Utilities.CustomHeaderRenderer;
 import Utilities.CustomOptionPane;
 import Utilities.PendingButtonEditor;
 import Utilities.PendingButtonRenderer;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.sql.Connection;
@@ -53,9 +54,16 @@ public class AppointmentPending extends javax.swing.JFrame {
     public AppointmentPending(UserInfo user_info) {
         initComponents();
         this.user_info = user_info;
-        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
-        General.removeLabel(this.appointment_label, this,user_info);
-        showPendingList();
+        //patient interface and admin interface sidebar logic
+       General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+       General.setUpSideBar(this.appointment_label, this.medicine_label, this.add_account_label, this.patient_label,this,user_info);
+       if(user_info.getWorkPosition().equals("Patient")){
+           showPatientPendingList();
+       }else{
+           showAdminPendingList();
+       }
+       
+       General.setSizeSidePanel(side_bar_panel,200,700);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,18 +75,18 @@ public class AppointmentPending extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel35 = new javax.swing.JPanel();
-        jPanel36 = new javax.swing.JPanel();
+        side_bar_panel = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        medicine_label = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        patient_label = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         appointment_label = new javax.swing.JLabel();
         admin_name_label = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        add_account_label = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel8 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -92,8 +100,9 @@ public class AppointmentPending extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        jPanel36.setBackground(new java.awt.Color(64, 89, 173));
+        side_bar_panel.setBackground(new java.awt.Color(64, 89, 173));
 
         jPanel37.setBackground(new java.awt.Color(64, 89, 173));
 
@@ -118,13 +127,13 @@ public class AppointmentPending extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
-        jLabel1.setText("Medicines");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        medicine_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        medicine_label.setForeground(new java.awt.Color(255, 255, 255));
+        medicine_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/healthcare (1) (1).png"))); // NOI18N
+        medicine_label.setText("Medicines");
+        medicine_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                medicine_labelMouseClicked(evt);
             }
         });
 
@@ -138,13 +147,13 @@ public class AppointmentPending extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
-        jLabel3.setText("Patients");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        patient_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        patient_label.setForeground(new java.awt.Color(255, 255, 255));
+        patient_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/patient (1).png"))); // NOI18N
+        patient_label.setText("Patients");
+        patient_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                patient_labelMouseClicked(evt);
             }
         });
 
@@ -175,44 +184,44 @@ public class AppointmentPending extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/notification (1).png"))); // NOI18N
         jLabel8.setText("Pending Appointments");
 
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
-        jLabel9.setText("Add Account");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        add_account_label.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        add_account_label.setForeground(new java.awt.Color(255, 255, 255));
+        add_account_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-user.png"))); // NOI18N
+        add_account_label.setText("Add Account");
+        add_account_label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                add_account_labelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
-        jPanel36.setLayout(jPanel36Layout);
-        jPanel36Layout.setHorizontalGroup(
-            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout side_bar_panelLayout = new javax.swing.GroupLayout(side_bar_panel);
+        side_bar_panel.setLayout(side_bar_panelLayout);
+        side_bar_panelLayout.setHorizontalGroup(
+            side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel36Layout.createSequentialGroup()
+            .addGroup(side_bar_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
-                    .addGroup(jPanel36Layout.createSequentialGroup()
-                        .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(side_bar_panelLayout.createSequentialGroup()
+                        .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9))
+                            .addComponent(add_account_label))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4))
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
+                    .addComponent(patient_label)
+                    .addComponent(medicine_label)
                     .addComponent(appointment_label)
                     .addComponent(admin_name_label)
-                    .addGroup(jPanel36Layout.createSequentialGroup()
+                    .addGroup(side_bar_panelLayout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel36Layout.setVerticalGroup(
-            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel36Layout.createSequentialGroup()
+        side_bar_panelLayout.setVerticalGroup(
+            side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(side_bar_panelLayout.createSequentialGroup()
                 .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,20 +230,20 @@ public class AppointmentPending extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(patient_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(medicine_label)
                 .addGap(9, 9, 9)
                 .addComponent(appointment_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel36Layout.createSequentialGroup()
+                .addGroup(side_bar_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(side_bar_panelLayout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, side_bar_panelLayout.createSequentialGroup()
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)))
-                .addComponent(jLabel9)
+                .addComponent(add_account_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(0, 325, Short.MAX_VALUE))
@@ -374,7 +383,7 @@ public class AppointmentPending extends javax.swing.JFrame {
         jPanel35Layout.setHorizontalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel35Layout.createSequentialGroup()
-                .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(side_bar_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -386,7 +395,7 @@ public class AppointmentPending extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(side_bar_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel35Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -408,8 +417,70 @@ public class AppointmentPending extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-   //append the pending appointment in jtable
-    public ArrayList<AppointmentList> getPendingList(){
+  
+    //append the patient interface pending appointment
+    public ArrayList<AppointmentList> getPatientPendingList() {
+    String patient_name;
+    pendingArrayList = new ArrayList<>();
+    this.con = ConnectionProvider.connect();
+
+    try {
+        // Use a prepared statement to safely include the parameter in the query
+        String query = "SELECT pending.reference_id, pending.patient_id, pending.appointment_date, pending.time, pending.clinic_position, pending.reason, pending.status, patient.firstname, patient.middlename, patient.lastname FROM pending JOIN patient ON pending.patient_id = patient.patient_id WHERE patient.patient_id = ?";
+        PreparedStatement statement = this.con.prepareStatement(query);
+        statement.setInt(1, user_info.getPatientId()); // Set the value of the parameter
+
+        ResultSet rs = statement.executeQuery();
+
+        AppointmentList pending;
+        while (rs.next()) {
+            patient_name = rs.getString("firstname") + " " + rs.getString("middlename") + " " + rs.getString("lastname");
+            pending = new AppointmentList(rs.getInt("reference_id"), rs.getInt("patient_id"), patient_name, rs.getDate("appointment_date"), rs.getTime("time"), rs.getString("clinic_position"), rs.getString("reason"), rs.getBoolean("status"));
+            pendingArrayList.add(pending);
+        }
+        return pendingArrayList;
+
+    } catch (SQLException ex) {
+        Logger.getLogger(AppointmentPending.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return null;
+}
+      //show the pending list return by pendingList method
+    public void showPatientPendingList(){
+         pendingArrayList = getPatientPendingList();
+         model = (DefaultTableModel)this.pending_list_table.getModel();
+         Object[] row = new Object[5];
+                
+         
+         //set table font to times new roman
+         General.setTableFont(this.pending_list_table);
+         
+         for(int i = 0; i < pendingArrayList.size(); i++){
+             // Make the date as a readable string format
+             String formattedDate = General.convertDateToReadable(pendingArrayList.get(i).getAppointmentDate().toString());
+             // Convert the time in 12 hour format
+             String formattedTime = General.convertTimeToReadable(pendingArrayList.get(i).getTime());
+//            System.out.println(pendingArrayList.get(i).getTime());
+             row[0] = "RID" +  pendingArrayList.get(i).getReferenceId() + " " + pendingArrayList.get(i).getPatientName();
+            row[1] = formattedDate + " " + formattedTime;
+            row[2] = pendingArrayList.get(i).getClinicPosition();
+            row[3] = pendingArrayList.get(i).getReason();
+            if(pendingArrayList.get(i).getStatus()){
+                row[4] = "Approve";
+            }else{
+                row[4] = "Pending";
+            }
+            model.addRow(row);
+        }
+      this.pending_list_table.setRowHeight(50);
+      this.pending_list_table.getColumnModel().getColumn(0).setPreferredWidth(200);
+      this.pending_list_table.getColumnModel().getColumn(1).setPreferredWidth(300);
+      this.pending_list_table.getColumnModel().getColumn(2).setPreferredWidth(150);
+      this.pending_list_table.getColumnModel().getColumn(3).setPreferredWidth(400);
+    }
+    
+    //append the admin pending appointment in jtable
+    public ArrayList<AppointmentList> getAdminPendingList(){
         String patient_name;
         pendingArrayList = new ArrayList<>();
         this.con = ConnectionProvider.connect();
@@ -432,10 +503,10 @@ public class AppointmentPending extends javax.swing.JFrame {
           return null;
     }
     //show the pending list return by pendingList method
-    public void showPendingList(){
+    public void showAdminPendingList(){
         String approve_button_text = "Approve";
         String cancel_button_text = "Cancel";
-         pendingArrayList = getPendingList();
+         pendingArrayList = getAdminPendingList();
          model = (DefaultTableModel)this.pending_list_table.getModel();
          Object[] row = new Object[9];
         
@@ -481,41 +552,49 @@ public class AppointmentPending extends javax.swing.JFrame {
      General.setColumnWidthZero(columnModel, 7);
      General.setColumnWidthZero(columnModel, 8);
     }
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void medicine_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicine_labelMouseClicked
         new Medicine(user_info).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_medicine_labelMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         switch(user_info.getWorkPosition()){
-            case "Doctor":
-            new MainDashboard(user_info).setVisible(true);
-            break;
-            case "Nurse":
-            new MainDashboard(user_info).setVisible(true);
-            break;
-            case "Staff":
-            new Dashboard(user_info).setVisible(true);
-            break;
-            default:
-            System.out.println("Something error");
-        }
+                case "Doctor":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Nurse":
+                    new MainDashboard(user_info).setVisible(true);
+                    break;
+                case "Staff":
+                    new Dashboard(user_info).setVisible(true);
+                    break;
+                case "Patient":
+                    //get the patient_id 
+                    new PatientDashboard(user_info).setVisible(true);            
+                    break;
+            }
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        new Patient(user_info).setVisible(true);
+    private void patient_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patient_labelMouseClicked
+        if(user_info.getWorkPosition().equals("Patient")){
+            ViewPatient view_patient = new ViewPatient(user_info);
+            view_patient.setVisible(true);
+            view_patient.fillInformationLabel(General.getPatientEntry(user_info.getPatientId()));
+        }else{
+            new Patient(user_info).setVisible(true); 
+        }
         this.dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_patient_labelMouseClicked
 
     private void appointment_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointment_labelMouseClicked
         new Appointment(user_info).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_appointment_labelMouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+    private void add_account_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_account_labelMouseClicked
        new SignIn().setVisible(true);
-    }//GEN-LAST:event_jLabel9MouseClicked
+    }//GEN-LAST:event_add_account_labelMouseClicked
 
     private void admin_name_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admin_name_labelMouseClicked
         new AccountInfo(user_info).setVisible(true);
@@ -570,22 +649,19 @@ public class AppointmentPending extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel add_account_label;
     private javax.swing.JLabel admin_name_label;
     private javax.swing.JLabel appointment_label;
     private javax.swing.JLabel greeting_name_label;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel35;
-    private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
@@ -593,6 +669,9 @@ public class AppointmentPending extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel medicine_label;
+    private javax.swing.JLabel patient_label;
     private javax.swing.JTable pending_list_table;
+    private javax.swing.JPanel side_bar_panel;
     // End of variables declaration//GEN-END:variables
 }

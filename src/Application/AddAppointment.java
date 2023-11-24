@@ -76,6 +76,8 @@ public class AddAppointment extends javax.swing.JFrame {
         timePicker1.setDisplayText(time_picker_label);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -193,7 +195,7 @@ public class AddAppointment extends javax.swing.JFrame {
 
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -225,6 +227,7 @@ public class AddAppointment extends javax.swing.JFrame {
             this.ps.executeUpdate();
             new AppointmentPending(user_info).setVisible(true);
             viewPatient.dispose();
+        
             this.dispose();
             
             
