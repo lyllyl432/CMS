@@ -6,6 +6,7 @@ package Utilities;
 
 import Application.AddReport;
 import Application.Appointment;
+import Application.ViewPatient;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,9 +60,15 @@ public class AppointmentButtonEditor extends DefaultCellEditor {
              int selected_row = table.getSelectedRow();
              TableModel model = table.getModel();
              reference_id = (int)model.getValueAt(selected_row, 8);
+             patient_id = (int)model.getValueAt(selected_row, 7);
+
             //view click
             if(button_role == 0){
-                
+                ViewPatient view_patient  = new ViewPatient(user_info);
+                view_patient.setVisible(true);
+                view_patient.fillInformationLabel(General.getPatientEntry(patient_id));
+
+                appointment.dispose();
             }
             //report click
             else if(button_role == 1){

@@ -390,4 +390,40 @@ public class General {
         }
        }
     }
+    public static int countRecords(String tableName) {
+    int totalRecords = 0;
+    try {
+        con = ConnectionProvider.connect();
+        String query = "SELECT COUNT(*) AS total_records FROM " + tableName;
+        ps = con.prepareStatement(query);
+        rs = ps.executeQuery();
+        while(rs.next()) {
+            totalRecords = rs.getInt("total_records");
+        }
+        return totalRecords;
+    } catch (SQLException ex) {
+        Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+        // Close resources (ResultSet, PreparedStatement, Connection) in a finally block
+        // to ensure they are always closed, even if an exception occurs.
+        // Add code to close rs, ps, and con.
+    }
+    return totalRecords;
+}
+     public static int countAdminRecords(String admin_position){
+        int total_admin_records = 0;
+        try {
+            con = ConnectionProvider.connect();
+            ps = con.prepareStatement("SELECT COUNT(*) AS total_admin_records FROM user_info WHERE work_position = ?");
+            ps.setString(1, admin_position);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                total_admin_records = rs.getInt("total_admin_records");
+            }
+            return total_admin_records;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return total_admin_records;
+    }
 }    

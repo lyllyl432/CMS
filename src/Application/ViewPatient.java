@@ -4,9 +4,12 @@
  */
 package Application;
 
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.PatientList;
 import Utilities.UserInfo;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +22,7 @@ public class ViewPatient extends javax.swing.JFrame {
      */
     PatientList patient;
     UserInfo user_info;
+    private ImageIcon icon;
     public ViewPatient() {
         initComponents();
     }
@@ -137,7 +141,7 @@ public class ViewPatient extends javax.swing.JFrame {
         jSeparator19 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         greeting_name_label = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -815,9 +819,15 @@ public class ViewPatient extends javax.swing.JFrame {
         greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
         greeting_name_label.setText("Hello, Admin!");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Log out");
+        jButton4.setBackground(new java.awt.Color(220, 20, 60));
+        jButton4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Logout");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -827,8 +837,8 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(greeting_name_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(16, 16, 16))
+                .addComponent(jButton4)
+                .addGap(17, 17, 17))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -836,8 +846,8 @@ public class ViewPatient extends javax.swing.JFrame {
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(greeting_name_label)
-                    .addComponent(jLabel7))
-                .addGap(8, 8, 8))
+                    .addComponent(jButton4))
+                .addGap(5, 5, 5))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -928,6 +938,17 @@ public class ViewPatient extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_admin_name_labelMouseClicked
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+
+        CustomOptionPane.showQuestionMessageDialog(
+            this,
+            "Are you sure you want to log out?",
+            "Custom Dialog",
+            JOptionPane.QUESTION_MESSAGE,
+            icon);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -980,6 +1001,7 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JLabel height_label;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1005,7 +1027,6 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

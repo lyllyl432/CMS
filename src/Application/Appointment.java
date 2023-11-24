@@ -9,6 +9,7 @@ import Utilities.AppointmentButtonRenderer;
 import Utilities.AppointmentList;
 import Utilities.ConnectionProvider;
 import Utilities.CustomHeaderRenderer;
+import Utilities.CustomOptionPane;
 import Utilities.General;
 import Utilities.UserInfo;
 import java.awt.Font;
@@ -22,7 +23,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
@@ -44,6 +47,7 @@ public class Appointment extends javax.swing.JFrame {
     private String patient_name;
     private AppointmentList appoinment_list;
     private UserInfo user_info;
+    private ImageIcon icon;
     public Appointment() {
         initComponents();
     }
@@ -87,7 +91,7 @@ public class Appointment extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         greeting_name_label = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -336,9 +340,15 @@ public class Appointment extends javax.swing.JFrame {
         greeting_name_label.setForeground(new java.awt.Color(255, 255, 255));
         greeting_name_label.setText("Hello, Admin!");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Log out");
+        jButton4.setBackground(new java.awt.Color(220, 20, 60));
+        jButton4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Logout");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -348,8 +358,8 @@ public class Appointment extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(greeting_name_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(17, 17, 17))
+                .addComponent(jButton4)
+                .addGap(16, 16, 16))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,7 +367,7 @@ public class Appointment extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(greeting_name_label)
-                    .addComponent(jLabel7))
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -511,6 +521,17 @@ public class Appointment extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_admin_name_labelMouseClicked
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        icon = new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/loginfailed.png");
+
+        CustomOptionPane.showQuestionMessageDialog(
+            this,
+            "Are you sure you want to log out?",
+            "Custom Dialog",
+            JOptionPane.QUESTION_MESSAGE,
+            icon);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -553,6 +574,7 @@ public class Appointment extends javax.swing.JFrame {
     private javax.swing.JLabel admin_name_label;
     private javax.swing.JTable appointment_list_table;
     private javax.swing.JLabel greeting_name_label;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
@@ -561,7 +583,6 @@ public class Appointment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
