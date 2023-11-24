@@ -9,6 +9,7 @@ import Application.MainDashboard;
 import Application.UpdatePatient;
 import java.awt.Container;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -211,7 +212,7 @@ public class General {
             ps.setInt(1,user_id);
             rs  = ps.executeQuery();
             while(rs.next()) {
-                user_info = new UserInfo(rs.getInt("account_id"),rs.getInt("user_id"),rs.getString("profile_picture"),rs.getString("first_name"),rs.getString("middle_name"),rs.getString("last_name"),rs.getString("suffix"), rs.getInt("age"),rs.getString("civil_status"),rs.getString("address"),rs.getString("contact_number"),rs.getString("work_position"));
+                user_info = new UserInfo(rs.getInt("account_id"),rs.getInt("user_id"),rs.getString("profile_picture"),rs.getString("first_name"),rs.getString("middle_name"),rs.getString("last_name"),rs.getString("suffix"), rs.getInt("age"),rs.getString("civil_status"),rs.getString("address"),rs.getString("contact_number"),rs.getString("work_position"), rs.getInt("patient_id"));
             }
             return user_info;
         } catch (SQLException ex) {
@@ -376,7 +377,7 @@ public class General {
      // Method to remove the label from its parent container
     public static void removeLabel(JLabel label, JFrame frame, UserInfo user_info) {
         Container parent = label.getParent();
-        if(user_info.getWorkPosition().equals("Staff")){
+        if(user_info.getWorkPosition().equals("Staff") || user_info.getWorkPosition().equals("Patient")){
         if (parent instanceof JPanel) {
             JPanel panel = (JPanel) parent;
             panel.remove(label);
@@ -389,6 +390,17 @@ public class General {
             frame.repaint();
         }
        }
+    }
+    //set up sidebar for admin and patient
+    public static void setUpSideBar(JLabel appointment_label, JLabel medicine_label, JLabel add_account_label, JLabel patient_label, JFrame frame, UserInfo user_info){
+        if(user_info.getWorkPosition().equals("Patient")){
+            General.removeLabel(appointment_label, frame,user_info);
+            General.removeLabel(medicine_label, frame,user_info);
+            General.removeLabel(add_account_label, frame,user_info);
+            
+            patient_label.setText("Profile");
+            patient_label.setIcon(new ImageIcon("C:/Users/HP/Documents/NetBeansProjects/CMS/src/Profile.png"));
+        }
     }
     public static int countRecords(String tableName) {
     int totalRecords = 0;
@@ -426,4 +438,28 @@ public class General {
         }
         return total_admin_records;
     }
+     
+     public static int countPatientRecords(int patient_id, String table_name){
+        int total_admin_records = 0;
+        try {
+            con = ConnectionProvider.connect();
+            ps = con.prepareStatement("SELECT COUNT(*) AS total_patient_records FROM " + table_name +  " WHERE patient_id = ?");
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                total_admin_records = rs.getInt("total_patient_records");
+            }
+            return total_admin_records;
+        } catch (SQLException ex) {
+            Logger.getLogger(General.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return total_admin_records;
+    }
+     public static void setSizeSidePanel(JPanel side_bar_panel,int width, int height){
+         //set sidebar panel size
+       Dimension preferredSize = new Dimension(width, height);
+        side_bar_panel.setPreferredSize(preferredSize);
+     }
+     
+     
 }    

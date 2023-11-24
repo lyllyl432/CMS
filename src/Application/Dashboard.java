@@ -90,6 +90,7 @@ public class Dashboard extends javax.swing.JFrame {
         total_users_label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel32.setPreferredSize(new java.awt.Dimension(1150, 550));
 

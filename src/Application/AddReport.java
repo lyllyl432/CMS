@@ -126,6 +126,7 @@ public class AddReport extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel42.setBackground(new java.awt.Color(64, 89, 173));
 

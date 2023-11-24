@@ -73,6 +73,7 @@ public class LogIn extends javax.swing.JFrame {
         password_field = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -211,8 +212,10 @@ public class LogIn extends javax.swing.JFrame {
                 case "Staff":
                     new Dashboard(user_info).setVisible(true);
                     break;
-                default:
-                    System.out.println("Something error");
+                case "Patient":
+                    //get the patient_id 
+                    new PatientDashboard(user_info).setVisible(true);            
+                    break;
             }
             this.dispose();
       

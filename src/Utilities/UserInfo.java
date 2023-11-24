@@ -9,10 +9,10 @@ package Utilities;
  * @author HP
  */
 public class UserInfo {
-    private int account_id,user_id,age;
+    private int account_id,user_id,age,patient_id;
     private String profile_picture,first_name,middle_name,last_name,suffix,civil_status,address,contact_number,work_position;
     
-    public UserInfo(int account_id, int user_id, String profile_picture, String first_name, String middle_name, String last_name, String suffix, int age, String civil_status, String address, String contact_number, String work_position){
+    public UserInfo(int account_id, int user_id, String profile_picture, String first_name, String middle_name, String last_name, String suffix, int age, String civil_status, String address, String contact_number, String work_position,int patient_id){
         this.account_id = account_id;
         this.user_id = user_id;
         this.profile_picture  = profile_picture;
@@ -25,6 +25,7 @@ public class UserInfo {
         this.address = address;
         this.contact_number = contact_number;
         this.work_position = work_position;
+        this.patient_id = patient_id;
     }
     
     public int getAccountId(){
@@ -62,5 +63,8 @@ public class UserInfo {
     }
     public String getWorkPosition(){
         return work_position;
+    }
+    public int getPatientId(){
+        return patient_id;
     }
 }

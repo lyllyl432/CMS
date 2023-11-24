@@ -138,6 +138,7 @@ public class UpdatePatient extends javax.swing.JFrame {
         vaccination_status_field = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jButton1.setBackground(new java.awt.Color(180, 173, 234));
         jButton1.setText("Update");
