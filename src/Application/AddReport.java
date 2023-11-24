@@ -65,6 +65,8 @@ public class AddReport extends javax.swing.JFrame {
         this.updateDosageLabel(medicine_name);
         
         General.removeLabel(this.appointment_label, this,user_info);
+        General.setProfileInfo(user_info, this.greeting_name_label, this.admin_name_label);
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
