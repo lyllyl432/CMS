@@ -464,7 +464,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
             row[7] = recordArrayList.get(i).getReferenceId();
              
             model.addRow(row);
-            
+        }   
              this.patient_record_table.setRowHeight(50);
        this.patient_record_table.getColumnModel().getColumn(0).setPreferredWidth(100);
        this.patient_record_table.getColumnModel().getColumn(1).setPreferredWidth(250);
@@ -476,7 +476,7 @@ public class ViewPatientRecord extends javax.swing.JFrame {
 
         TableColumnModel columnModel = this.patient_record_table.getColumnModel();
         General.setColumnWidthZero(columnModel, 7);
-        }
+        
          
     }
 //get Patient Records

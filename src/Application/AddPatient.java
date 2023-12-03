@@ -174,7 +174,7 @@ public class AddPatient extends javax.swing.JFrame {
         jLabel17.setText("Course");
 
         course_field.setBackground(new java.awt.Color(180, 173, 234));
-        course_field.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BSED", "BEED", "BSIT ", "BSHM" }));
+        course_field.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BSED English", "BSED Mathematics", "BSED Filipino", "BSED Social Studies", "BEED", "BSIT  CompTech", "BSIT Electronics", "BSHM" }));
         course_field.setPreferredSize(new java.awt.Dimension(0, 30));
 
         jLabel24.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
