@@ -69,14 +69,14 @@ public class General {
     private static SimpleDateFormat dateFormat;
     private static String email;
     //filter search based on patient name
-    public static void filterSearch(String query, JTable table){
+    public static void filterSearch(String query, JTable table, int index){
           model = (DefaultTableModel)table.getModel();
           sorter = new TableRowSorter<>(model);
           table.setRowSorter(sorter);
           if(query.isEmpty()){
               sorter.setRowFilter(null);
           }else{
-              RowFilter<TableModel, Object> filter = RowFilter.regexFilter(query, 1); // Adjust the column index as needed
+              RowFilter<TableModel, Object> filter = RowFilter.regexFilter(query, index); // Adjust the column index as needed
               sorter.setRowFilter(filter);
           }
     }

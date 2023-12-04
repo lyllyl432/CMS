@@ -160,7 +160,12 @@ public class CancelAppointmentPending extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        mail_message = this.reason_text_area.getText();
+        mail_message = "I hope this message finds you well. We regret to inform you that your upcoming appointment scheduled for Talisay City College Clinic has been canceled. \n" + "Reason for Cancellation: " + this.reason_text_area.getText() + ". We apologize for any inconvenience this may have caused and appreciate your understanding. Thank you for choosing TCC Cares Clinic, and we look forward to the opportunity to serve you in the future. \n" +
+"\n" +
+"Best Regards," + 
+"\n" + 
+"[TCC Cares: Clinic Management System]\n" +
+"[tcccares@gmail.com]";
         General.sendMailToRecipient(patient_list.getPatientId(),mail_message);
         
         //delete pending entry

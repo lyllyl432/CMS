@@ -44,7 +44,7 @@ public class PendingButtonEditor extends DefaultCellEditor {
     private SimpleDateFormat dateFormat;
     private PatientList patient_list;
     private ImageIcon icon;
-        
+    private String appointment_message;    
     AppointmentList appointment_list;
     Connection con;
     PreparedStatement ps;
@@ -76,7 +76,6 @@ public class PendingButtonEditor extends DefaultCellEditor {
                 public void actionPerformed(ActionEvent e) {
                     //update click
                     if(button_role == 0){
-                        approve_mail_message = "Appointment Approved";
                         if(table.isEditing()){
                             table.getCellEditor().stopCellEditing();
                         }
@@ -84,9 +83,17 @@ public class PendingButtonEditor extends DefaultCellEditor {
                             //get selected row in jtable and get the patient id
                             int selected_row = table.getSelectedRow();
                             TableModel model = table.getModel();
+                            appointment_message = model.getValueAt(selected_row, 1).toString();
                             patient_id = (int)model.getValueAt(selected_row, 7);
                             reference_id = (int)model.getValueAt(selected_row, 8);
-                            
+                             approve_mail_message = "I trust this message finds you well. I am pleased to inform you that your appointment request has been successfully processed and approved through our Clinic Management System, TCC Cares.\n" +
+"\n" +
+"Appointment Details:\n" +
+"Date: " + appointment_message + "\n" + "\n" +
+"Best Regards, " + 
+"\n" + 
+"\"[TCC Cares: Clinic Management System] \n" +
+"\"[tcccares@gmail.com]\"";
                             //get the pending entry and create an object using appointment list object
                             appointment_list = General.getApproveEntry(reference_id, appointment_list);
                             
